@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+</html>
+<script>
+
+    var num = 1200;
+    function fn(){
+        var num = 120;
+        //console.log(x);
+        return function (/*num*/){
+            var x = 1000;
+            console.log(num);
+        }
+    }
+    var f = fn();
+
+
+
+    //f(12); //??
+    (function fx(){
+        var num = 12000;
+        (function (){
+            f(); // 120
+        })()
+    })();
+
+
+
+    /*
+    *   函数的上一级作用域：上一级作用域是谁，先看这个函数实在哪里定义的（出生地）,然后就看在定义的位置哪个函数包含着当前函数。那么这个包含它的函数就是上一级作用域。依次类推
+    *   ps: 自己没有的变量可以到上一级作用域去获取，如果上一级作用域也没有，那么继续向上查找，一直到全局window如果还没有，那么就报错。如果自己有私有变量那么就直接获取自己的私有变量。
+    *   ps: 形参也是相当于定义在函数体内部的私有变量
+    * */
+
+</script>

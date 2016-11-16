@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        html,body{
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            background: -webkit-linear-gradient(top,pink,orange);
+        }
+    </style>
+</head>
+<body>
+
+</body>
+</html>
+<script>
+    //var num = 1000; // 全局变量num任何函数都能修改。所以不安全
+    (function (){
+        var num = 1000;
+    })();
+
+    function fn(){
+        //num = num + 100;
+    }
+    fn();
+
+    /*
+    *   函数在执行的时候就会形成一个私有作用域，而这个私有作用域内的变量是不受外界干扰的。我们把这种私有作用域保护私有变量不受外界干扰的机制就叫闭包
+    *
+    * */
+    // var body = document.body;
+    // 我们在造闭包，利用闭包的保护机制来处理一些问题
+    (function (){
+        var n = 0; // 1
+        document.body.onclick = function (){
+            n++;
+            document.getElementsByTagName('title')[0].innerHTML = n;
+        }
+    })();
+
+
+    function fn(){
+        n += 6;
+    }
+    fn();
+
+
+
+</script>

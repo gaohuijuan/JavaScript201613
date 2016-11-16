@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+</html>
+<script>
+    var ary = [100,200];
+    function fn(ary){
+        // 形参赋值指的是把实参所代表的值赋值给形参一份。在这里实参是全局变量ary所代表的那个数组的内存地址，形参ary也会获取到这个数组的内存地址。
+        // 全局ary和私有ary共用同一个数组的堆内存地址
+        // 只有引用数据类型才能涉及到共同引用的问题、
+        //ary = ary.slice();
+        ary[ary.length] = 300;
+        ary = ary.slice(); // slice方法返回的是一个新数组，虽然和原数组相同，但是不是同一个堆内存地址。
+        ary[ary.length] = 400;
+        console.log(ary);
+    }
+    fn(ary);
+    console.log(ary);
+    // [100,200,300,400],[100,200,300]
+
+
+
+</script>

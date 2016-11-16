@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+</html>
+<script>
+    // 1 预解释不看值。即使等号右面是一个函数也不会把这个函数名字提前声明
+    //console.log(fx);
+    var fn = function fx(){}
+
+    // 2 不理会条件。即使条件是false那么也没关系
+    console.log(a); //undefined
+    if(false){
+        var a = 5;
+    }
+    // in运算符是用来判断一个属性是否属于一个对象，返回值是true/false
+    // 任何一个全局变量都可以理解为是window的一个属性
+    console.log('obj' in window); //true
+    var obj = {
+        age : 30
+    }
+    console.log('age' in obj); // true
+    console.log(num); // undefined
+    if(!('num' in window)){
+        var num = 100;
+    }
+    console.log(num); // undefined
+
+    // 3  自运行函数的函数名字是不会被提前声明的
+    //console.log(foo); // foo is not defined
+    ;(function foo(){
+
+    })();
+
+    // 4 在函数中如果运行结束后仍然返回一个函数，那么这个返回函数的名字并不会被预解释。return下面的函数是会被预解释的。如果return后面是一个函数的执行。那么是先执行，然后把执行结果return
+
+    function fun(){
+        //console.log(fy);
+        console.log(fz);
+        var num = 5;
+        return (function fy(){ // 这个函数是先执行，把执行结果678留给fun函数作为fun函数的返回值
+            console.log('fy');
+            return 678;
+        })();
+        function fz(){} // 这个fz函数打印是没有问题的
+    }
+    var res = fun();
+    //res();
+
+
+    // 5 函数名字和变量重名，在代码还没有执行的预解释阶段以最后一个函数为准。然后当代码执行的时候，以最后一次赋值为准。从var fa = 5这一行fa就不是一个函数了
+    fa();
+    function fa(){ console.log(1); }
+    fa();
+    var fa = 5; // 由于在上边的fa函数已经声明fa这个变量了。这就没有必要了。说明这个var可写可以不写。
+    fa();
+    function fa(){ console.log(2); }
+    fa();
+
+    // 2 2 fa is not a function
+    // 1 1
+    // 1 1
+    // 1 1
+
+</script>

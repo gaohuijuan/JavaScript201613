@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>定时器自定义属性以及引用数据类型赋值</title>
+</head>
+<body>
+    <div id="div1"></div>
+    <ul>
+        <li></li>
+        <li></li>
+        <li></li>
+    </ul>
+</body>
+</html>
+<script>
+    /*
+    *
+    *
+    *
+    *
+    * */
+    console.log(obj); //undefined
+    var obj = {
+        name : 'tianxi',
+        englishName : /*obj.name*/'allen'
+    };
+    //  Cannot read property属性 'name' of undefined
+    //  不能读取undefined的name属性 => obj是一个undefined
+    //  这个就是我们今天要学的问题。
+    //obj.zhangwen = 'aaa';
+    obj['zhangwen'] = 'aaa';
+
+    var div1 = document.getElementById('div1'); // 通过dom方法获取回来的dom对象
+    console.log(typeof div1); // 'object'
+    div1.zidingyishuxing = 'xxx'; //
+    var lis = document.getElementsByTagName('li'); // [li,li,li]
+    for(var i=0; i<lis.length; i++){
+        // 0 ,1,2
+        lis[0].index = i; // 添加自定义属性
+        // 自定义属性的应用场景 ： 当一些值没有地方存储了，不妨存在自己的自定义属性上,只要是引用数据类型就可以添加自定义属性
+    }
+
+    //函数也是引用数据类型，同样也支持添加自定义属性
+    function sum(){}
+    sum.selfProperty = 'haha';
+    console.log(sum.selfProperty); // 'haha'
+
+    // 定时器
+    function fn(){
+        console.log('zhangwen');
+    }
+
+    var timer1 = window.setTimeout(fn,1000); //
+    //var timer1 = 1;
+    console.log(timer1); // 1  我是页面中的第一个定时器
+    var timer2 = window.setInterval(function (){},2000);
+    console.log(timer2); // 2  我是页面中的第二个定时器
+    window.clearTimeout(1); // 清除的是页面中的第一个定时器，不是把定时器毁坏了，而是把定时器中要执行的任务取消了
+    window.clearInterval(2); //
+    timer1 = null; // 只是说明timer1这个变量不再代表数字1了而已
+
+
+
+
+
+
+
+
+
+
+
+
+
+</script>

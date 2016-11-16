@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>随机同学</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        #box{
+            width: 600px;
+            height: 300px;
+            border: 10px solid black;
+            margin: 30px auto;
+            line-height: 300px;
+            text-align: center;
+            background: darkred;
+            color: white;
+            font-size: 100px;
+            cursor: pointer;
+            -webkit-user-select: none;
+            border-radius: 5px;
+            box-shadow: 5px 5px 10px #000;
+        }
+
+
+    </style>
+</head>
+<body>
+    <div id="box">start</div><!--box.innerHTML-->
+</body>
+</html>
+<script>
+    var box = document.getElementById('box');
+    var studentNameAry = [
+        ['张思奇','匡志鹏','孔祥蕾','谢洪军','余太伟','张倩','胥雪静'],
+        ['赵华冰','郑亚杰','王烽全','胡珍珍'],
+        ['雷超','吴鹏丽','宋瑞霞','林敏','周潇','张温','徐娅'],
+        ['公维懿','张茜','郭学广','廖珍珍','李莹','王盼龙','王涛'],
+        ['李来源','张文吉','欧阳奕','牛剑波','郎福红','黄洪涛','王宏全'],
+        ['陈艳利','张金赛','邢秀敏','叱干晓娣','刘志博','张婷','薛雷'],
+        ['朱梦安','刘崇','田杰','赵亚楠','张金宇','谢浩然','师桂林']
+    ];
+    //studentNameAry[0][0]
+    var timer = null;
+    function getStudent(){
+        timer = window.setInterval(function (){
+            var ran1 = Math.round(Math.random()*(studentNameAry.length-1)); // 0-6随机数
+            var ranGroup = studentNameAry[ran1]; // 通过0-6的随机数获取一个随机组
+            // 通过随机组的length来获取随机组员
+            var ran2 = Math.round(Math.random()*(ranGroup.length-1));
+            var ranStudent = ranGroup[ran2];
+            box.innerHTML = ranStudent;
+
+        },20);
+    }
+    //getStudent();
+    box.onclick = function (){ // 先给盒子绑定点击事件
+        if(!timer /*== null*/){
+            getStudent(); // 启动了一个定时器，timer的值也变成真了
+        }else{
+            window.clearInterval(timer);
+            timer = null;
+        }
+    }
+
+
+
+
+
+/*
+    window.setTimeout(function (){
+        box.innerHTML = '徐娅';
+    },1000);
+*/
+
+</script>
