@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        html,body,div{
+            margin: 0;
+            padding: 0;
+        }
+        #div1{
+            width: 500px;
+            height: 100px;
+            margin: 30px auto;
+            border: 3px solid #ccc;
+            text-align: center;
+            line-height: 100px;
+            cursor: /*move*/pointer;
+            background: darkred;
+            color: white;
+            font-size: 50px;
+            -webkit-user-select: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="div1">张温今天很帅:&nbsp;<span>0</span></div>
+</body>
+</html>
+<script>
+    var div1 = document.getElementById('div1');
+
+// 1
+
+//    var count = 0;
+//    div1.onclick = function (){
+//        count++;
+//        //this // div1
+//        //this.children[0]
+//        this.getElementsByTagName('span')[0].innerHTML = /*++*/count;
+//    }
+
+// 2
+//    (function (){
+//        var count = 0;
+//        div1.onclick = function (){
+//            count++;
+//            this.getElementsByTagName('span')[0].innerHTML = count;
+//        }
+//    })()
+
+// 3
+//    div1.onclick = (function (){
+//        var count = 0;
+//        return function (){
+//            count++;
+//            div1.getElementsByTagName('span')[0].innerHTML = count;
+//        }
+//    })()
+
+
+// 4 自定义属性写法
+    //lis[i].index = i; // [li 0 ,li 1,li 2]
+    div1.zhangwen = 0; // 在红盒子上div1上添加了一个属性保存的值是0
+    // 以前是把这个数字放在全局变量count上了。现在我放在div1的自定义属性上。这样除了div1自己其他是不能修改的。相对安全
+//    div1.onclick = function (){
+//        this // div1
+//        //this.index;
+//        //this.zhangwen++;
+//        this.children[0].innerHTML = ++this.zhangwen;
+//    }
+
+// 5
+//    div1.setAttribute('count',0);
+//    div1.onclick = function (){
+//        var count = div1.getAttribute('count');
+//        div1.firstElementChild.innerHTML = ++count;
+//        div1.setAttribute('count',count);
+//    }
+
+    // 6
+    var span = div1.getElementsByTagName('span')[0];
+    div1.onclick = function (){
+        //span.innerHTML = span.innerHTML-0 + 1; // '0' + 1
+        ++span.innerHTML; // i++ 还是 i++ 有强制类型转换为Number的默认操作
+        // - * / 都有强制转化为Number的默认操作
+    }
+
+    // 推荐: 自定义属性的方式
+
+
+</script>

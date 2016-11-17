@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div id="div1"></div>
+</body>
+</html>
+<script>
+    /*
+    *    this的用法:
+    *       1  绑定事件：当事件触发的时刻，绑定函数中的this就是把事件绑定给谁就是谁   比如: div1.onclick = function (){this是div1}
+    *       2  函数执行时候函数中的this，就是调用这个函数的主体。=> 函数在执行的时候，就看函数执行时候 "."前面是什么，是谁那么函数中的this就是谁。如果没有"."那么函数中(函数中)的this是window
+    *       ps: 函数中的this只有在执行的时候才能确定。
+    *       ps: 只要this被function包含了，那么this就一定会改变
+    *
+    *       3 自运行函数中的this是window
+    *         ps： 无论这个自运行函数在哪里运行
+    * */
+    // 1
+    var div1 = document.getElementById('div1');
+    div1.onclick = function (){
+        this; // ?? div1
+    }
+
+    // 2
+    function fn(){
+        console.log(this);
+    }
+    //window.setTimeout()
+    //setTimeout()
+    /*window.*/fn(); // window 函数中的this是window
+    var obj = {
+        name : 'zhufeng',
+        fn : fn // fn和obj.fn共同引用同一个函数的堆内存地址
+    };
+    obj.fn(); // 函数中的this是obj
+
+    console.log('obj' in window);
+    console.log('fn' in window);
+
+
+
+    ////////////////////////////////////////////////////////////
+
+    function foo(){
+        console.log(this);
+    }
+
+    var obj = {
+        zhangwen : function (){
+            console.log(this); // obj
+            xuya(); // window
+            function xuya(){
+                console.log(this);
+            }
+        }
+    }
+    obj.zhangwen();
+
+    var count = 0;
+    div1.onclik = function (){
+        count++;
+        if(count === 5){
+            div1.onclick = null; // 移除事件
+        }
+        console.log(this);
+    }
+    div1.onclick(); // 主动触发事件
+
+    // 3
+    ;(function (){
+        console.log(this); // window
+    })();
+
+    //var f1 = fn();
+    var oo = {
+        name : 'zhangwen',
+        fun : (function (){
+            console.log(this);
+        })()
+    };
+
+
+
+
+
+
+
+
+
+    console.log(oo.fun); // undefined shift+回车直接换行
+    console.log(oo.fun); // undefined  ctrl + d
+    console.log(oo.fun); // undefined  ctrl + shift + z
+    // ctrl+r
+    // ctrl + f
+    // ctrl + shift + f 整个工程查找  file mask
+    // ctrl + n  通过类查找
+    // ctrl + shift + n 查找文件
+    // ctrl + 鼠标left   快速定位到变量或者函数或者文件的位置
+    // ctrl + shift + 数字  书签
+
+    // ctrl + alt + left 上一次编辑的位置
+    // ctrl + alt + right
+
+
+
+
+
+
+
+
+</script>

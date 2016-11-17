@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+</body>
+</html>
+<script>
+    /*
+    *   i++ 先和其他值运算，然后再给自己累加1
+    *   ++i 先给自己累加1，然后用累加1之后的值再和其他运算
+    * */
+    var i=0;
+    //i++;
+    //++i;
+    //console.log(2 + i++); //2
+    console.log(2 + ++i); // 3
+
+    var m = 2; // 3  4  5  6
+    console.log(2 + m++ /*4*/ + ++m /*8*/ + ++m /*13*/ + m++ /*18*/); // 18
+    console.log(m); // 6
+
+
+
+
+    
+    
+</script>
