@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>暂时不释放</title>
+</head>
+<body>
+
+</body>
+</html>
+<script>
+    function fn(num){
+        return function (n){
+            console.log(n + num);
+        }
+    }
+
+    var f1 = fn(10);  // 这是fn第一次执行，这是第一个私有作用域。由于f1占用那么第一个私有作用域没有被释放。  1次 : num = 10
+
+    fn(10)(5); // 这是fn第二次执行， 15 => 执行结束之后就已经被释放了
+    var f2 = fn(10); // 这是fn的第三次执行 3次 ： num = 10
+    f1(1);  // 11
+    f1(2);  // 12
+    f2(3);  // 13
+    fn(10)(6); // 16
+    // 15 11 12 13 16
+
+
+    function foo(num){
+        //++num;
+        return function (n){
+            console.log(n + num++);
+        }
+    }
+    var f1 = foo(1);
+    var f2 = foo(2);
+    f1(3);
+    f2(4);
+    foo(5)(6);
+
+
+
+
+
+
+</script>

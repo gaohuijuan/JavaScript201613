@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+</body>
+</html>
+<script>
+
+    function fn(){
+        console.log(fn); // 看当前作用域内是否包含私有fn，undefined
+        return function (){
+            console.log(fn); // undefined
+        }
+        //var fn = 5;
+    }
+    var fn = fn(); // undefined
+    fn(); // undefined
+
+</script>

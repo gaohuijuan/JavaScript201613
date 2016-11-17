@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div id="div1" style="width: 100px; height: 100px; background: red;"></div>
+</body>
+</html>
+<script>
+    function fn(){
+        var num = 1; // 2
+        return function (){
+            num++;
+            console.log(num);
+        }
+    }
+    var f = fn();
+    f(); // 2
+    f(); // 3
+
+    var f1 = fn();
+    f1(); // 2
+    f(); // 4
+    f1(); // 3
+
+    var f2 = fn();
+    f2();  // 2
+    f2 = null;
+
+    document.body.xxxx = fn();
+    document.body.xxxx(); // 2
+    document.body.xxxx(); // 3
+    document.body.xxxx(); // 4
+
+
+    var div1 = document.getElementById('div1');
+    /*div1.onclick = function (){
+        alert();
+    }*/
+
+    //div1.onclick = getS;
+    /*div1.onclick = (function (){
+        //return getS;
+        var num = 0; //
+        return function (){
+            num++;
+            console.log(num);
+        }
+    })();*/
+
+    /*function getS(){
+        //confirm(); // 确认
+        prompt();
+    }*/
+
+    // 其实绑定事件： 只是在dom对象的事件属性上赋值一个函数
+    for(var i=0; i<lis.length; i++){
+        // window? i = 3;
+        (function (i){
+            // i =0 , i = 1, i = 2
+            lis[i].onclick = function (){
+                /*for(var j=0; j<lis.length; j++){
+                 lis[j].className = '';
+                 }*/
+                lis[i/*3*/].className = 'cur';
+                // can not set property className of undefined
+            }
+        })(i)
+         //i = 0; i = 1; i = 2;
+
+
+    }
+    // i = 3  [ 0 : li ,  1 : li , 2 : li , 3 ???? ]
+
+
+
+
+
+    ;(function (num){
+        //var num = 0;
+        div1.onclick = function (){
+            num++;
+            console.log(num);
+        }
+    })(0);
+
+
+
+
+    div1.onclick = (function (){
+        var num = 0;
+        return function (){
+            num++;
+            console.log(num);
+        }
+    })()
+
+
+
+
+</script>
