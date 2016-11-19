@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+</body>
+</html>
+<script>
+    /*
+    *   i++ 先和其他运算然后再累加自己
+    *   ++i 先把自己累加然后再和其他运算
+    *
+    * */
+    var i=0; // 1 2 3 4
+    //i++;
+    //++i;
+    //console.log(2 + i++); // 2
+    //console.log(2 + ++i); // 3
+    console.log(2 + i++ /*2*/ + ++i /*4*/ + ++i /*7*/ + i++/*10*/); // 10
+    //console.log(i); // 4
+</script>

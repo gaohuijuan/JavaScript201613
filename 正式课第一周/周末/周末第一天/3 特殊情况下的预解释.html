@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+</html>
+<script>
+    // 1 变量提声即使等号右面是一个实名函数，那么这个函数名字也不会被提前声明
+
+    console.log(a); // undefined
+    // console.log(b); //
+    //var a = function b(){}
+    var a = function (){} // 这种叫做函数表达式,这样的函数先声明后用
+    function a(){}
+
+    // 2 不理会条件
+    console.log(c); // undefined
+    if(false){
+        var c = 6;
+    }
+
+    // 3 自运行函数的函数名字是不会被预解释的 => 一般自运行函数不写名字
+    //console.log(haha);
+    (function haha(){
+
+    })()
+
+    // 4 return后面的函数是不会被预解释的。下面的函数是可以的。如果return后面是一个函数的执行（自运行函数，实名函数执行）那么要等着这个函数执行结束后把执行结果留给return
+    //console.log(fn);
+    function fn(camera){ // 形参 函数的入口
+        //var a = [];
+        //console.log(xx); // 在return后面的函数即使有名字那么仍然不会预解释
+        console.log(xy); // 这个xy虽然在return下面定义的但是却可以被预解释
+        return xy()/*(function (){
+            return 5;
+        })()*/
+
+        return function xx(){
+
+        }
+        function xy(){
+            return 6;
+        }
+
+        //return camera; // 函数的出口  留下
+
+    }
+    var res = fn(); // 赋值过程如果等号右面是一个函数的执行，那么也是先执行后赋值
+    console.log(res);
+
+    // 5 如果函数和变量重名，那么在预解释阶段以最后一个函数为准。当代码执行到变量赋值的那一行，那么就以这个变量的值为准
+    foo(); // 2
+    function foo(){ console.log(1); }
+    foo(); // 2
+    var foo = 5; // 当代码执行到这一行以后，foo就不再是函数而是这个5
+    foo();  // Error  foo is not a function
+    function foo(){ console.log(2); }
+    foo(); // 2
+
+
+
+
+
+
+</script>

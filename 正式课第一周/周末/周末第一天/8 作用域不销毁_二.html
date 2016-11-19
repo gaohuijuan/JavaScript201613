@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        html,body{
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            background: red;
+        }
+    </style>
+</head>
+<body>
+
+</body>
+</html>
+<script>
+    function fn(){
+        var num = 0;
+        return  function (){
+            num++;
+            console.log(num);
+        }
+    }
+    var f = fn();
+    f();
+
+
+    var obj = {};
+    //obj.f  = fn();
+    document.body // typeof document.body 'object'
+    //document.body.f = fn();
+    document.body.onclick = fn(); // body绑定click事件
+    //
+    document.body/*特殊对象*/.onclick/*特殊的属性*/ = (function (){
+        var num = 0; // 1
+        return  function (){
+            num++;
+            console.log(num); // 1
+        }
+    })();
+
+    //document.body.onclick = function (){}
+        // 事件发生执行
+
+    //oDiv.onclick = function (){} //
+    document.body.onclick(); // 1
+    document.body.onclick(); // 2
+    document.body.onclick(); // 3
+
+    for(var i = 0; i < 3; i++){ // lis.length
+        (function (num){ //
+            //var num = 0; // 全局变量
+            document.body.onclick = function (){
+                num++;
+                console.log(num);
+            }
+        })(i) // 0,1,2
+    }
+
+    for(var i=0; i<lis.length; i++){ // 3
+        (function (k){
+            //var k = 0; var k = 1; var k = 2;
+            lis[k].onclick = function (){
+                for(var j=0; j<lis.length; j++){
+                    lis[j].className = '';
+                }
+                lis[k].className = 'cur'; //
+            }
+        })(i) // 0 , 1 , 2
+
+    }
+
+</script>

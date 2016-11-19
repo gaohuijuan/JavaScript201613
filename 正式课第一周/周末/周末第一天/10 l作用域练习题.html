@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+</html>
+<script>
+    function fn(num){
+        // 2 => 3 => 4
+        return function (i){
+            num += 1;
+            console.log(i + num);
+        }
+    }
+    var f = fn(2);
+    f(3); // 6
+    f(5); // 9
+    fn(2)(3); // 6
+    var f1 = fn(2);
+    f1(6); // 9
+    f1(7); // 11
+    // 6 9 6 9 11
+
+    function foo(){
+        var num = 0;
+        return function (){
+            console.log(2 + ++num);
+        }
+    }
+    var f = foo();
+    f(); // 3
+    f(); // 4
+
+
+    ///////////////////////////////////
+
+
+
+
+
+
+
+
+</script>

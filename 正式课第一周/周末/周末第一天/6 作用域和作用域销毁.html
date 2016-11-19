@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+</body>
+</html>
+<script>
+    //
+    var num = 1200;
+    function fn(num){ //形参相当于声明在当前函数体内的私有变量,形参在刚开始执行函数的时候就有一个实参的值。定义了形参在执行的时候却没有传实参才是undefiend. 然后私有变量在预解释阶段就是undefined
+        //var num = 120;
+        //console.log(num);
+        return  function (){
+            console.log(num);
+        }
+    }
+    var res = fn(120); //
+    res(); //  120
+    /*
+    *   由于函数的定义和执行都会形成堆内存和栈内存，然后浏览器会找个合适的机会主动销毁这些处于没用状态的内存:
+    *       1 对于堆内存的释放,只要这个堆没有任何变量或者属性占用浏览器会主动释放
+    *       2 栈内存(作用域)释放 : 只要这个作用域没有任何占用那么就可以释放
+    *               1/ 函数在执行的时候才会形成一个作用域,函数中的一部分(引用数据类型)被函数外*的变量或者对象的属性所占用。那么就符合作用域不被释放的条件，那么函数执行的那个作用域没有被销毁。
+    *               2 dom对象的事件属性占用函数执行之后的返回的引用数据类型值(返回了函数)那么也符合作用域不被释放(销毁)的条件
+    *               ps: 第一种情况的特殊情况
+    *               3 作用域暂时不被释放的情况,函数执行结束后返回的函数立刻执行。
+    *
+    *
+    *
+    *
+    * */
+    var person1 = { // person1这个变量占用着这个对象的堆内存地址
+        name : 'zhangwen',
+        age : 51
+    };
+    document.body.xxx = person1; // 把person1代表的那个对象的内存地址赋值给document.body这个对象的xxx属性一份. => document.body的xxx属性和全局变量person1共同引用同一个堆内存地址
+    person1 = null; // person1这个变量再不占用那个对象的地址了。person1已经是一个null;
+    document.body.xxx = null;
+
+
+
+
+
+
+
+
+
+</script>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+</html>
+<script>
+    console.log(total);  // undefined
+
+    function sum(num1,num2){
+        console.log(total);  //
+        var total = num1 + num2;  //
+        console.log(total);
+    }
+    var total = 100;
+    sum(10,20); // total ???
+
+    console.log(total);
+
+    /*
+    *   函数执行的步骤:
+    *       1 浏览器先提供一个运行环境(栈内存),我们这个环境也叫(作用域)
+    *       2 形参赋值(实参是一个引用数据类型，那么其实就是把这个堆内存地址赋值给形参)
+    *       3  把当前执行函数体内的var和function的变量或者函数预解释
+    *       4 代码逐行执行
+    * */
+
+    /*
+    *   全局作用域: window 没有任何函数function包含着的作用域
+    *   私有作用域: 只要有函数执行就会形成一个私有作用域
+    *   全局变量: 全局作用域内的变量或者函数
+    *   私有变量: 定义在函数内部的变量或者函数
+    *   ps: 在函数体外部是不能访问私有变量的
+    *   ps: 在函数体内部是可以访问全局变量的
+    *
+    * */
+    console.log("￥￥￥￥￥￥￥￥￥￥￥￥￥￥￥￥￥￥￥￥￥￥￥￥￥￥");
+    //console.log(x); // undefined
+    //console.log(y); // y is not defined
+    var x = 100;
+    var y = 200;
+    console.log(x); // 100
+    console.log(y); // 200
+    function fn(){
+        //console.log(z);
+        /*var */z = 300; // 如果是一个赋值的过程，发现自己没有私有的z，全局也没有一个叫做z的变量那么就直接赋值给全局当作全局变量。
+        // 赋值如果这个变量不存在那么至少能赋值给window当全局变量
+        // 取值如果查找到window还没有那么就报错
+    };
+    fn();
+    console.log(z);
+    console.log(window.z);
+    // 任何一个全局变量都可以认为是window的一个属性
+
+    /*window.*/zhangwen = '123';
+    console.log(zhangwen); // 123
+    setTimeout()
+    window.setTimeout()
+
+
+
+</script>
