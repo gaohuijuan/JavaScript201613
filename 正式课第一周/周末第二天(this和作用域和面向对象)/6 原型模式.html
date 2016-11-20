@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+</body>
+</html>
+<script>
+    /*
+    *   原型模式:
+    *       1 函数定义结束就会天生自带一个属性叫prototype(原型)，这个属性的值仍然是一个对象数据类型的。并且这个属性值也天生自带两个属性，一个constructor另外一个是__proto__，其中constructor的值是函数自己.
+    *       FE.prototype.constructor === FE;
+    *       2  任何一个实例都天生自带一个属性__proto__,这个属性的值也是一个对象数据类型。这个值就是这个实例自己所属于的那个类(new 类)的原型
+    *       var fe1 = new FE();
+    *       fe1.__proto__ === FE.prototype;
+    *       3 任何一个引用数据类型都天生自带__proto__属性, 这个__proto__属性永远都指向自己所属的类的原型 =>
+    *
+    *       4 任何一个引用数据类型都是Object的一个实例
+    *       5 批量设置 => 把天生自带的原型重新赋值为一个新的对象 => 导致constructor丢失=> 再去打印fe1.constructor直接在原型上获取不到了，通过原型的__proto__到Object的原型获取到constructor属性
+    *       ps: 实例的constructor属性至少是 function Object(){}
+    *
+    * */
+
+    // front engineer
+    function FE(name,money,computer){
+        this.name = name;
+        this.money = money;
+        this.computer = computer;
+       /* this.writeJs = function (){
+
+        }*/
+    }
+    FE.prototype.writeJs = function (){
+        console.log('writeJs');
+    }
+    var fe1 = new FE('zhangwen','20k','macAir');
+    var fe2 = new FE('xuya','100k','macPro');
+    console.dir(fe1);
+    console.dir(fe2);
+    fe2.writeJs = function (){} // 直接添加到fe2这个实例上的私有属性
+    fe1./*__proto__.*/writeJs === FE.prototype.writeJs;
+    fe2.__proto__.writeJs === FE.prototype.writeJs;
+    fe2./*__proto__.*/writeJs === fe1.__proto__.writeJs; //实例的__proto__属性是可以不写的。默认先获取自己的私有属性，如果私有属性没有那么获取原型上的公有属性
+    new FE().__proto__.writeJs === fe1.__proto__.writeJs;
+    //console.dir(FE);
+    FE.prototype.aaa = function (){}
+    FE.prototype.bbb = function (){}
+    FE.prototype.ccc = function (){}
+    FE.prototype.ddd = function (){}
+
+    FE.prototype = {
+        //constructor : FE,
+        aaa : function (){},
+        bbb : function (){},
+        ccc : function (){}
+    }; // => FE.prototype.constructor这个属性丢失
+    //FE.prototype.constructor = FE;
+
+    // console.log(fe1.constructor); // ??
+
+    function Human(){}
+    Human.prototype = {
+        aaa : 'aaa'
+    };
+    var h1 = new Human();
+    console.log(h1.constructor); //
+
+    // 类的原型上的方法中的this？ => 一般情况下都是实例
+    function Black(){
+        this.x = 200;
+    }
+    //Black.prototype.x = 100;
+    Object.prototype.x = 300;
+    Black.prototype.eat = function (){
+        console.log(this.x); //??
+    }
+    var b1 = new Black();
+    b1.eat(); // 200
+    var b2 = new Black();
+    b2.eat(); // 200
+    Black.prototype.eat(); // 100
+
+
+
+
+
+
+    b2.eat;
+    b1.eat === b2.eat;
+    b1.eat === b2.__proto__.eat;
+
+
+
+
+
+</script>

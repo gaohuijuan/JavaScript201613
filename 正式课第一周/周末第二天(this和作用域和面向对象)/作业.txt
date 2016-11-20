@@ -1,0 +1,39 @@
+var num = 5;
+var obj = {
+    num : 6,
+    fn : (function (num){
+        this.num = num + 5;
+        num += 2;
+        return function (){
+            this.num += 3;
+            num += 3;
+            console.log(num);
+        }
+    })(num)
+};
+var fn = obj.fn;
+fn();
+obj.fn();
+console.log(window.num,num);
+
+
+/////////////////////////////////////////////////////////////
+
+function Foo(){
+    this.x = 100;
+}
+Foo.prototype.x = 200;
+Object.prototype.y = 300;
+Foo.prototype.getX = function (){
+    console.log(this.x + this.y);
+}
+var f1 = new Foo();
+var f2 = new Foo();
+f.getX();
+f1.constructor === f2.prototype.constructor // ??
+f1.getX === FE.prototype.getX // ??
+f.constructor ??
+f.__proto__.constructor ??
+f.__proto__.__proto__.constructor ??
+
+

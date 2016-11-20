@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+</body>
+</html>
+<script>
+    var num = 10; // window.num = 10 12 14
+    var obj = {num : 3}; // obj.num = 3 5
+    obj.fn = (function (){
+        this.num += 2;
+        num += 2; // num = num + 2;  NaN
+        var num; // num = NaN
+        return function (){
+            this.num += 2;
+            num += 2;
+            console.log(num);
+        }
+    })(obj.num); // 3
+    var fn = obj.fn;
+    fn(); // NaN
+    obj.fn(); // NaN
+    console.log(this.num,obj.num);
+    // window
+
+</script>

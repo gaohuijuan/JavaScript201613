@@ -1,0 +1,55 @@
+一、this的用法   1）事件
+                2）函数执行
+                3) 自运行函数
+                4） call & apply
+                5)  构造函数
+                6)  定时器
+二、单例模式
+        var obj = {
+            fun1 : function (){
+                this.fun2(); 通过this调用fun2
+            }
+            fun2 : function (){
+
+            }
+        }
+三、工厂模式
+        function factory(name,age){
+            var obj = {}; 创建对象
+            obj.name = name; // 向对象中添加属性
+            obj.age = age;  // 向对象中添加属性
+            return obj; // 返回对象
+        }
+四、构造函数模式
+        function FE(name,pc){
+            this.name = name; // this就是正在new的实例
+            this.pc = pc;
+            // 主动返回一个实例对象
+        }
+
+        var res = FE(); 普通函数执行没有写return返回undefiend
+
+        var fe1 = new FE(); 当作类执行返回实例
+        var fe2 = new FE();
+
+五、原型模式
+        function Human(name){
+            this.name = name;
+        }
+        Human.prototype.eat = function (){} //添加公有方法
+        Human.prototype.cry = function (){
+            this //??这个this就是实例,因为是 实例.cry才能执行
+        }
+        Human.prototype = {}; // 这样会修改默认的那个原型，这是一个新的对象。新对象里没有constructor。
+
+        Human.prototype=== new Human().__proto__
+        实例的__proto__属性指向?
+        任何一个对象都有__proto__属性，都指向自己所属类的原型
+
+        重要理解那张图....然后再根据图来做一些等式的判断
+
+
+
+
+
+

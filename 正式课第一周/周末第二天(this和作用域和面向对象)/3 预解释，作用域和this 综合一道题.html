@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+</body>
+</html>
+<script>
+    var num = 2; // window.num = 2 => window.num = 3 => window.num = 2
+    var obj = {
+        num : 3, // obj.num = 3 => obj.num = 2
+        fn : (function (num){
+            // var num = 2   num = 3  num = 4
+            this.num++; // 自运行函数中的this是window  => window.num++
+            num++;
+            var num = 4; // num = 3 => num = 2
+            return function (){ // 这个匿名函数就是obj.fn => 符合作用域不释放的条件 => 这个作用域内有一个私有的num被保存下来了。暂时等于4
+                this.num--; // fn()  => window.num--
+                // obj.fn() => obj.num--
+                num--;
+                console.log(num); // 3 , 2
+            }
+        })(num) // 2
+    };
+    var fn = obj.fn; // obj.fn就是那个匿名函数（自运行函数的返回值 ） => 全局变量fn和obj.fn属性共同引用同一个函数的堆内存地址 =>
+
+    fn(); // 3
+    obj.fn(); // 2
+    console.log(window.num,obj.num); // 2 2
+
+
+</script>

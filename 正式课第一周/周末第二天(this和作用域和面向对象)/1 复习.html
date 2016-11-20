@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+</html>
+<script>
+
+    //    var s = 'str';
+    //    function fn() {
+    //        console.log(n); // undefined
+    //        console.log(s); // 'str'
+    //        n = 7;
+    //        var n = 6;
+    //        console.log(n); // 6
+    //    }
+    //    fn();
+    //    console.log(window.n); // 获取一个对象不存在属性就是undefined
+    // un str 6 un
+    // un str 6 n is not defined
+
+
+    console.log(n); // un
+    function fn(m) {
+        m = 10;
+        total = m + 10;
+    }
+    console.log(total); // un
+    var total = [1, 2]; // total : xxxfff000  20
+    var n = total; // n : xxxfff000
+    fn();
+    console.log(n); // [1,2]
+    console.log(total); // 20
+    // un un [1,2] 20
+
+
+
+
+</script>

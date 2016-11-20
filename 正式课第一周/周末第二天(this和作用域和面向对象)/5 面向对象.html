@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>面向对象</title>
+</head>
+<body>
+</body>
+</html>
+<!--<script src="common.js"></script>-->
+<script>
+    /*
+    *   1 单例模式  其实就是一个对象  解决命名冲突的问题
+    *       单例模式也叫命名空间  nameSpace
+    *       单例模式属性函数之间的调用使用this就可以.这个this就是这个对象
+    *       ps: 比较常用的一种开发模式
+    *
+    *   2 工厂模式  解决批量的问题  本质就是一个函数
+    *       在函数开始的阶段创建一个对象
+    *       中间的代码都是向这个对象添加属性
+    *       在函数结尾return这个对象
+    *
+    *    3  构造函数模式   类   实例   对象
+    *         function 类名字(){}
+    *         ps: 构造函数中的this是当前实例正在new的这个实例
+    *         ps: 默认的实例返回动作如果return一个引用数据类型会破坏
+    *         ps:
+    *
+    * */
+
+    function factory(wood,color){
+        var chair = {};
+        chair.cailiao = wood;
+        chair.color = color;
+        chair.fun = function (){
+
+        }
+        return chair;
+    }
+    factory('wood','red');
+    factory('wood','green');
+    var res3 = factory('plastic','blue');
+    console.log(res3);
+
+
+    // 3 构造函数
+    //Number  String  Boolean /*Null*/ Object Array Date RegExp...
+    var date = new Date(); // 实例创建方式
+    var ary = new Array(); // => var ary = [1,2];  字面量
+    // typeof
+    // instanceof 判断实例是否属于这个类
+
+    // constructor
+    // Object.prototype.toString.call()
+
+    function Human(name,weight) { // 这个FE类就是我自己构造的一个类。 构造函数
+        var obj = {}; // 当作构造函数执行私有变量不会影响实例
+        this.name = name;
+        this.weight = weight;
+       /* return [];*/ // 如果当作构造函数(类)执行那么返回一个引用数据类型会破坏实例的默认返回动作
+        this.cry = function (){
+            // 哭这个方法不是某一个实例自己的私有属性，这个方法应该是整个人类都应该天生自带的一个属性
+            // 如何把这样的公共的方法直接添加给全人类Human,让每个实例(孩子)出生就带着这个方法？？？ => 原型模式
+        }
+        this.eat = function (){
+
+        }
+    }
+    /*
+    *   函数三种角色：
+    *       1 普通函数
+    *       2 构造函数或者类
+    *       3 函数本身也是Function的一个实例
+    * */
+    Human();
+    new Human();
+    Human instanceof Function;
+    //var res = Human();  // undefined this=> window
+    // 当作普通函数执行还是当作构造函数执行都会执行函数体内的代码
+
+    var res1 = new Human('jack','4kg'); //
+    var res2 = new Human('rose','3.5kg'); //
+    console.log(res1); // name : jack   weight 4kg
+    console.log(res2); // name : rose   weight 3.5kg
+
+
+</script>
