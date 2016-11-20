@@ -30,10 +30,10 @@ Foo.prototype.getX = function (){
 var f1 = new Foo();
 var f2 = new Foo();
 f.getX();
-f1.constructor === f2.prototype.constructor // ??
+f1.constructor === f2.__proto__.constructor // ??
 f1.getX === Foo.prototype.getX // ??
-f.constructor ??
-f.__proto__.constructor ??
-f.__proto__.__proto__.constructor ??
+f1.constructor ??
+f2.__proto__.constructor ??
+f2.__proto__.__proto__.constructor ??
 
 
