@@ -14,7 +14,7 @@ var obj = {
 var fn = obj.fn;
 fn();
 obj.fn();
-console.log(window.num,num);
+console.log(window.num,obj.num);
 
 
 /////////////////////////////////////////////////////////////
