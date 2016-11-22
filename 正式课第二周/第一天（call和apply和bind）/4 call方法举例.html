@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>call</title>
+</head>
+<body>
+
+</body>
+</html>
+<script>
+    function fn(){
+        console.log(this);
+    }
+    fn.call instanceof Function; // true
+    function fn1(){
+        console.log(1);
+    }
+    fn.call.call(fn1); // 1
+    fn.call/*自己是一个函数*/.call(document.body)/*我要把fn.call这个call方法中的this修改成document.body,那么call方法中的this是谁呀?我要把这个this修改成body,修改完this之后还要让这个call方法执行*/;
+    // call方法中的this是谁呢?
+    Function.prototype.call = function (obj){// call方法定义在这
+        // this?? => fn 要把fn方法中的this修改成obj形参
+        // this是fn，要把this中的this修改成obj
+        this// 如果是fn1.call this就是fn1
+        this// 如果是fn2.call this就是fn2
+        this// 如果是fn3.call this就是fn3
+        //接下来就是要把this方法中的this修改成obj
+        this(); // this就是代表的fn1或者fn2或者fn3
+        //call方法中的最后一步是this执行
+    }
+//    fn3.call(obj);
+//    fn1.call(obj);
+//    fn2.call(obj);
+    // 定义在原型上的方法中的this一般是实例
+
+
+    function fn1(){ console.log(1); }
+    function fn2(){ console.log(2); }
+    fn1.call.call(fn2); // 2
+    fn2.call.call(fn2); //
+    [].push.call.call(fn2); //
+    Array.call.call(fn2);
+    [].constructor.call.call(fn2);
+
+
+
+
+
+
+
+
+
+
+
+
+
+    function Human(){}
+    Human.prototype.eat = function (){
+        this; // h1.eat => this是h1
+    }
+    var h1 = new Human();
+    var h2 = new Human();
+    h1.eat();
+    h2.eat();
+
+
+
+</script>

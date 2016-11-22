@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+</html>
+<script>
+    function fn(){
+        console.log(this); // window  obj
+    }
+
+    var obj = {
+        name : 'zhufeng',
+        fn : fn
+    }
+    // obj.fn(); //
+    Function.prototype.call;
+    Function.prototype.bind;
+    Function.prototype.apply;
+    //fn(); // this => window
+    fn.call(obj); // => obj => fn通过call方法把fn本身自己函数中的this修成成call的第一个参数，并且最后fn还执行。
+    /*
+    *   call方法:
+    *       1 fn通过自己的__proto__属性找到定义在Function.prototype上的call方法
+    *       2 把fn函数中的this修改成了call的第一个参数
+    *       3 最后fn执行
+    *       ps: 无论哪个函数实例调用call方法都已经执行结束(修改了this之后就立刻执行了)
+    *       ps: call方法的第一个参数的确是用来修改this的。从第二个参数开始是传给调用call方法的那个函数实例的
+    *       ps: 如果是多个call方法连用那么是最后一个call方法的第一个参数执行，如果这个参数不是函数会报错
+    * */
+    function fn(){
+        console.log(this); // console.log(document.body)
+    }
+    fn.call(document.body);
+
+    function sum(num1,num2){
+        console.log(this);
+        console.log(num1,num2);
+        console.log(num1 + num2);
+    }
+    var that = this;
+    sum.call(window,100,200); // ??
+
+
+/*
+    function foo(a){
+        alert(a);
+    }
+    var num = 5;
+    this; // window
+    foo(this);
+*/
+
+
+
+
+
+
+//    fn instanceof Function; // true => fn这个函数是Function这个内置类的一个实例
+//    fn.__proto__; // fn的__proto__属性指向的是Function.prototype
+//    console.dir(fn.__proto__); // function anonymous
+//    console.dir([].__proto__); // Array.prototype
+//    console.dir(Array.prototype); // Array.prototype
+//    [].push();
+//    [].splice();
+//    [1,2].concat(); // Array.prototype : push,splice,concat
+
+
+</script>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+</html>
+<script>
+    var wangfengquan = { // nameSpace
+        fn: function () {
+            this.foo();
+        },
+        foo : function (){
+            //this.fn();
+        }
+    }
+    wangfengquan.fn();
+
+    function makeObject(haha){
+        var obj = {};
+        obj.haha = haha;
+        obj.fn = function (){};
+        obj.foo  = function (){};
+        return obj;
+    }
+    var res1 = makeObject('xixi');
+    //console.log(res1);
+
+    //
+
+    function Human(name,weight){
+        this.name = name;
+        this.weight = weight;
+        this.cry = function (){
+            console.log('cry');
+        }
+    }
+    Human.prototype.eat = function (){};
+    //console.dir(Human);
+    //Human.prototype.cry = function (){}
+    var h1 = new Human('jinxing','5kg');
+    var h2 = new Human('lindan','4kg');
+    //h1 === h2; // false
+    //console.log(h1.cry == h2.cry); //false
+    console.dir(h1);
+    console.dir(h2);
+    h1.__proto__.eat === h2.__proto__.eat; // true
+    h1.eat === h2.eat; // true
+
+    h1.eat = function (){}
+    h1.eat === h2.eat; //false
+
+    //
+    Human.prototype = {
+        constructor : Human,
+        eat : function (){},
+        drink : function (){}
+
+    }
+
+    // Array Number Date Object Function
+
+
+
+
+
+
+
+
+
+</script>

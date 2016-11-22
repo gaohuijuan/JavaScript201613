@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+</html>
+<script>
+    var result = Math.max(5,6,7,2,3);
+    console.log(result); // 7
+    // 1 利用apply的传参的特性来处理 => Math.max.apply
+    var ary = [8,6,5,3,4,9,7];
+    var res = Math.max.apply(null,ary);
+    console.log(res); // 9
+
+    // 2 sort
+    ary.sort(function (a,b){return b-a;});
+    //console.log(r === ary); // false
+    ary[0]; // 9
+
+    // 3  假设 (在js编程过程中也经常使用)
+    var max = ary[0];
+    for(var i=1; i<ary.length; i++){
+        if(ary[i] > max){
+            max = ary[i];
+        }
+    }
+    console.log(max);
+
+    // 4  Math.max(8,6,5,3,4,9,7)
+    var ary = [8,6,5,3,4,9,7];
+    var res = Math.max(ary.join());
+    res = Math.max(eval('8,6,5,3,4,9,7')); // eval
+    res = 'Math.max('+ary.join()+')'; // eval先把要执行的代码拼接成字符串然后最后eval
+    res = eval(res);
+    console.log(res);
+
+
+
+
+
+
+
+</script>
