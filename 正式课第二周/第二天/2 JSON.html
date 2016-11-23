@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>JSON</title>
+</head>
+<body>
+</body>
+</html>
+<script>
+    var obj = { name : 'zhangwen',age : 40};
+    for (var key in obj){
+        console.log(typeof key); // 'string'
+    }
+    var jsonObj = {"name" : "zhangwen", "age" : 40}; // JSON格式的对象
+    /*
+    *   JSON格式的对象和普通js对象区别:
+    *       1 属性名字用双引号包含起来
+    *       2 属性值如果是字符串也用双引号
+    * */
+    console.dir(JSON); //在JS中JSON是定义在window下的一个属性,也可以理解为JSON是一个全局变量.
+    /*
+        JSON自带的两个方法:
+    *   JSON.parse()  把JSON格式的字符串转化成JSON格式的对象
+    *   JSON.stringify()  把JSON格式的对象，转化为JSON格式的字符串
+    *   "{"name":"zhangwen","age":40}"
+    *   ps: JSON这个对象在IE7-不存在。JSON的两个属性方法也不存在。那么可以使用eval来去处理,eval方法是把字符串当作JS表达式来运行的。其实也就是由间接去引号的作用
+    * */
+    var res = JSON.stringify(jsonObj); // 给这个方法传了一个JSON格式的对象
+    // "{"name":"zhangwen","age":40}"
+    var result = JSON.parse(res);
+    // {name:"zhangwen",age:40}
+    console.log(result); //
+
+    function jsonParse(jsonStr) {
+        return  'JSON' in window ? JSON.parse(jsonStr) : eval('('+jsonStr+')');
+    }
+    function jsonParse1(){
+        // 如果。。。。
+        // 否则
+    }
+
+
+
+
+
+
+
+
+
+
+
+</script>

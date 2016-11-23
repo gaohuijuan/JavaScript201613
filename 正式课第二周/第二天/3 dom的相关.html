@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        html,body,ul,li{
+            margin: 0;
+            padding: 0;
+        }
+        ul{
+            list-style: none;
+        }
+        #newsList{
+            width: 300px;
+            margin: 30px auto;
+            border: 3px solid #ccc;
+        }
+        #newsList li{
+            height: 30px;
+            line-height: 30px;
+            background: lightcyan;
+            margin-bottom: 2px;
+            text-indent: 10px;
+            cursor: pointer;
+        }
+
+
+    </style>
+</head>
+<body>
+<ul id="newsList">
+    <!--这里还没有li呢.我想把获取回来的新闻添加到这个ul里-->
+    <li>日本又地震了，特朗普又上台了。</li><!--昨天-->
+    <li>中国共产党最棒</li><!--昨天-->
+    <!--<li>林丹出轨了</li>
+    <li>张温还没有出轨呢</li>-->
+</ul>
+</body>
+</html>
+<script>
+    var aryData = [ // 这个是已经获取回来的一组数据
+        {"content": "林丹出轨了"},
+        {"content": "张温还没有出轨呢"},
+        {"content": "匡志鹏没有胆量出轨"},
+        {"content" : "田老师从来都不会出轨"}
+    ];
+    var newsList = document.getElementById('newsList');
+    var lis = newsList.getElementsByTagName('li'); // [li,li]
+    console.log(lis); // lis就是页面中已经存在那两个li
+    for(var i=0; i<lis.length; i++){
+        lis[i].onmouseover = function (){
+            this.style.backgroundColor = 'lightpink';
+        }
+        lis[i].onmouseout = function (){
+            this.style.backgroundColor = 'lightcyan';
+        }
+    }
+    // 1 利用动态添加元素
+//    for(var i=0; i<aryData.length; i++){
+//        var curDataObj = aryData[i]; // 这个就是数据里的每一项那个对象
+//        var li = document.createElement('li');
+//        li.innerHTML = curDataObj.content;
+//        newsList.appendChild(li);
+//    }
+    console.log(lis); // [li,li,li,li,li,li]
+    var lisAry = [];
+    for(var i=0; i<lis.length; i++){
+        lisAry.push(lis[i]);
+    }
+    console.log(lisAry); // [li,li,li,li,li,li]
+    // 2 利用字符串拼接的方式
+//    var str = '';
+//    for(var i=0; i<aryData.length; i++){
+//        var curDateObj = aryData[i];
+//        str += '<li>'+ curDateObj.content +'</li>';
+//    }
+//    newsList.innerHTML = newsList.innerHTML + str; //这种方式是重新赋值
+    //newsList.innerHTML += str;
+
+
+    /*
+    *   向页面添加元素：
+    *       1 使用动态创建元素然后通过appendChild或者insertBefore的方式添加并不会对原来已经存在的元素造成影响(比如以前给li绑定的事件还在)
+    *       2 使用innerHTML拼接字符串的方式，虽然也能添加元素。但是会破坏原来已经存在的元素(比如li的绑定的事件已经消失了)
+    *       ps: 如果原来的ul中是空的，那么这两个方式都可以。但是我更推荐innerHTML.
+    *
+    *
+    *   DOM的回流和重绘:
+    *       回流 : 元素的位置的改变 元素的增加和删除 都会产生DOM回流，然后浏览器就需要重新渲染。从而造成性能的浪费
+    *       重绘 : 元素样式等改变比如背景色引起重绘
+    *       ps: 动态添加元素的方式会引起多次回流，造成性能浪费
+    *       ps: innerHTML的方式虽然只引起一次回流但是却对原来的元素造成了影响
+*
+    *   DOM映射: 通过dom的方式获取到的一个元素集合(类数组lis)，这个集合仍然和页面内的元素保持联系。并且这个lis元素集合会随着页面内元素的增加而增加，减少而减少。即使从这个lis的类数组中把这些li重新添加到一个新的空数组中。这个DOM的映射关系仍然还存在
+    *
+    *
+    *   文档碎片 :  可以理解为是一个容器，这个容器就是专门装载dom对象的
+    *       创建 : document.createDocumentFragment();
+    *       步骤 : 先创建，然后把要动态添加到页面内的li，暂时先放到这个文档碎片容器中，等所有的li创建结束，把这个容器一次性添加到页面就可以。这样只会引起一次回流.
+    *
+    * */
+
+    // 3 利用文档碎片
+    var frg = document.createDocumentFragment();
+    for(var i=0; i<aryData.length; i++){
+        var curDataObj = aryData[i];
+        var li = document.createElement('li');
+        li.innerHTML = curDataObj.content;
+        frg.appendChild(li);
+    }
+    // 这个循环结束之后页面内没有li，在frg内有一组li
+    newsList.appendChild(frg);
+    frg = null; //没用了
+
+
+
+
+</script>
