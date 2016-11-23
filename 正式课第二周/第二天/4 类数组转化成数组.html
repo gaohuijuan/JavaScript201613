@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>类数组转化成数组</title>
+    <style>
+        html, body, ul, li {
+            margin: 0;
+            padding: 0;
+        }
+        ul {
+            list-style: none;
+        }
+        #newsList {
+            width: 300px;
+            margin: 30px auto;
+            border: 3px solid #ccc;
+        }
+
+        #newsList li {
+            height: 30px;
+            line-height: 30px;
+            background: lightcyan;
+            margin-bottom: 2px;
+            text-indent: 10px;
+            cursor: pointer;
+        }
+    </style>
+
+</head>
+<body>
+    <ul id="newsList">
+        <li>1</li>
+        <li>4</li>
+        <li>3</li>
+        <li>2</li>
+    </ul>
+</body>
+</html>
+<script>
+    /*
+    *   排序页面中的li:
+    *       1 先获取到lis这个集合里面包含着所有的li. DOM方法
+    *       2 把lis从类数组转化为数组  listToArray
+    *       3 只要是数组就可以使用sort方法进行排序 a.innerHTML localeCompare
+    *       4 dom映射关系还存在，那么把排序之后的数组重新添加到页面中(更换位置)
+    *       5 注意利用文档碎片处理多次回流问题
+    * */
+
+
+
+    var newsList = document.getElementById('newsList')
+    var lis = newsList.getElementsByTagName('li');
+    console.log(lis); // 有索引和length属性的就可以看作是类数组
+    var lisAry = listToArray(lis);
+    console.dir(lisAry); // 转化成数组的 [li,li,li,li]
+    lisAry.sort(function (a, b) {
+        // a,b都是li
+        return a.innerHTML - b.innerHTML; // '1' '2'
+    });
+    console.dir(lisAry);
+    // 把排好序的lisAry再添加到页面中
+    var frg = document.createDocumentFragment();
+    for(var i=0; i<lisAry.length; i++){ //这个已经是排序好的
+        frg.appendChild(lisAry[i]);
+    }
+    newsList.appendChild(frg);
+    frg = null;
+
+
+
+
+
+
+    function listToArray(likeAry){
+        try{
+            return Array.prototype.slice.call(likeAry,0);
+        }catch(e){
+            //console.log(e.message); // 捕获到的错误信息
+            var lisAry = [];
+            for(var i=0; i<likeAry.length; i++){
+                lisAry.push(likeAry[i]);
+            }
+            return lisAry;
+        }
+    }
+    /*
+    *   try catch是js中常用的一种容错处理方式:
+    *       try{
+    *           先尝试在try中的代码，如果这里的代码报错那么就执行catch里的代码
+    *       }catch(e){
+    *           这个e是一个对象，其中e.message保存着上面try代码中报的错误
+    *
+    *       }
+    *       throw new Error('张温');  也可以主动去抛出一个错误
+    *
+    *
+    *
+    * */
+
+
+/*
+    Array.prototype.slice = function (){
+        // this slice方法中的this就是你要复制的那个数组
+    }
+    [1,2].slice(); // [1,2]
+*/
+
+
+
+
+
+
+
+</script>

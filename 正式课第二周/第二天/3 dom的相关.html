@@ -24,8 +24,6 @@
             text-indent: 10px;
             cursor: pointer;
         }
-
-
     </style>
 </head>
 <body>
@@ -100,7 +98,6 @@
     *       步骤 : 先创建，然后把要动态添加到页面内的li，暂时先放到这个文档碎片容器中，等所有的li创建结束，把这个容器一次性添加到页面就可以。这样只会引起一次回流.
     *
     * */
-
     // 3 利用文档碎片
     var frg = document.createDocumentFragment();
     for(var i=0; i<aryData.length; i++){

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>sort</title>
+    <style>
+        html, body, ul {
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+</head>
+<body>
+
+</body>
+</html>
+<script>
+
+
+    /*
+    *   sort用法:  function (a,b){ return a-b }
+    *       1） a,b就可以理解为数组中要比较的相邻两项
+    *       2)  return 的值才是是否换位置的决定因素
+    *   sort也可以排序一个对象:
+    *       1） a.age - b.age
+    *       2)  a.name.localeCompare(b.name);  字符串的比较方法
+    *
+    * */
+    var ary = [5, 3, 2, 1, 4];
+    ary.sort(function (a, b) {
+        //return 0;
+        //return -1;
+        //console.log(a,b); // a和b就是数组里相邻两项
+        return (a - b)*-1*-1; // 如果是升序，那么a-b如果>0,那么就是a>b。那么就是换位置 => a-b的差就是决定是否换位置的根据
+        // 由于a和b是动态更换的，那么a-b的差也是一直在变.
+        // 如果return一个恒大于0的数那么就是不变，如果是一个恒小于0的数那么就是倒序
+    });
+    console.log(ary);
+
+    var ary = [
+        {"name":"zhangwen","age":30},
+        {"name":"xuya","age":18},
+        {"name":"kuangzhipeng","age":31}
+    ];
+    ary.sort(function (a,b){
+        // a和b是相邻两项，其实的a和b是对象
+        return a.name.localeCompare(b.name); // 只需要一个数字
+        return a.age - b.age; // 按照a的age属性和b的age属性去排序
+        // 我想按照姓名如何排序???
+        // 如果是字符串那么在做排序的时候使用localeCompare
+    });
+    console.log(ary);
+
+
+
+</script>

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+</html>
+<script>
+    /*
+    *   1 typeof  => 'number' 'string' 'boolean' 'object' 'undefined'  'function'
+    *       typeof不能清晰的判断引用数据类型
+    *   2 instanceof => 用来判断一个实例是否属于一个类 true/false
+    *       不能很好的判断基本数据类型
+    *       [] instanceof Object; true
+    *   3 constructor => 直接打印自己是哪个类的实例
+    *       这个属性是可以被修改的。
+    *       Human.prototype = {};
+    *       为了避免 h1.constructor; => function Object(){}
+    *       Human.prototype.constructor = Human;
+    *   4 Object.prototype.toString.call(你要检测的数据)
+    *       返回值: '[object 检测数据类型的所属类]'
+    *       eg:   [] =>  '[object Array]'
+    *       eg:   new Date => '[object Date]'
+    *       eg:   {} =>    '[object Object]'
+    *       eg:   /\s/ =>   '[object RegExp]'
+    *       eg:   div  =>   '[object HTMLDivElement]'
+    *       ...
+    *       toString方法中的this一定是调用toString的实例
+    *       任何一个引用数据类型都可以调用此方法
+    *       [1,2].toString() => "1,2"
+    *       new Date().toString() => ""
+    *
+    *
+    * */
+    var ary = [];
+    var num = new Number(5);
+    num instanceof Number; // true => num是实例
+    5 instanceof  Number; // false => 5是基本数据类型
+    ary instanceof Array; // true
+    ary instanceof Object; // true
+
+
+    //
+    [].constructor; // function Array(){ ... }
+
+
+
+
+
+    function Human(){
+        this.x = 100;
+        this.y = 200;
+    }
+    Human.prototype.eat = function (){};
+    Human.prototype = {};
+    var h1 = new Human();
+    for(var key in h1){
+        // for in 可以遍历出原型上的自定义属性
+        //if(h1.hasOwnProperty(key)){ // x,y,eat
+        if(h1.propertyIsEnumerable(key)){  // 是不是可枚举属性
+            console.log(key);
+        }
+
+    }
+    //h1.constructor; // function Human(){}
+    //Human.prototype = {};
+    //h1.constructor; // function Object(){ ... }
+    // 如何判断一个引用数据类型是不是{}
+    var obj = /*undefined*/h1;
+    obj = obj || []; // 这行代码是保证toString()不报错
+    //var obj = new Date();
+    if(new Human().toString() == '[object Object]'){
+        alert('花括号');
+    }
+//    if(Object.prototype.toString.call(obj) === '[object Object]'){
+//        alert('花括号')
+//    }
+
+
+
+</script>
