@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>继承</title>
+</head>
+<body>
+</body>
+</html>
+<script>
+    // 继承: 子类继承父类的属性或者方法 extend
+    // Array,Object,Function...
+
+    // 1 原型继承： 子类的原型指向父类一个实例，父类的公有和私有方法和属性，全都是子类的公有方法
+    function A(){
+        this.x = 100;
+    }
+    A.prototype.getX = function (){
+        console.log(this.x);
+    }
+
+    function B(){}
+    B.prototype = new A(); // 原型继承的核心代码
+    B.prototype.constructor = B;
+
+    var a = new A();
+    var b = new B();
+    console.dir(b);
+
+
+    // 2 call继承 : 在子类D的构造函数中，C.call(this) 父类.call(this),把父类的私有方法继承到子类的私有方法
+    function C(){
+        this.x = 100; // this.x = 100 => d.x = 100 => 给d添加一个100私有属性
+        this.y = 200;
+    }
+    C.prototype.getX = function (){
+        console.log(this.x);
+    }
+    function D(){
+        //this => d
+        C.call(this);  // 核心代码
+        // 把C类中的this修改成d
+    }
+    var c = new C();
+    var d = new D();
+    console.dir(d); // x:100 y:200
+
+    // 3 冒充对象继承  在子类构造函数中遍历父类实例。把父类的私有和公有都变成子类的私有
+    function E(){
+        this.x = 100;
+    }
+    E.prototype.getX = function (){ // xxxfff000
+        console.log(this.x);
+    }
+    function F(){
+        var e = new E();
+        for(var key in e){
+            // key : x, getX
+            //if(e.propertyIsEnumerable) 可枚举
+            if(e.hasOwnProperty(key)){
+                // 这个判断可以把getX这个公有属性过滤
+            }
+            this[key] = e[key]; // 核心代码
+            // f.x = e.x => f.x = 100;
+            // f.getX = e.getX  => f.getX = E.prototype.getX;
+        }
+    }
+    var f = new F();
+    console.dir(f); // x : 100, getX : funciton
+    console.log(f.getX === E.prototype.getX); // true
+
+    // 4 组合继承  原型+call => 无论是私有还是公有全部都能继承到。原来是私有的现在仍然通过call继承仍然是私有,原有是公有的公有的，通过原型继承仍然是公有
+    function G(){
+        this.x = 100;
+    }
+    G.prototype.getX = function () {
+        console.log(this.x);
+    }
+
+    function H(){
+        G.call(this);
+    }
+    H.prototype = new G();
+    H.prototype.constructor = H;
+
+    // 5 中间件继承 : 让子类的原型的__proto__属性，本来应该指向Object.prototype;现在让它指向父类原型, 父类的公有变成子类的公有属性
+
+    function J(){
+        this.x = 100;
+    }
+    J.prototype.getX = function (){
+        console.log(this.x);
+    }
+    function K(){}
+    K.prototype.__proto__ = J.prototype; // 核心代码
+
+
+    // 6 寄生组合继承
+
+    function M(){}
+    function N(){}
+    N.prototype = create(M.prototype);
+    N.prototype = Object.create(M.prototype); // 不兼容的
+
+    var res = Object.create(obj);
+
+    function create(obj){
+        function Fn(){};
+        Fn.prototype = obj;
+        return new Fn();
+    }
+
+
+
+
+
+
+
+
+</script>
