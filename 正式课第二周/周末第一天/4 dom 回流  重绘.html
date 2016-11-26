@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        html,body,ul,li{
+            margin: 0;
+            padding: 0;
+        }
+        ul{
+            list-style: none;
+            width: 300px;
+            margin: 30px auto;
+            border: 5px solid #ccc;
+        }
+        ul li{
+            height: 40px;
+            background: lightgreen;
+            margin-bottom: 3px;
+            line-height: 40px;
+            text-align: center;
+        }
+
+    </style>
+</head>
+<body>
+    <ul id="ul">
+        <li>1</li>
+        <li>3</li>
+        <li>2</li>
+        <li>4</li>
+    </ul>
+</body>
+</html>
+<script>
+    var ul = document.getElementById('ul');
+    var lis = ul.getElementsByTagName('li'); // [li,li,li,li]
+    console.log(lis);
+    for(var i=0; i<lis.length; i++){
+        lis[i].onmouseover = function (){
+            this.style.backgroundColor = 'lightblue';
+        }
+        lis[i].onmouseout = function (){
+            this.style.backgroundColor = 'lightgreen';
+        }
+    }
+    // template模板引擎
+
+    // 页面中有1，2，3，4我想正在后面添加5,6,7,8
+//    var str = ''; // '<li></li>'
+//    for(var i=5; i<= 8; i++){
+//        str += '<li>'+ i +'</li>';
+//    }
+//    ul.innerHTML = ul.innerHTML + str; // 这是给ul.innerHTML重新赋值。导致已经存在的四个li被覆盖了
+    //ul.innerHTML += str;
+    // 使用innerHTML的方式把已经存在1，2，3，4 绑定过的事件全部都破坏了
+
+    //使用appendChild或者insertBefore(new,old)  replace(old,new)
+    var frg = document.createDocumentFragment(); // 文档碎片(就是一个临时存放dom元素的一个容器)
+    for(var i=5; i<=8; i++){
+        var li = document.createElement('li'); // 创建一个元素
+        li.innerHTML = i;
+        //ul.appendChild(li);
+        frg.appendChild(li);
+    }
+    ul.appendChild(frg);
+    frg = null;
+    // 使用动态添加的方式不会影响已经存在的元素,但是会引起多次回流。(dom元素重新渲染)
+    // dom回流: 页面内元素的增加和删除都会引起dom回流,位置的改变也会引起.
+    // dom重绘: 页面内元素样式等改变。
+    // 如何避免由于添加元素导致的多次回流？ => 尽量减少添加次数
+    // 文档碎片: 临时存放dom对象的容器。 createDocumentFragment()
+    console.log(lis); //
+
+    // DOM映射:  lis是通过dom方法获取到的元素集合。然而这个lis会随着页面内li的增加而增加，减少而减少。lis和页面内元素存在这种一一对应的关系。我们把这它称之为dom的映射.
+
+</script>

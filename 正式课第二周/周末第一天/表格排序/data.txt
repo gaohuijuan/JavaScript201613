@@ -1,0 +1,7 @@
+[
+     {"country":"中国" , "capital":"北京" , "population":14 , "GDP":5, "developed" : 0},
+     {"country":"韩国" , "capital":"首尔" , "population":0.6 , "GDP":0.8, "developed" : 1},
+     {"country":"德国" , "capital":"柏林" , "population":0.5 , "GDP":1.8, "developed" : 1},
+     {"country":"越南" , "capital":"河内" , "population":0.2 , "GDP":0.1, "developed" : 0},
+     {"country":"巴西" , "capital":"巴西利亚" , "population": 2 , "GDP":0.1, "developed" : 0}
+ ]

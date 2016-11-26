@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+</body>
+</html>
+<script>
+    // JSON : 就是一种数据格式
+
+    // 普通的js对象
+    var obj = {
+        name : 'zhufeng',
+        age : 7
+    };
+
+    // JSON格式的对象
+    var jsonObj = {
+        "name" : "zhufeng",
+        "age" : 7
+    };
+
+    // 相对于普通的js对象来说，区别1： 属性名字需要用双号号包含, 区别2: 属性值如果是字符串那么也使用双引号。
+
+    console.log('JSON' in window); // true
+    console.dir(window.JSON); //
+    /*
+    *   JSON.stringify() : 把JSON格式的对象转化为JSON格式的字符串
+    *
+    *   JSON.parse() : 把JSON格式的字符串转化为JSON格式的对象
+    *
+    * */
+    var jsonObj = {
+        "name" : "zhufeng",
+        "age" : 7
+    };
+    var jsonStr = JSON.stringify(jsonObj);
+    console.log(jsonStr); // "{"name":"zhufeng","age":7}"
+
+    var jsonObj = JSON.parse(jsonStr);
+    console.log(jsonObj); // {name: "zhufeng", age: 7}
+
+    // 在ie7及以下不兼容JSON方法 eval
+    function jsonParse(jsonStr){
+        return 'JSON' in window ? JSON.parse(jsonStr) : eval("("+jsonStr+")");
+    }
+
+
+
+
+
+
+
+
+
+
+
+</script>

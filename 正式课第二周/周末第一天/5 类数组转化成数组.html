@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+</head>
+<body>
+    <ul id="ul">
+        <li>1</li>
+        <li>3</li>
+        <li>2</li>
+        <li>4</li>
+    </ul>
+</body>
+</html>
+<script>
+    var ul = document.getElementById('ul');
+    var lis = ul.getElementsByTagName('li');
+    console.dir(lis); // [li,li,li,li]
+
+    var ary = [];
+    for(var i=0; i<lis.length; i++){
+        ary.push(lis[i]);
+    }
+
+    console.log(ary); // [li,li,li,li]
+    //
+
+    ary.sort(function (a,b){ // a,b就是这个数组中li
+        console.log(a,b); // a和b就是数组中相邻的那两个li
+        return a.innerHTML - b.innerHTML;
+    });
+    console.log(ary); // 就可以把页面内的li，按照li的innerHTML去排序了
+    //如果想让页面内的元素发生位置变化还需要把还好序的数组的每一项重新添加到页面中
+
+    var lisAry = Array.prototype.slice.call(lis,0);
+    console.log(lisAry);
+
+
+    // lis是一个类数组，如果想使用数组方法我们就需要把lis转化为数组
+    // arguments...
+    function listToArray(likeAry){
+        try{
+            return Array.prototype.slice.call(likeAry,0);
+        }catch (e){
+            var ary = [];
+            for(var i=0; i<likeAry.length; i++){
+                ary.push(likeAry[i]);
+            }
+            return ary;
+        }
+    }
+
+
+
+</script>

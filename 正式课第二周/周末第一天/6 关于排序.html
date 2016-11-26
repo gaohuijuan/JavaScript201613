@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+</html>
+<script>
+    var ary = ['a','b','c'];
+    var ary1 = [
+        {name : 'zhufeng',age : 7},
+        {name : 'zhangwen',age : 20},
+        {name : 'zhaoyanbei',age : 23}
+    ];
+    var ary2 = [5,8,7,6];
+    ary1.sort(function (a,b){
+        console.log(a,b);
+        return 1;
+        return a-b; // >0 <0 => 排序时刻是否换位置的根本原因
+        return a.name.localeCompare(b.name); // 这个也是返回一个数字
+        // return a.name - b.name; name属性的值是一个字符串，然后字符串是不可以使用减法。
+        //return a.age - b.age;
+    });
+
+    Array.prototype.slice.call(lis,0);
+    [1,2].slice()
+    [3,4].slice()
+
+
+</script>

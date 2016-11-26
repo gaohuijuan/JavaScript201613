@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+</html>
+<script>
+    function Fn(){
+        this.x = 100;
+    }
+    Fn.prototype.getX = function (){
+        console.log(this.x); // 一般是这个类的实例
+        f.x; // 100
+        Fn.prototype.x; // undefined
+    }
+    var f = new Fn();
+    f.getX(); // getX中的this是f
+    Fn.prototype.getX.call(f); // getX中的this是Fn.prototype
+    Array.prototype.myslice = function (n,m){
+        this; // ary1 [1,2]
+        //if(arguments.length == 0){}
+        n = n || 0;
+        m = m || this.length;
+
+        var ary = [];
+        for(var i=n; i<m; i++){
+            ary.push(this[i]);
+        }
+        return ary;
+
+    }
+    Array.prototype.push = function (){
+        alert('你的push不好使了');
+    }
+
+    var ary1 = [1,2];
+    var ary2 = [3,4,5];
+    ary1.slice(); // [1,2]
+    ary2.slice(); // [3,4,5]
+
+
+
+
+
+
+</script>
