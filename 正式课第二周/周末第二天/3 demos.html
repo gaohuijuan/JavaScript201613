@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+</body>
+</html>
+<script>
+    // 非空验证 => 写一个正则匹配所有的空(空字符串，空格，多个空格)
+    // ""," ", "        "
+    var reg = /^\s*$/; // 匹配所有的空 => 在验证结果取反就是非空验证
+    var str = "   a b";
+    var str = '   a       ';
+    console.log(reg.test(str));
+
+    // 有效数字验证
+    // 5 +58 -5 +5988777709.55 -5.55 -0.587       ++5.55 --5.55  +-5.55
+    var reg = /^[+-]?\d+(\.\d+)?$/;
+
+    // 邮箱验证
+    // 121170784@qq.com
+    // 121170784@qq.cc
+    // zhangwen@163.com
+    // _linmin@sina.com.cn
+    // tianxi@ijinshan.com
+    // tianxi@cmcm.com
+    // tianxi@conew.com
+    // .gov .org .edu .jp .hk .........
+    var reg = /^\w{1,26}@[0-9a-zA-Z]{1,20}(\.[a-z]{2,3}){1,2}$/;
+
+    // 21 12 24 1986 02 10 82 1 0/X
+    // 大数据
+    var reg = /\d{17}[\dx]/;
+
+
+
+
+
+</script>

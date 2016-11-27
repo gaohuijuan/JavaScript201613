@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+</html>
+<script>
+    /*
+    *   正则中或者关系:
+    *       1 "|" 代表或者 => 使用或者关系的时候，为了保证严谨。我们不妨加小括号来改变优先级。
+    *       2 [xyz] => x或者y或者z中的一个 => 无论中括号多长都是占一个字符
+    *       3 [^xyz] => 除了xyz的任意一个
+    *       4 [+-] => 在中括号这个或者中+和-都是本身
+    *       5 [.] => 代表.本身
+    *       6 [\d\s] => 仍然代表0-9中间的数字
+    *       7 [a-z] => 代表的a-z中的一个
+    *       8 [0-9] => 0-9中的一个
+    *       9 \w => [0-9a-zA-Z_]
+    * */
+    var reg = /5|6/;
+    var str = '123456789';
+    var str ='adfadf5adf';
+    var res = reg.test(str);
+    console.log(res);
+
+    var reg = /^(15|16)$/; // 只有15和16符合
+    console.log(reg.test('1516asdfassdfassdf'));
+    console.log(reg.test('asdfassdfassdf16'));
+    console.log(reg.test('16'));
+    console.log(reg.test('15'));
+    console.log(reg.test('151'));
+
+    // [xyz]
+    var reg = /[xyz]+/;
+    var reg = /[^xyz]/; // 只要字符串中有一个字符不是x也不是y也不是z就可以
+    console.log(reg.test('adfxadf')); // true
+    console.log(reg.test('xyz'));
+
+    // [.]
+    var reg = /[.]/;
+    var reg =  /[\d]/;
+    console.log(reg.test('d'));
+    console.log(reg.test('9'));
+    //console.log(reg.test('as.df'));
+
+
+
+
+</script>

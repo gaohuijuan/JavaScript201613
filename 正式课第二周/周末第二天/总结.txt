@@ -1,0 +1,58 @@
+1 特殊元字符
+    \d
+    \w
+    \s
+    \b 不占位
+    \
+    \.
+    .
+    ^
+    $
+    ^$组合一起，限制长度，限制内容必须是。。。
+    \n
+2 +
+  ?
+  *
+  {n}
+  {n,m}
+  {n,}
+3  |
+   [xyz] => 占位1
+   [^xyz] => 除了
+   [+-]
+   [.]
+   [\d]
+   [a-z]
+   [0-9]
+4  15|16 ??
+5 字面量和实例区别? 变量
+6 i : ignoreCase
+    m : multiLine
+       g : global 全文
+
+7 test
+8 exec
+    返回值: 数组
+    lastIndx
+    g
+    分组 => 返回值会有变化
+9 match
+    返回值
+    如何使用exec模拟match
+10 split & replace
+        replace的返回值 => arguments
+        str.replace(reg,"$1");
+
+11 RegExp.$n
+12 非空   有效数字   邮箱  手机号  身份证...
+13 问号的用法
+    1 量词
+    2 ?:
+    3 +?
+    ..
+14 (\w)\1分组和分组的引用
+
+=> match,exec,replace...
+
+
+周六/周日： demo，?= ,  ?!

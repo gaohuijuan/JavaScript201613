@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>正则捕获</title>
+</head>
+<body>
+
+</body>
+</html>
+<script>
+    /*
+    *   exec捕获用法:
+    *       1 捕获结果: exec的捕获结果是一个数组,数组里的第一项是正则捕获到的内容
+    *       2 捕获结果中还包含index属性，是捕获开始的索引位置,input属性是捕获的那个整个字符串
+    *       3 reg.lastIndex属性是负责下次正则从哪个位置开始匹配或者捕获
+    *       4 如果没有全文g那么lastIndex属性的值一直都是0，每次都从开头开始匹配
+    *       5 如果捕获当次没有捕获到结果返回null
+    *
+    * */
+
+    /*
+    *   正则的修饰符: i, m, g
+    *       g : 全文全局匹配
+    *       i : 忽略大小写
+    *       m : 多行匹配
+    *
+    * */
+
+    var reg = /a/img;
+    //console.log(reg.test('A'));
+
+
+
+    // 第一次捕获
+    var reg = /\d+/g;
+    var str = 'zhufeng2015peixun2016';
+
+    var res = reg.exec(str);
+    //["2015", index: 7, input: "zhufeng2015peixun2016"]
+    console.log(res);
+    console.dir(reg.lastIndex);
+
+    // 第二次捕获 => 只要正则中添加了g全文匹配。那么这一次就可以把2016捕获回来了
+    var res = reg.exec(str);
+    // ["2016", index: 17, input: "zhufeng2015peixun2016"]
+    console.log(res);
+    console.dir(reg.lastIndex);
+
+    // 第三次捕获 null
+    var res = reg.exec(str);
+    console.log(res);
+    console.dir(reg.lastIndex);
+    // 第四次捕获
+    var res = reg.exec(str);
+    console.log(res);
+    console.dir(reg.lastIndex);
+
+
+
+
+    //console.log(reg.test(str));
+</script>

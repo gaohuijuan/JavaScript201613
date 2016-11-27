@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>exec和match</title>
+</head>
+<body>
+
+</body>
+</html>
+<script>
+    var reg = /\d+/g;
+    var str = 'zhufeng2015peixun2016zhangwen2017haha2018';
+//    reg.exec(str); // [2015,index:7,input:str]
+//    reg.exec(str); // [2016,index:17,input:str]
+//    reg.exec(str); // [2017,index:29,input:str]
+//    reg.exec(str); // null
+
+    /*
+    *   match方法:
+    *       1 返回值仍然是一个数组
+    *       2 在正则中包含g，一次能够把所有字符串中符合要求的全部捕获到
+    *       3 在正则中不包含g, 和exec完全相同。也是每次从开始位置捕获。
+    *       ps: match方法在存在g的时候，虽然一次性能够把所有符合要求的比如2015,2016,2017全部捕获到。然后那个记录捕获索引位置的index属性就不存在了
+    *
+    * */
+    var res = str.match(reg);
+    console.log(res); // ['2015','2016','2017']
+
+
+    // 如何使用exec达到match效果？
+    var reg = /\d+/g; // => 如果没有这个g就直接死循环
+    var str = 'zhufeng2015peixun2016zhangwen2017haha2018';
+    var ary = []; // [2015,2016,2017,2018 ]
+    var res = reg.exec(str); //[2015,index:7,input: str]
+    while (res){ // [] => null
+        ary.push(res[0]);
+        res = reg.exec(str); //[2016,index:17,input: str]
+                             //[2017,index: ? ,input : str]
+                             //[2018,index: ? ,input : str]
+                            // null
+    }
+    console.log(ary);
+
+    // lastIndex的属性是支持赋值的
+    // lastIndex在存在g的情况下，每次执行exec方法之后都会被修改一次。match方法执行也会修改lastIndex属性。甚至test也会修改。
+    var regexp = /\d+/g;
+    var str = 'zhufeng2015peixun2016';
+    //regexp.lastIndex = 13;
+//    regexp.exec(str);
+//    console.log(regexp.lastIndex);
+//    str.match(regexp);
+//    console.log(regexp.lastIndex);
+//    regexp.test(str);
+//    console.log(regexp.lastIndex);
+
+    console.log(regexp.test(str)); // true
+    console.log(regexp.test(str)); // true
+    console.log(regexp.test(str)); // false
+    console.log(regexp.test(str)); // true
+
+
+
+
+
+
+</script>

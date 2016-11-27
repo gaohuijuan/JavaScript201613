@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>RegExp.$n</title>
+</head>
+<body>
+
+</body>
+</html>
+<script>
+    // 不兼容
+    // RegExp.$1-9 保存的是最后一个正则实例捕获到的分组的内容
+    //RegExp;
+    console.log(RegExp.$1);
+
+    var reg = /(\w)/;
+    var reg1 = /(\d)/;
+    //reg instanceof RegExp;
+    //reg1 instanceof RegExp;
+    var str = 'zhangwen';
+    var str1 = '1234';
+    reg.test(str);
+    reg1.test(str1);
+    var res = reg.exec(str);
+    reg.constructor.xxx = res[1];
+    console.log(RegExp.$1); //z
+    console.log(RegExp.xxx); //z
+
+
+
+</script>

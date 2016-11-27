@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>正则表达式基础1</title>
+</head>
+<body>
+</body>
+</html>
+<script>
+    // Array,Object,Function,Date,RegExp => regular expression
+    // 正则：正则是一个规则。这个规则由我们自来制定。
+
+    /*
+    *   正则：和字符串是息息相关的。
+    *       1 验证 : 是用来验证字符串是否符合这个正则所制定的规则。 true/false
+    *       2 捕获 :  把符合规则的部分获取. 捕获到的结果
+    *
+    * */
+
+    var ary = []; // 字面量
+    var ary  = new Array(); //实例
+
+
+    // 正则的创建,字面量和实例创建有区别
+    var reg = /a/; // 字面量的创建方式
+    //var reg = new RegExp('a'); //实例创建方式，后讲
+
+    // 正则类原型上的方法: 1 test(验证) 2 exec(捕获)
+    var reg = /a/; // 只要字符串中包含一个字母a就符合这个规则。
+    var str = 'a';
+    var str = 'ab';
+    var str = '123aaaaa456';
+    var res = reg.test(str); // true=> 小括号内的字符串符合reg所制定的规则
+    console.log(res);
+
+    /*
+    * 特殊意义的元字符:
+    *       \d : 0-9之间的数字
+    *       \w : 数字、字母、下划线  0-9 a-z A-Z _
+    *       \D : 除了\d
+    *       \W : 除了\w
+    *       \s : 空格空白制表符等
+    *       \b : 边界 不一定是字符串的开头或者结尾，空格两边也是边界 百分号 ...
+    *       \n : 换行
+    *        . : 任意字符除了\n
+    *       \. : 代表的是.本身。其中\是用来转义。 \\d
+    *       \ : 转义 => 一般是用来转特殊意义的元字符
+    *       ^ : 以什么开始
+    *       $ : 以什么结束
+    *       ps : ^$组合在一起的，那么是不仅仅约束开头和结尾，然后还约束字符串的长度。
+    *       ps : \b ^ $ 这几个只是约束限定的条件，不占位
+    * */
+    // \d
+    var reg = /\d/; // 只要字符串中包含一个数字就可以.
+    var res = reg.test('zhan8gwen'); //
+    console.log(res);
+    // \w
+    var reg = /\d\w/;
+    var str = 'zhangwen6';
+    var res = reg.test(str);
+    console.log(res);
+    // \s
+    var reg = /\s/;
+    var str = ''; // 空字符串
+    var str = ' ';
+    var res = reg.test(str);
+    console.log(res);
+
+    // \b
+    var reg = /\w\b%/;
+    var str = 'zhang%en';
+    var res = reg.test(str);
+    console.log(res);
+
+    // . 任意字符但是空字符串不行
+    var reg = /./;
+    var str = 'zhangwen';
+    var str = 'a';
+    var res = reg.test(str);
+    console.log(res);
+
+    // \. 其中\就是转义，把这个.从任意字符转义.本身
+
+    // ^
+    var reg = /^\b\d\d\b$/; // 这个字符串必须是两个连续出现的数字
+    var str = '08ass6df89';
+    var str = '08';
+    var res = reg.test(str);
+    console.log(res);
+
+    // 手机号
+    var reg = /^1\d\d\d\d\d\d\d\d\d\d$/; //
+    /*
+    *   量词 : 出现元字符的后面，修饰前面的这个字符出现的次数
+    *       ? :  0-1次 => 可以出现可以不出现
+    *       * ： 0-多次  => 可以不出现，也可以出现无数次
+    *       + :  1-多次 => 至少出现1次
+    *       {n} : 出现n次
+    *       {n,} : 至少出现n次
+    *       {n,m} : 出现n到m次
+    * */
+    var reg = /^1\d{10}$/;
+    var reg = /^\d?$/;
+    var str = '';
+    var res = reg.test(str);
+    console.log(res);
+
+
+
+
+
+
+
+
+
+
+
+
+</script>
