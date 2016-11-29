@@ -1,0 +1,48 @@
+1 clientWidth
+    clientHeight
+        clientLeft
+            clientTop
+
+                offsetWidth
+                    offsetHeight
+                        offsetTop
+                            offsetLeft
+                                offsetParent
+
+                                    scrollWidth
+                                        scrollHeight
+                                            scrollTop
+                                                scrollLeft
+        document.body.offsetParent
+        document.parentNode
+        document.body.offsetLeft 0
+        document.body.clientLeft 0
+
+2 onclick
+    ondblclick
+        onfocus
+            onblur
+                oninput
+                    onchange
+                        this.value??
+                            非空
+                                onkeydown
+                                    onkeyup
+                                        onkeypress
+
+    onmousedown
+        onmouseup
+            onmousemove
+                onmouseover
+                    onmouseout
+                        onmouseenter
+                            onmouseleave
+                                onmousewheel
+    onload
+    onerror
+    window.onscroll
+    onresize
+    ...
+3  offset方法 => 思路
+4 如何判断是不是ie8
+homework ??

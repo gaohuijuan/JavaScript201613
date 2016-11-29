@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>获取元素距离body的偏移量(无论offsetParent是谁)</title>
+</head>
+<body>
+
+</body>
+</html>
+<script>
+    /**
+     * 获取元素距离body的偏移量
+     * @param element 需要一个dom对象
+     */
+    function offset(element) {
+        var l = null;
+        var t = null;
+        // l和t上累加
+        l += element.offsetLeft; // 先把element本身的偏移累加
+        t += element.offsetTop;
+        var parent = element.offsetParent; // 这个变量的值有可能是body也有可能是element的已经定位的祖先元素
+        while (parent) { // parent: 1 : outer, 2 : outer.offsetParent
+            if (/*不是ie8*/window.navigator.userAgent.indexOf('MSIE 8') === -1) {
+            }
+            if(!(/MSIE 8/.test(window.navigator.userAgent))){
+                l += parent.clientLeft;
+                t += parent.clientTop;
+            }
+            l += parent.offsetLeft;
+            t += parent.offsetTop;
+            parent = parent.offsetParent; // 这行代码就是保证能一直获取到body的。=> 迭代parent这个循环条件
+        }
+        return {left: l, top: t};
+    }
+
+    document.documentElement.clientWidth || document.body.clientWidth; // 浏览器窗口的宽度
+    document.documentElement.scrollTop || document.body.scrollTop; // 整个窗口滚出去的高度
+
+
+    'JSON' in window; // true/false
+    window.JSON // undefined
+    window.navigator.userAgent; // "Chrome Firefox MSIE 6/7/8/9"
+
+</script>

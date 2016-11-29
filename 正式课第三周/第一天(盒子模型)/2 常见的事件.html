@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>常见的事件</title>
+    <style>
+        html,body{
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 300%;
+        }
+    </style>
+</head>
+<body>
+    onblur :  失去焦点 当继续点击其他位置，光标消失的时候
+    onfocus : 获得焦点 当向表单text元素中输入的时候，先点击然后就会出现光标
+    onchange : select 下拉菜单
+    ondblclick : 双击
+    // 拖拽相关
+    ondrag :
+    ondragstart :
+    ondragend :
+    ondragenter :
+    ondragleave :
+    //
+    oninput : 一般用于表单元素，每次输入一个字符都会触发
+    onkeydown : 按键按下的那一刻 最先触发
+    onkeypress : 按住
+    onkeyup : 按键弹起的时刻 => 输入结束
+    //
+    onload : 加载成功
+    onerror : 加载失败
+    //
+    onmousedown : 鼠标按下
+    onmouseup : 鼠标弹起
+    onmousemove : 鼠标移动
+
+    onmouseover : 鼠标悬停
+    onmouseout : 鼠标离开
+    onmouseenter : onmouseover
+    onmouseleave : onmouseout
+
+    onmousewheel : 鼠标滚轮
+    onprogress : 一般会写进度条的时候,利用百分比宽度写进度条
+
+    onresize : window.onresize浏览器窗口大小改变的时候
+    onscroll : 当滚动条滚动的时候 => 内容区域大于展示区域就会出现滚动条
+    <textarea name="" id="" cols="30" rows="10"></textarea><!--文本域-->
+    <input type="file">
+    <img src="http://url......" alt="">
+    <select name="area" id="area">
+        <option value="1">东城</option>
+        <option value="2">西城</option>
+        <option value="3">昌平</option>
+    </select>
+    <audio src=""></audio>
+    <video src=""></video>
+    <input id="input" type="text" maxlength="10" placeholder="请输入">
+<span id="tip" style="color: red; display: none;">不能为空</span>
+
+</body>
+</html>
+<script>
+    window.onresize = function (){
+        console.log('resize');
+    }
+    var input = document.getElementById('input');
+    var tip = document.getElementById('tip');
+    input.onfocus = function (){
+        console.log(this);
+    }
+    var reg = /^\s*$/; // 匹配所有的空
+    input.onblur = function (){
+        if(reg.test(this.value)){
+            tip.style.display = 'block';
+        }
+        //console.log(this.value); // value属性就是获取表单输入的内容
+    }
+    /*input.oninput = function (){
+        console.log('oninput');
+    }*/
+
+    // onchange
+    var area = document.getElementById('area');
+    area.onchange = function (){
+        console.log(this.value);
+    }
+    // onkeydown onkeyup onkeypress
+    input.onkeydown = function (){
+        console.log('down');
+    }
+    input.onkeypress = function(){
+        console.log('press');
+    }
+    input.onkeyup = function (){
+        console.log('up');
+    }
+
+
+    window.onscroll = function (){
+        console.log('onscroll');
+    }
+
+
+
+
+
+</script>

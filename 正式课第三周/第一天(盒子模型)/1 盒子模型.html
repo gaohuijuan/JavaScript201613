@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>盒子模型</title>
+    <style>
+        html,body,div{
+            margin: 0;
+            padding: 0;
+        }
+        #outer{
+            width: 300px;
+            height: 300px;
+            margin: 0 auto;
+            border: 10px solid #000;
+            padding: 100px;
+            background: yellowgreen;
+            position: relative;
+        }
+        #outer #middle{
+            width: 100px;
+            height: 100px;
+            /*border: 30px solid red;*/
+            background: deepskyblue;
+            padding: 100px;
+            overflow: auto;
+        }
+        #outer #middle #inner{
+            width: 100px;
+            height: 100px;
+            background: lightpink;
+        }
+
+
+
+    </style>
+</head>
+<body>
+    <div id="outer" class="c c1 c2 c3">
+        <div id="middle" class="c c1 c2 c3">
+            蔡振华:保证里皮执教到2019年蔡振华:保证里皮执教到2019年蔡振华:保证里皮执教到2019年蔡振华:保证里皮执教到2019年蔡振华:保证里皮执教到2019年蔡振华:保证里皮执教到2019年蔡振华:保证里皮执教到2019年蔡振华:
+            <!--<div id="inner" class="c"></div>-->
+        </div>
+    </div>
+</body>
+</html>
+<script>
+    //var outer = document.querySelector('#outer');
+    //var middle = document.querySelectorAll('.c');
+    //var middle = document.querySelectorAll('div');
+    //var middle = document.querySelectorAll('#middle div');
+    var outer = document.getElementById('outer');
+    var middle = document.getElementById('middle');
+    var inner = document.getElementById('inner');
+    console.dir(middle); //
+    console.log('clientWidth: ' + middle.clientWidth);
+    console.log('clientHeight: ' + middle.clientHeight);
+    console.log('scrollWidth: ' + middle.scrollWidth);
+    console.log('scrollHeight: ' + middle.scrollHeight);
+    console.log('scrollTop: ' + middle.scrollTop);
+    console.log('scrollLeft: ' + middle.scrollLeft);
+    middle.onscroll = function (){
+        console.log(this.scrollTop,this.scrollLeft);
+    }
+
+
+    /*
+    *   盒子模型属性:
+    *       clientWidth :  内容+左右padding
+    *       clientHeight : 内容+上下padding
+    *       clientLeft : 左边框的宽度
+    *       clientTop :  上边框的宽度
+    *
+    *       offsetWidth : clientWidth + 左右border
+    *       offsetHeight : clientHeight + 上下border
+    *       offsetParent : offsetParent的值要取决于上一级节点是否包含定位属性。然而这个定位的值必须是(relative,absolute,fixed)。如果上一级元素不包含定位属性，那么再继续向上查找，如果查找到body仍然没有。那么默认就是body。
+    *
+    *       offsetLeft : 当前元素的外边框距离offsetParent的内边框的偏移量 (水平方向)
+    *       offsetTop :  当前元素的外边框距离offsetParent的内边框的偏移量 (垂直方向)
+    *       ps: 由于offsetParent会随着定位属性变化，那么offsetLeft和offsetTop的值也会随之变化
+    *
+    *       body.offsetParent = null;
+    *       document.parentNode = null;
+    *
+    *       scrollWidth : 如果有内容溢出 => 左padding+内容宽度
+    *       scrollHeight : 如果有内容溢出 => 上padding+内容高度
+    *       ps: 如果没有内容溢出和clientWidth/clientHeight相同
+    *       scrollTop :  内容区域滚动出去的高度
+    *       scrollLeft : 内容区域滚动出去的宽度
+    *
+    *       ps: 所有盒子模型属性，只有scrollLeft和scrollTop支持赋值
+    *
+    *
+    *
+    * */
+    // draggable : false ; 是否可拖拽
+
+    middle.clientWidth;
+    middle.clientHeight;
+    middle.clientLeft;
+    middle.clientTop;
+
+    middle.offsetWidth;
+    middle.offsetHeight;
+    middle.offsetLeft;
+    middle.offsetTop;
+    middle.offsetParent;
+
+    middle.scrollWidth;
+    middle.scrollHeight;
+    middle.scrollLeft;
+    middle.scrollTop;
+
+
+    function offset(element){
+        var l = null;
+        var t = null;
+        // l和t上累加
+        l += element.offsetLeft; // 先把element本身的偏移累加
+        t += element.offsetTop;
+        var parent = element.offsetParent; // 这个变量的值有可能是body也有可能是element的已经定位的祖先元素
+        while (parent){ // parent: 1 : outer, 2 : outer.offsetParent
+            l += parent.clientLeft;
+            t += parent.clientTop;
+            l += parent.offsetLeft;
+            t += parent.offsetTop;
+            parent = parent.offsetParent; // 这行代码就是保证能一直获取到body的。=> 迭代parent这个循环条件
+        }
+        return {left : l, top : t};
+    }
+
+
+
+
+
+</script>
