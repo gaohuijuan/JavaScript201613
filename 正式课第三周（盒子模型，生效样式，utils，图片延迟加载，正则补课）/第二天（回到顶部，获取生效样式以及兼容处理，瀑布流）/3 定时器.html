@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        #div1{
+            width: 100px;
+            height: 100px;
+            background: red;
+            position: absolute;
+        }
+    </style>
+</head>
+<body>
+    <div id="div1"></div>
+
+</body>
+</html>
+<script>
+    var n = 0;
+    window.setInterval(function (){
+        n++;
+        document.getElementById('div1').style.left =  n + 'px';
+    },10);
+
+    window.setTimeout(function (){
+        console.log('ok');
+    },0);
+
+    for(var i=0; i<10000; i++){
+        console.log(i);
+
+    }
+    //while(true){}
+
+
+</script>

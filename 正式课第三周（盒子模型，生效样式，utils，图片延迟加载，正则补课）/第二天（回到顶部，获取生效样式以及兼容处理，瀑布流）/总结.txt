@@ -1,0 +1,9 @@
+1 getComputedStyle(ele,null)  ele.currentStyle
+2 getCss
+3 setCss
+4 回到顶部
+5 utils.....setCss自己写里去
+6 瀑布流
+
+明天: 多张图片延迟加载 (下周考试的内容) css+images+utils
+周末： dom库 getCss setCss 正则表达式 getElementsByClassName..

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        html,body{
+            margin: 0;
+            padding: 0;
+        }
+        div{
+            width: 200px;
+            height: 200px;
+            background: yellowgreen;
+            position: absolute;
+            left: 200px;
+            top : 200px;
+            opacity: .4;
+            filter : alpha(opacity=20.5);
+        }
+        div:before{
+            content: "我是通过before";
+            display: block;
+            height: 30px;
+            color: red;
+        }
+        div:after{
+            content: "我是通过after";
+            display: block;
+            height: 30px;
+            color: blue;
+        }
+    </style>
+</head>
+<body>
+    <div id="div1">
+        <span>我是span</span>
+    </div>
+</body>
+</html>
+<script>
+    var div1 = document.getElementById('div1');
+    // 通过style设置的样式设置在元素的行内样式上 => 通过js设置的样式都设置在行内样式上
+    // 通过style获取样式也只能获取写在行内的
+
+    // 那么没有写在行内并且还生效的样式如何获取呢？？？
+    // 获取已经生效(经过浏览器计算并且渲染过后的样式)??
+
+    //window.JSON; window.setTimeout; window.Math;//....
+
+    /*
+    *   获取元素生效样式:
+    *       // 标准
+    *       1 window.getComputedStyle(ele,'before')
+    *       ele： 获取ele的样式  before: 伪类样式
+    *
+    *       // ie6-8
+    *       2 ele.currentStyle
+    *
+    *       ps: 在标准浏览器是一个方法来获取，而在ie6-8中在ele的currentStyle属性上保存着生效的样式
+    *
+    * */
+
+    //var res = window.getComputedStyle(div1,'before');
+    //console.log(res.content); //
+    //console.log(res.width); // "200px"
+    //console.log(res.opacity); // '1'
+    //var res = div1.currentStyle;
+    //console.log(res.width);
+
+    // 获取已经生效的样式
+
+    // try catch
+    // 'JSON' in window
+    // window.JSON
+    // MSIE6/7/8
+    //getCss(div1,'width');
+    //getCss(div1,'display'); //"block" "inline-block" 'none'
+    getCss(div1,'opacity'); //
+
+    function getCss(ele,attr){
+        var val = null; // 就是我要返回的结果
+        if(window.getComputedStyle){ // function,undefined
+            val = window.getComputedStyle(ele)[attr];
+        }else{ // for ie6-8
+            if(attr == 'opacity'){
+                val = ele.currentStyle.filter;
+                //alpha(opacity=20.5) || ""
+                var reg = /^alpha\(opacity=(\d+(?:\.\d+)?)\)$/;
+                val = reg.test(val) ? reg.exec(val)[1]/100  : 1;
+            }else{
+                val = ele.currentStyle[attr];
+            }
+            // ele.currentStyle['opacity']
+        }
+        // 代码运行到这里已经获取到val的值了
+        // "200px" "0.5" -50px  "50.55" "5em"  "30deg"
+
+
+        var reg = /^-?\d+(?:\.\d+)?(?:px|pt|rem|em|deg)?$/;
+        if(reg.test(val)){
+            val = parseFloat(val); // 如果符合这个正则的就把单位去掉
+        }
+        return val; // 返回这个结果 => 经过加工处理的结果
+
+        // "block" 'left'
+        // clientWidth => 200
+        // getCss(div1,width) => "200px"
+
+    }
+
+
+
+
+
+
+
+</script>

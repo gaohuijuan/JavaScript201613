@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>瀑布流</title>
+    <style>
+        html,body,ul,li{
+            margin: 0;
+            padding: 0;
+        }
+        ul{
+            list-style: none;
+            width: 30%;
+            float: left;
+            /*height: 300px;*/
+        }
+        ul:nth-child(1){ /*odd*/
+            /*background: deepskyblue;*/
+        }
+        ul:nth-child(2){ /*even*/
+            /*background: yellowgreen;*/
+            margin: 0 5%;
+        }
+        ul:nth-child(3){
+            /*background: lightpink;*/
+        }
+    </style>
+</head>
+<body>
+    <ul></ul>
+    <ul></ul>
+    <ul></ul>
+</body>
+</html>
+<script src="utils.js"></script>
+<script>
+    var uls = document.getElementsByTagName('ul'); // [ul,ul,ul]
+    // 要排序
+    var ulsAry = Array.prototype.slice.call(uls); // listToArray
+    function appendLiToUl(){
+        for(var i=0; i<50; i++){
+            // 创建50li循环添加到ul中，每次添加给高度最小的ul。ul的高度会随着li的增加而改变。所以每次需要重新排序
+            ulsAry.sort(function (ul1,ul2){ //按照高度排序
+                return utils.getCss(ul1,'height') - /*ul2*/utils.getCss(ul2,'height');
+            });
+            var shortUl = ulsAry[0]; //最矮的ul
+            var li = createLi(); //
+            shortUl.appendChild(li);
+        }
+
+    }
+    appendLiToUl();
+
+    function createLi(){ //随机高度和颜色的li
+        var li = document.createElement('li');
+        // 100 - 150
+        li.style.height = utils.getRandom(100,250) + 'px';
+        li.style.backgroundColor = "rgb("+ utils.getRandom(0,255) +","+ utils.getRandom(0,255) +","+ utils.getRandom(0,255) +")";
+        return li;
+    }
+
+
+    window.onscroll = function (){
+        var scrollHeight = utils.win('scrollTop'); // 滚出去的高度
+        if(scrollHeight > document.body.scrollHeight - 1000 ){
+            //当滚出去的高度大于一个临界值(自己设定)的时候就再去创建50个li。真正项目中一定是再去获取一些新的数据回来然后重新渲染到网页中。
+            appendLiToUl();
+        }
+    }
+
+
+
+
+</script>

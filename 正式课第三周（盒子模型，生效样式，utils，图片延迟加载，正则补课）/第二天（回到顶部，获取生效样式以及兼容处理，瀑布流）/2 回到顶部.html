@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>回到顶部</title>
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 300%;
+            background: -webkit-linear-gradient(top, yellowgreen, deepskyblue, lightpink);
+        }
+
+        #button {
+            text-decoration: none;
+            display: none;
+            width: 50px;
+            height: 50px;
+            background: #fff;
+            border: 5px solid #000;
+            border-radius: 50%;
+            line-height: 50px;
+            text-align: center;
+            font-family: "microsoft yahei";
+            color: #000;
+            -webkit-user-select: none;
+            position: fixed;
+            right: 20px;
+            bottom: 20px;
+            font-size: 30px;
+        }
+
+    </style>
+</head>
+<body>
+<a id="button" href="javascript: void 0">顶</a>
+</body>
+</html>
+<script src="utils.js"></script>
+<script>
+    var button = document.getElementById('button');
+    button.onclick = function () {
+        window.clearInterval(button.timer);
+        button.timer = setInterval(function () {
+            var scrollT = utils.win('scrollTop');
+            if (scrollT <= 0) {
+                clearInterval(button.timer);
+                window.onscroll = fn;
+                return;
+            }
+            scrollT -= 10;
+            utils.win('scrollTop', scrollT);
+        }, 20);
+        button.style.display = 'none';
+        window.onscroll = null;
+    }
+    window.onscroll = fn;
+    function fn() {
+        var clientHeight = utils.win('clientHeight');
+        var scrollHeight = utils.win('scrollTop');
+        if (scrollHeight > clientHeight) {
+            button.style.display = 'block';
+        }
+    }
+
+
+</script>
+<!--<script>-->
+<!--var button = document.getElementById('button');-->
+<!--// 给按钮绑定点击事件-->
+<!--var speed = 20; // speed *= 0.98;-->
+<!--// var timer = null; // 1 2 /*3*/-->
+<!--// 减速？？？ => 速度越来越小-->
+<!--button.onclick = function (){-->
+<!--button.timer && window.clearInterval(button.timer); // 只要点击就把上一次留存的定时器清除,防止定时器累加问题-->
+<!--// scrollTop-->
+<!--button.timer = window.setInterval(function (){-->
+<!--var cur = utils.win('scrollTop'); // 先获取到当前的scrollTop的值-->
+<!--if(cur <= 0 ){ // 过界判断 , 已经到达顶部。-->
+<!--window.clearInterval(button.timer);-->
+<!--window.onscroll = fn;-->
+
+<!--return;-->
+<!--}-->
+<!--cur = cur - speed; // cur -= speed; 减去速度-->
+<!--utils.win('scrollTop',cur); // 再把新的值赋值回去-->
+<!--},10);-->
+
+<!--this.style.display = 'none'; // 点击结束之后启动了一个定时器，而这个定时器就是不断驱动滚动条滚动。只要滚动条滚动就会触发window.onscroll事件。那么这个事件被触发按钮又被显示。-->
+<!--// 那么点击之后就把这个onscroll事件移除-->
+<!--window.onscroll = null;-->
+<!--}-->
+<!--// 回到顶部的按钮在滚动条已经滚出去一个屏的高度然后再显示-->
+<!--window.onscroll = fn;-->
+
+<!--function fn(){-->
+<!--// 给浏览器窗口绑定一个滚动条滚动事件-->
+<!--// 事件触发的时刻，判断已经滚出去的高度是否超过了一个屏的高度-->
+<!--//console.log('scroll');-->
+<!--var screenHeight = utils.win('clientHeight'); // 当前窗口高度-->
+<!--var scrollHeight = utils.win('scrollTop'); // 已经滚出去的高度-->
+<!--if(scrollHeight > screenHeight ){-->
+<!--button.style.display = 'block';-->
+<!--}/*else{-->
+<!--button.style.display = 'none';-->
+<!--}*/-->
+
+
+<!--}-->
+
+
+<!--</script>-->
