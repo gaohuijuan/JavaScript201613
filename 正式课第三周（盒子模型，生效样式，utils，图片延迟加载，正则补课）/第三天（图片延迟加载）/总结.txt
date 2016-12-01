@@ -1,0 +1,14 @@
+1 图片延迟加载
+2 如何判断图片是否完全进入到浏览器窗口内
+   utils.win('clientHeight')+utils.win('scrollTop') > box.offsetHeight + utils.offset(box).top;
+
+3 图片有效性验证
+        1) 临时图片   tempImg  new Image()
+        2) tempImg.src = img.getAttribute('???')
+        3) tempImg.onload = function (){
+                img.src = this.src;
+            }
+        4)  img.isloaded = true;
+4 ajax 缓存 304  在url的最后拼接字符串 "?"
+5 多张图片延迟加载
+6 fadeIn(淡入) => 淡出
