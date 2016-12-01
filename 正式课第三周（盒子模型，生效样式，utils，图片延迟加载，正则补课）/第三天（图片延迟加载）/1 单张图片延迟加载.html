@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>单张图片延迟加载</title>
+    <style>
+        html,body,div,img{
+            margin: 0;
+            padding: 0;
+        }
+        #box{
+            width: 300px;
+            height: 200px;
+            margin: 1000px auto;
+            border: 10px solid #000;
+            background: url("images/load.jpg") no-repeat center #ccc;
+        }
+        #box img{
+            width: 100%;
+            height: 100%;
+            border: none;
+            vertical-align: top;
+        }
+    </style>
+</head>
+<body>
+    <div id="box"><img src="" zhangwen="images/6.jpg"  /></div>
+</body>
+</html>
+<script src="utils.js"></script>
+<script>
+    /*
+    *   图片延迟加载思路:
+    *       1 img标签的src属性就是用来加载图片资源的。然后有些图片在刚打开网页的时候不再我的可视窗口内。那么这些图片暂时不用去加载。
+    *       2 当滚动条滚动的时刻，这个图片完全进入到窗口内再去加载这张图片。其实就是让src属性赋值。
+    *       3 这个src的属性暂时存在了标签自定义属性上
+    *       4 当符合判定条件(完全进入)把这个自定义属性的值赋值给src属性
+    *       5 当这个图片资源无效那么在网页会显示一个图片加载失败的logo。那么我们还要做图片有效性验证
+    *
+    * */
+    var box = document.getElementById('box');
+    var img = box.getElementsByTagName('img')[0];
+    //绑定滚动事件
+    window.onscroll = function (){
+        // 滚轮事件发生的时候我要判断图片是否完全进入
+        // 浏览器窗口高度和滚出去的高度
+        var _a = utils.win('clientHeight') + utils.win('scrollTop');
+        // 盒子的高度和盒子相对于body的上偏移量
+        var _b = box.offsetHeight + utils.offset(box).top;
+        if(_a > _b){
+            // 这个条件符合那么说明图片完全进入到窗口内
+            //img.src = img.getAttribute('zhangwen');
+            //这个img.src只要加载失败那么必然会在网页内出现加载失败的logo
+            //需要一个临时图片帮这个真实的img去加载这个资源。这个资源加载成功之后，再让真实页面内的img再去加载
+            if(img.isLoaded){ // undefined
+                return;
+            }
+            var tempImg = document.createElement('img');
+            tempImg.src = img.getAttribute('zhangwen'); //让这个临时图片去加载真实图片的资源
+            tempImg.onload = function (){
+                // 当这个图片加载src资源成功的时刻触发
+                // 说明这个图片资源没有问题
+                img.src = this.src; //  this就是这个临时图片
+            }
+            img.isLoaded = true; // img的资源已经加载过，无论成功还是失败都没有必要去验证第二次。
+
+        }
+    }
+    //window.onscroll();
+
+
+
+
+
+</script>

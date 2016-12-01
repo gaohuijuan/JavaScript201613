@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>多张图片延迟加载</title>
+    <!--移动端 meta:vp -->
+    <!--keywords-->
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <style>
+        html,body,ul,li,h2,p,img,div{
+            margin: 0;
+            padding: 0;
+            font-family: "microsoft yahei";
+        }
+        .newsList{
+            list-style: none;
+            padding: 15px;
+        }
+        .newsList li{
+            position: relative;
+            height: 60px;
+            border-bottom: 1px dashed #ccc;
+            padding:  10px 0;
+        }
+        .newsList li div:nth-child(1){
+            position: absolute;
+            left: 0;
+            top: 10px;
+            width: 60px;
+            height: 60px;
+            background: url("images/default.jpg") no-repeat center;
+            background-size: 100% 100%;
+        }
+        .newsList li div:nth-child(1) img{
+            width: 100%;
+            height: 100%;
+            border: none;
+            vertical-align: top;
+        }
+        .newsList li div:nth-child(2){
+            height: 60px;
+            margin-left: 75px;
+        }
+        .newsList li div:nth-child(2) h2{
+            padding: 2px;
+            font-size: 14px;
+            /*省略号*/
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        .newsList li div:nth-child(2) p{
+            height: 32px;
+            line-height: 16px;
+            font-size: 12px;
+            color: #999;
+            overflow: hidden;
+            /*p溢出的位置也需要省略号*/
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 2;
+        }
+
+    </style>
+</head>
+<body>
+    <ul class="newsList">
+        <li>
+            <div><img src="images/1.jpg"></div>
+            <div>
+                <h2>艾滋感染者借药现象调查：免费药也藏“商机”</h2>
+                <p>
+                    “恐艾症”男性占九成  艾滋病人60岁以上老年男性增长较快“恐艾症”男性占九成  艾滋病人60岁以上老年男性增长较快“恐艾症”男性占九成  艾滋病人60岁以上老年男性增长较快
+                </p>
+            </div>
+        </li>
+        <li>
+            <div><img src="images/2.jpg" ></div>
+            <div>
+                <h2>艾滋感染者借药现象调查：免费药也藏“商机”</h2>
+                <p>
+                    “恐艾症”男性占九成  艾滋病人60岁以上老年男性增长较快“恐艾症”男性占九成  艾滋病人60岁以上老年男性增长较快“恐艾症”男性占九成  艾滋病人60岁以上老年男性增长较快
+                </p>
+            </div>
+        </li>
+        <li>
+            <div><img src="images/3.jpg" ></div>
+            <div>
+                <h2>艾滋感染者借药现象调查：免费药也藏“商机”</h2>
+                <p>
+                    “恐艾症”男性占九成  艾滋病人60岁以上老年男性增长较快“恐艾症”男性占九成  艾滋病人60岁以上老年男性增长较快“恐艾症”男性占九成  艾滋病人60岁以上老年男性增长较快
+                </p>
+            </div>
+        </li>
+    </ul>
+</body>
+</html>
+<script src="index.js"></script>
+
