@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>顶</title>
+    <style>
+        html,body{
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 300%;
+            background: -webkit-linear-gradient(top,yellowgreen,pink,darkblue);
+        }
+        #link{
+            position: fixed;
+            right: 20px;
+            bottom : 20px;
+            display: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            text-decoration: none;
+            color: #fff;
+            background: #000;
+            text-align: center;
+            line-height: 50px;
+            font-size: 30px;
+        }
+
+    </style>
+</head>
+<body>
+    <a  id="link" href="javascript:void 0">顶</a>
+</body>
+</html>
+<script>
+    var link = document.getElementById('link');
+    //var timer;
+
+    link.onclick = function (){
+        window.clearInterval(this.timer); // 每次点击把上一次的定时器清除
+        this.timer = window.setInterval(function (){
+            var scrollTop = win('scrollTop');
+            if(scrollTop <= 0){
+                window.clearInterval(link.timer);
+
+                window.onscroll = fn; // 到达顶部再把这个滚动事件重新绑定上。否则下次再去滚动已经没有效果了
+
+                return;
+            }
+            scrollTop -= 10; // 9 8 .....
+            win('scrollTop',scrollTop);
+            //console.log(win('scrollTop'));
+        },10);
+        //console.log(timer);
+
+        //this.style.display = 'none';
+        //window.onscroll = null;
+
+    }
+
+    window.onscroll = fn; // 绑定scroll事件
+
+    function fn(){
+        //console.log(123)
+        // 给浏览器绑定滚动条滚动事件
+        // 滚出去的高度大于当前浏览器窗口的高度显示按钮
+        var scrollTop = win('scrollTop'); //获取滚出去的高度
+        var clientHeight = win('clientHeight'); //窗口高度
+        if(scrollTop > clientHeight){
+            link.style.display = 'block';
+        }else{
+            link.style.display = 'none';
+        }
+    }
+
+
+    function win(attr,val){
+        if(typeof val == 'undefined'){
+            return document.documentElement[attr] || document.body[attr];
+        }
+        document.documentElement[attr] = val;
+        document.body[attr] = val;
+    }
+</script>

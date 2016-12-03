@@ -1,0 +1,24 @@
+1 盒子模型
+    clientWidth
+    clientHeight
+    clientLeft
+    clientTop
+
+    offsetWidth
+    offsetHeight
+    offsetLeft
+    offsetTop
+    offsetParent
+
+    scrollWidth
+    scrollHeight
+    scrollTop: 赋值
+    scrollLeft : 赋值
+
+2  offset  utils方法
+
+3 returnTop 减速
+
+明天 ： 多张图片延迟加载  UTILS其他方法  正则表达式补课
+
+

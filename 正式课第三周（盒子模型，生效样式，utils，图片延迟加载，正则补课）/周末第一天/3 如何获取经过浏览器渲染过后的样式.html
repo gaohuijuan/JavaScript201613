@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        html,body,div{
+            margin: 0;
+            padding: 0;
+        }
+        #div1{
+            width: 100px;
+            height: 100px;
+            background: red;
+            position: absolute;
+            left: 100px;
+            top : 100px;
+            opacity: 0.4;
+            filter: alpha(opacity=60);
+        }
+        #div1:after{
+            content: "after";
+        }
+    </style>
+</head>
+<body>
+     <div id="div1"></div>
+</body>
+</html>
+<script>
+    /*
+        获取元素已经生效的样式:
+
+    *   window.getComputedStyle(ele) 获取ele已经经过渲染过后的样式
+    *   ele.currentStyle  for ie6-8
+    * */
+    var div1 = document.getElementById('div1');
+    //var res  = window.getComputedStyle(div1);
+    //var res = div1.currentStyle;
+    //console.log(res);
+    //window.getComputedStyle(div1).width;
+    //window.getComputedStyle(div1).height;
+    function getCss(ele,attr){
+        var val = null;
+        if(window.getComputedStyle){
+            val =  window.getComputedStyle(ele)[attr];
+        }else{ // for ie
+            if(attr == 'opacity'){
+                val = ele.currentStyle.filter;
+                // alpha(opacity=40.50)  ""
+                var reg = /(\d+(?:\.\d+)?)/;
+                val = reg.test(val) ? reg.exec(val)[0]/100 : 1;
+                //val = reg.test(val) ? val.match(reg)[0]/100 : 1;
+            }else{
+                val =  ele.currentStyle[attr];
+            }
+        }
+        // "200px" => 200  "-200px" "1"  "0.5" "1rem" "50.5deg"
+        //  "block" "none" "flex" 'left'
+        var reg = /^-?\d+(\.\d+)?(px|em|rem|deg)?$/;
+        return reg.test(val) ? parseFloat(val) : val;
+//        if(reg.test(val)){
+//            val = parseFloat(val);
+//        }
+//        return val;
+    }
+    console.log(getCss(div1,'width'));
+    console.log(getCss(div1,'opacity'));
+
+
+    //window.getComputedStyle(div1,"before"); //第二个参数是获取伪类样式
+
+    function getCss(ele,attr){
+        var val = null;
+        if('getComputedStyle' in window){
+            val = window.getComputedStyle(ele)[attr];
+        }else{
+            if(attr == 'opacity'){
+                val = ele.currentStyle['filter']; // alpha(opacity=50.5)
+                var reg = /^alpha\(opacity=(\d+(?:\.\d+)?)\)$/;
+                val = reg.test(val) ? reg.exec(val)[1]/100 : 1;
+            }else{
+                val = ele.currentStyle[attr];
+            }
+        }
+        var reg = /^-?\d+(\.\d+)?(px|em|deg|rem)?$/;
+        return reg.test(val) ? parseFloat(val) : val;
+    }
+
+    div1.onclick = function (){
+        console.log(this);
+    }
+
+
+
+
+
+
+</script>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        html, body, div {
+            margin: 0;
+            padding: 0;
+        }
+
+        #outer {
+            width: 100px;
+            height: 100px;
+            background: lightpink;
+            border: 10px solid #000;
+            margin: 100px;
+            padding: 100px;
+            /*这个绝对定位是相对于元素的margin的值来定位的*/
+            position: absolute;
+            left: 100px;
+            top: 0;
+            overflow: auto;
+        }
+
+        #outer #middle {
+            width: 100px;
+            height: 100px;
+            background: deepskyblue;
+        }
+    </style>
+</head>
+<body>
+<div id="outer">
+    <div id="middle"></div>
+</div>
+</body>
+</html>
+<script>
+    var middle = document.getElementById('middle');
+    // offset就是用来获取元素距离body的偏移量。(offsetParent是谁都没关系)
+    offset(middle);
+    function offset(ele) {
+        var l = null;
+        var t = null;
+        l += ele.offsetLeft; //先累加ele自己的偏移量
+        t += ele.offsetTop;
+        // 如果存在offsetParent,那么应该把offsetParent的边框和offsetParent的offsetLeft累加
+        var parent = ele.offsetParent; //先获取一次
+        //parent = ele.offsetParent.offsetParent; // outer
+        //parent = ele.offsetParent.offsetParent.offsetParent; // body
+        //parent = ele.offsetParent.offsetParent.offsetParent.offsetParent; //null
+
+        while (parent) {
+            // 判断当前浏览器是不是ie8
+            // window.navigator.userAgent 包含着当前浏览器的信息 Chrome Firefox MSIE 6  MSIE 7 MSIE 8 9,10
+            if (window.navigator.userAgent/*string*/.indexOf('MSIE 8') === -1) {
+                l += parent.clientLeft; //parent的边框
+                t += parent.clientTop;
+            }
+            l += parent.offsetLeft; // parent距离parent.offsetParent的偏移
+            t += parent.offsetTop;
+            parent = parent.offsetParent; //迭代条件
+        }
+        return {left: l, top: t};
+    }
+
+    //
+    document.documentElement/*html*/.clientWidth || document.body.clientWidth;
+
+    //win('scrollTop'); 获取浏览器窗口的scrollTop
+    //win('scrollTop',0) 设置浏览器滚出去的高度的值为0
+    function win(attr,val){
+        if(typeof val == 'undefined'){
+            return document.documentElement[attr] || document.body[attr];
+        }
+        document.documentElement[attr] = val;
+        document.body[attr] = val;
+    }
+
+
+</script>

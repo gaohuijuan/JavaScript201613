@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div id="div1"></div>
+</body>
+</html>
+<script>
+    var div1 = document.querySelector('#div1');
+//    div1.style.width = 200 + 'px';
+//    div1.style.height = 200 + 'px';
+//    div1.style.background = 'red';
+//    div1.style.marginLeft = -70 + 'px'
+    setCss(div1,'width','200px'); // height left... margin padding marginLeft paddingLeft
+    setCss(div1,'height',300);
+    setCss(div1,'background','green');
+    setCss(div1,'display','block');
+    setCss(div1,'opacity',0.5);
+
+    setGroupCss(div1,{width : 500,height : 500});
+    setGroupCss(div1,div1);
+    function setGroupCss(ele,obj){
+        obj = obj || []; // 保证toString不报错
+        if(obj.toString() == '[object Object]'){
+        }
+
+        for(var key in obj){
+            // key : width,height
+            // val : obj[key]  obj[key]
+            // val : obj.width  obj.height
+            if(obj.hasOwnProperty(key)){
+                setCss(ele,key,obj[key]);
+            }
+
+        }
+
+    }
+
+
+
+
+    function setCss(ele,attr,val){
+        if(attr === 'opacity'){
+            ele.style.opacity = val;
+            ele.style.filter = 'alpha(opacity=' + val*100 + ')';
+            return;
+        }
+        if(attr === 'float'){
+            ele.style.cssFloat = val; // 标准
+            ele.style.styleFloat = val; // IE6-8
+        }
+        var reg = /^(width|height|left|right|top|bottom|(margin|padding)(Left|Right|Top|Bottom)?)$/;
+        if(reg.test(attr)){
+            if(!isNaN(val)){
+                val += 'px';
+            }
+        }
+        ele.style[attr] = val;
+    }
+
+
+</script>
