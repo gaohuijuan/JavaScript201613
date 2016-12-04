@@ -68,7 +68,7 @@ var utils = {
         // 200px -59.45px  0.9 ....   block
         var reg = /^-?\d+(\.\d+)?(px|pt|em|rem|deg)?$/;
         if(reg.test(val)){
-            val = parseFloat(val);
+            val = parseFloat(val); // '0.5'
         }
         return val;
     },

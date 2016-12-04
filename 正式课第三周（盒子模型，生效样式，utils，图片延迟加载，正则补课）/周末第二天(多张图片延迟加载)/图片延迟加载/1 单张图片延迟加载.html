@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>单张图片延迟加载</title>
+    <style>
+        html,body,div,img{
+            margin: 0;
+            padding: 0;
+        }
+        .box{
+            width: 300px;
+            height: 300px;
+            margin: 1000px auto;
+            border: 10px solid #000;
+            background: url("images/load.jpg") no-repeat center;
+        }
+        .box img{
+            width: 100%;
+            height: 100%;
+            border: none;
+            vertical-align: top;
+        }
+    </style>
+</head>
+<body>
+    <div class="box"><img src="" realSrc="images/19.jpg"></div>
+</body>
+</html>
+<script src="utils1.0.js"></script>
+<script>
+    //setAttribute('属性名',"属性值")
+    //getAttribute("属性名")
+
+    /*
+    *   clientWidth : 内容+左右padding
+    *   clientHeight : 内容+上下padding
+    *   clientLeft : 左边框
+    *   clientTop : 上边框
+    *
+    *   offsetWidth : clientWidth + 左右边框
+    *   offsetHeight : clientHeight + 上下边框
+    *   offsetParent : 祖先元素哪有有定位(absolute,relative,fixed)
+    *   offsetLeft : 盒子外边框距离offsetParent内的水平偏移量
+    *   offsetTop : 盒子外边框距离offsetParent内的垂直偏移量
+    *
+    *   scrollWidth : 左padding + 内容宽度
+    *   scrollHeight : 上padding + 内容高度
+    *   scrollLeft : 滚动条滚出去的宽度
+    *   scrollTop : 滚动条滚出去的高度
+    * */
+    var box = document.getElementsByClassName('box')[0];
+    var img = box.getElementsByTagName('img')[0];
+    window.onscroll = function (){
+        //console.log('scroll');
+        // a: 获取的是窗口的高度和窗口已经滚出去的高度
+        var a = utils.win('clientHeight') + utils.win('scrollTop');
+        // b : 盒子本身自己的高度和盒子距离body的上偏移量
+        var b = box.offsetHeight + utils.offset(box).top;
+        if(a > b){
+            // 如果条件成立那么这个图片就是已经完全进入到窗口内,就需要把img的realSrc的属性值赋值到src上。
+            //img.src = img.getAttribute('realSrc');
+            // 图片资源有效性验证，
+            if(img.isLoaded){ return; } //第一次一定是undefined
+            var tempImg = document.createElement('img');
+            tempImg.src = img.getAttribute('realSrc'); // 这行代码运行结束这个临时图片已经去加载这个资源了
+            // 给临时图片添加一个onload事件，这个事件在图片成功加载之后就会被触发.
+            tempImg.onload = function (){
+                // 这个事件如果不会被触发，说明资源是无效的。真实图片的src属性就赋值不上。
+                img.src = this.src; // this=> tempImg
+            }
+            tempImg = null; // 临时图片可以主动销毁
+            img.isLoaded = true; // 只要这个图片加载过，那么无论成功还是失败都没有必要去加载第二次，只要加载过一次。这个图片就存在这个属性并且这个属性值是真
+        }
+    }
+
+
+    /*
+    *   图片延迟加载:
+    *       1 判断图片是否进入到窗口内
+    *       2 有效性验证
+    *           声明一个临时的img  tempImg
+    *           tempImg.src属性去加载真实图片的src资源
+    *           添加onload事件,图片加载成功会被触发
+    *           添加一个自定义属性用来记录当前这个图片是否已经加载过
+*           ps : 临时图片和真实图片如果成功那么是否加载两次了？
+*               浏览器默认存在缓存机制。对于曾经加载过的资源浏览器会缓存到本地一份。第二次再去加载的时候，先去查看这个资源是否加载过(这个路径是否已经加载过存在) ctrl+f5 清缓存刷新
+    *
+    * */
+
+
+
+
+</script>

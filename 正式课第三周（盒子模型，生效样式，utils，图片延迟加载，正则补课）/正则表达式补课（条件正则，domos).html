@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+</html>
+<script>
+    // exec repalce:arguments match
+
+    // 1 替换数字
+    var str = '211224'; // "贰壹壹贰贰肆"  130110
+    var str = '12354321'; // "贰壹壹贰贰肆"  130110
+    var reg = /(\d)/g;
+    var str1 = '零壹贰叁肆伍陆柒捌玖';
+    //         0 1 2 3 4 5 6 7 8 9
+    str = str.replace(reg,function (){
+        // arguments [2,index,input];
+        //console.log(arguments[0]); // 2 1 1 2 2 4
+        return str1.charAt(arguments[0]);
+    });
+    console.log(str);
+
+    // 2  模板实现
+    //'2016年12月04日 18点13分50秒';
+
+    var str = '2016-12-04 18:13:50';
+    var res = str.split(/[-:\s]/);  // [2016,12,04,18,13,50]
+                    2016,12,  04,   18,  13,  50;
+    var template = "{0}年{1}月{2}日 {3}时{4}分{5}秒";
+    var reg = /{(\d)}/g; //这个正则是根据模板来写的
+    str = template.replace(reg,function (){
+        // arguments : [{0},0,index,input]
+        // arguments[1] 就是每次获取到分组1的内容。0,1,2,3,4,5
+        return res[arguments[1]]; // 把分组捕获到的0,1,2,3,4,5当作索引到res这个数组中去获取项
+    });
+    console.log(str);
+
+    // 3 formatQueryURL  面试 => 添加到String.prototype上
+    var str = "data.txt?name=zhangwen&gender=1"; //传值字符串
+    //str.format(); => obj
+    var reg = /([^?=&]+)=([^?=&]+)/g;
+    var obj = {};
+    str.replace(reg,function (){
+        // [name=zhangwen,name,zhangwen,index,input]
+        obj[arguments[1]] = arguments[2];
+        // 把第一个分组当作属性名字，第二个分组当作属性值
+    });
+    console.log(obj);
+    /*var obj = {
+        name : 'zhangwen',
+        gender : 1
+    };*/
+
+
+    // 4 求一个字符串中出现最多的字符
+    var str = 'aabbccddac';
+    //  a : 3, b:2, c:2, d:2
+    // {a:3, b:2, c:2, d:2} => 如何把上面字符串变成这样的对象 => obj[cur] = cur
+    // if(这个属性存在)那么我就累加1，如果不存在那么就赋值一个1
+    // 挑出最大的属性值 => 挑最大值
+    // 根据最大值挑出属性
+    // 最大值不一定是一个
+
+
+
+
+
+
+
+
+
+
+
+</script>

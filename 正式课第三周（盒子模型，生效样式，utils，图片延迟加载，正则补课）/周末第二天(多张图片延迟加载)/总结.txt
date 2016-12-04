@@ -1,0 +1,4 @@
+1 多张图片延迟加载  考试: getElesByClass  .newsList
+2 utils方法  addClass hasClass removeClass/bug/ getElesByClass
+3 自运行函数+return
+4 正则表达式的应用

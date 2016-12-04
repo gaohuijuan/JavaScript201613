@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>addClass,removeClass,hasClass,getElesByClass</title>
+</head>
+<body>
+<div id="box" class="c5 c6 c1-c2 c3 c6c1 c1 c6">
+    /(^| )c6( |$)/
+    <p class="c1 c3 c4"></p>
+    <span class="c2 c4"></span>
+    <ul id="ul" class="c3 c2 c1">
+        <li class=" c2 c3 c4 c5"></li>  c1 c2
+        <li class="c2 c1"></li>
+        <span class="c1 c3"></span>
+        <p class="c2 c4 c2 c2"></p>
+    </ul>
+</div>
+</body>
+</html>
+<script>
+    var eles = document.getElementsByClassName('c1 c2'); // [ele,ele]
+    var ul = document.getElementById('ul');
+
+    getElesByClass('c1 c2', ul);
+    //getElesByClass('c1 c2');
+    function getElesByClass(className, context) {
+        // context上下文 => 获取范围
+        context = context || document; // context至少要保证一个document
+        // 先判断下getElementsByClassName是否兼容
+        var ary = [];
+        //把context范围内所有的标签全部获取到
+        var eles = context.getElementsByTagName('*'); // [li,li,span,p]
+        // 从eles这个集合(类数组)中挑出包含c1和c2的
+        var classNameAry = className.replace(/(^ +| +$)/g, "")/*去首尾空格*/.split(/ +/); // ['c1','c2']
+
+        for (var i = 0; i < eles.length; i++) { // 循环所有的元素
+            var curEle = eles[i]; // li,li,p,span
+            // 让每一个元素都和所有的类名做比较
+            var isGoodEle = true; // 假设每一个元素都是符合条件的
+            for (var j = 0; j < classNameAry.length; j++) { // 循环所有的类名字
+                var curClass = classNameAry[j]; // 'c1','c2'
+                var reg = new RegExp("(^| +)" + curClass + "( +|$)");
+                if(!reg.test(curEle.className)){
+                    // 只要有一个类名字没有验证通过那么这个元素的假设不成立。
+                    isGoodEle = false;
+                    break;
+                }
+            }
+            if(isGoodEle){
+                ary.push(curEle);
+            }
+        }
+        return ary;
+    }
+
+
+    var box = document.getElementById('box');
+
+    var res = hasClass(box, 'c1');
+    console.log(res); // true
+
+    function hasClass(ele, classNameStr) {
+        // (^| +)c6( |$)
+        var reg = new RegExp("(^| +)" + classNameStr + "( +|$)");
+        return reg.test(ele.className);
+    }
+
+    addClass(box, ' c6 c7 ');
+    /(^ +| +$)/g
+    //'c6   c7'.split(' ');
+    function addClass(ele, className) {
+        // 先去掉className这个字符串的首尾空格
+        var classNameAry = className.replace(/(^ +| +$)/g, '').split(/ +/);
+        // ['c6','c7']
+        for (var i = 0; i < classNameAry.length; i++) {
+            var curClass = classNameAry[i]; // 'c6'/'c7'
+            if (!hasClass(ele, curClass)) {
+                // 如果ele没有curClass，那么我就在ele.className的末尾添加一个空格和当前的这个curClass
+                ele.className += ' ' + curClass;
+            }
+        }
+    }
+
+    // 移除类
+    removeClass(box, 'c5 c6');
+    function removeClass(ele, className) {
+        var classNameAry = className.replace(/(^ +| +$)/g, "").split(/ +/);
+        // ['c5','c6']
+        for (var i = 0; i < classNameAry.length; i++) {
+            var curClass = classNameAry[i]; // 'c5'/'c6'
+            if (hasClass(ele, curClass)) { //如果有curClass这个类才移除
+                // 如果是替换或者捕获操作需要全文g,如果是匹配那么这个g可以没有
+                var reg = new RegExp("(^| +)" + curClass + "( +|$)", "g");
+                // replace方法只会返回一个新的替换好的字符串，那么如果想修改ele.className还需要把这个替换好的字符串重新赋值给ele.className
+                ele.className = ele.className.replace(reg, ' ');
+            }
+        }
+    }
+
+
+</script>

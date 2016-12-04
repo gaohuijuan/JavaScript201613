@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>多张图片延迟加载</title>
+    <!--meta:vp-->
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <style>
+        html,body,div,ul,li,h2,p,img{
+            margin: 0;
+            padding: 0;
+            font-family: "microsoft yahei";
+        }
+        .newsList{
+            list-style: none;
+            padding: 10px;
+        }
+        .newsList li{
+            height: 60px;
+            padding: 10px 0;
+            border-bottom: 1px dashed #ccc;
+            position: relative;
+        }
+        .newsList li div:nth-child(1){
+            position: absolute;
+            left: 0;
+            top: 10px;
+            width: 60px;
+            height: 60px;
+            background: url("images/default.jpg") no-repeat;
+            background-size: 100% 100%;
+        }
+        .newsList li div:nth-child(1) img{
+            width: 100%;
+            height: 100%;
+            border: none;
+            vertical-align: top;
+            opacity: 0;
+        }
+        .newsList li div:nth-child(2){
+            height: 60px;
+            margin-left: 70px;
+        }
+        .newsList li div:nth-child(2) h2{
+            padding: 3px;
+            font-size: 14px;
+            /*省略号*/
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        .newsList li div:nth-child(2) p{
+            height: 32px;
+            font-size: 12px;
+            color: #666;
+            line-height: 16px;
+            overflow: hidden;
+            /*在p描述的第二行写一个省略号*/
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 2;
+        }
+
+    </style>
+</head>
+<body>
+    <ul class="newsList">
+        <!--<li>
+            <div><img src="images/1.jpg" realSrc="images/1.jpg"></div>
+            <div>
+                <h2>中国去年380万对夫妇离婚 婚外情是头号杀手</h2>
+                <p>据英国《经济学人》网站12月3日报道，穿着深蓝色西服、戴着银色手表、不停抽烟的于峰</p>
+            </div>
+        </li>-->
+    </ul>
+</body>
+</html>
+<script src="utils1.0.js"></script>
+<script>
+    // 1 获取元素
+    var ul = document.querySelectorAll('.newsList')[0];
+    var imgs = ul.getElementsByTagName('img');
+
+    // 2 获取数据
+    ;(function getData(){
+        var xhr = new XMLHttpRequest();
+        // 在url的末尾添加一个随机数保证每次请求的都不是本地缓存
+        xhr.open('get','data.txt?_='+Math.random(),false);
+        xhr.onreadystatechange = function (){
+            // 404 304 502
+            if(xhr.readyState == 4 && /^2\d{2}$/.test(xhr.status) ){
+                window.data = JSON.parse(xhr.responseText);
+            }
+        }
+        xhr.send(null);
+    })();
+    console.log(data); // [obj,obj...]
+
+    // 3 绑定数据
+    ;(function bindData(){
+        if(window.data){ //[obj,obj...]
+            var str = "";
+            for(var i=0; i<data.length; i++){
+                var curDataObj = data[i];
+                str += '<li>';
+                str += '<div><img src="" realSrc="'+ curDataObj.src +'"></div>';
+                str += '<div><h2>'+ curDataObj.title +'</h2><p>'+  curDataObj.desc +'</p></div>';
+                str += '</li>';
+            }
+            ul.innerHTML = str;
+        }
+    })();
+
+    // 4 图片延迟加载+图片有效性验证
+    function duoZhang(){
+        for(var i=0; i<imgs.length; i++){
+            var curImg = imgs[i]; // 每一张图片 => 页面中的每一个img标签
+            if(curImg.isLoaded) { continue; } // 如果当前这个图片加载过那么就不用加载了。但是下一张图片还要继续
+            var a = utils.win('clientHeight') + utils.win('scrollTop');
+            var b = curImg.parentNode.offsetHeight + utils.offset(curImg.parentNode).top;
+            if(a > b){ // 当前这个curImg完全进入窗口
+                // 把curImg这个单张的图片做有效性验证延迟加载
+                danZhang(curImg);
+                fadeIn(curImg);
+            }
+        }
+    }
+    function danZhang(img){
+
+        //var tempImg = new Image();
+        var tempImg = document.createElement('img');
+        tempImg.src = img.getAttribute('realSrc');
+        tempImg.onload = function (){
+            img.src = this.src;
+        }
+        tempImg.isLoaded = true;
+    }
+
+    duoZhang();
+    window.onscroll = duoZhang;
+    function fadeIn(img){ // 淡入
+        img.timer = window.setInterval(function (){
+            var opacity = utils.getCss(img,'opacity');
+            if(opacity >= 1){
+                window.clearInterval(img.timer);
+                return;
+            }
+            opacity += 0.01;
+            //utils.setGroupCss(img,{opacity : opacity});
+            utils.setCss(img,'opacity',opacity);
+        },10);
+    }
+
+
+
+
+</script>
