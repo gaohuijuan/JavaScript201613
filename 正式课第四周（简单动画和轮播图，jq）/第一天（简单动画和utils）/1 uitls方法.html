@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div id="div1">
+        <img src="" alt="">
+
+        <!--s-->
+        <ul>
+            <li></li>
+            <li id="li2"></li>
+            <li></li>
+            <li></li>
+        </ul>
+
+        <p id="p"></p>
+        <span id="span"></span>
+    </div>
+</body>
+</html>
+<script src="utils2.0.js"></script>
+<script>
+    var div1 = document.getElementById('div1');
+    //utils.children(div1,'p'); //获取所有元素子节点中的p标签
+    //utils.children(div1); //获取所有元素子节点
+    //utils.getCss(div1,'width');
+    //utils.setCss(div1,'width',300);
+    //utils.setGroupCss(div1,{width:500,height:500});
+
+    utils.css(div1,"width"); // => getCss
+    utils.css(div1,"width",500); // => setCss
+    utils.css(div1,{width:300,height:300}); // => setGroupCss
+
+    function setCss(ele,attr,val){
+        this.style[attr] = val;
+    }
+    Element.prototype.setCss = setCss; //
+    div1.setCss('width',300);
+
+</script>

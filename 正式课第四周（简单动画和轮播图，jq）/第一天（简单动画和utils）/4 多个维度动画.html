@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        #div1{
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100px;
+            height: 100px;
+            background: yellowgreen;
+        }
+    </style>
+</head>
+<body>
+    <div id="div1"></div>
+</body>
+</html>
+<script src="utils2.0.js"></script>
+<script>
+    var div1 = document.getElementById('div1');
+    var time = 0;
+    var duration = 1000;
+    var begin = {
+//        width : utils.css(div1,'width'),
+//        height : utils.css(div1,'height'),
+//        left : utils.css(div1,'left')
+    };
+    var target = { // 主动规定的
+        width : 200,
+        height : 200,
+        left : 400,
+        opacity : 0
+    };
+    var change = {
+//        width : target.width - begin.width,
+//        height : target.height - begin.height,
+//        left : target.left - begin.left
+    };
+    for(var key in target){
+        // key: width,height,left,opacity target存在的属性，那么begin和change都要有
+        begin[key] =  utils.css(div1,key); // 向begin中添加和target一样的属性
+        change[key] = target[key] - begin[key];
+    }
+
+    div1.timer = window.setInterval(function (){
+        time += 10;
+        //for(var key in change){}
+            // key : width , height , left
+            // t b c d
+        if(time >= duration){
+            window.clearInterval(div1.timer);
+            utils.css(div1,target);
+            //utils.css(div1,'height',target.height);
+            return;
+        }
+        for(var key in change){
+            var value = linear(time,begin[key],change[key],duration);
+            utils.css(div1,key,value);
+        }
+        //var value = linear(time,begin.height,change.height,duration);
+        //utils.css(div1,'height',value);
+    },10);
+    function linear(t,b,c,d){
+        return b + t/d*c;
+    }
+
+
+
+
+
+</script>

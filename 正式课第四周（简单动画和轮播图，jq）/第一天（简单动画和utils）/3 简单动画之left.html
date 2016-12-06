@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        #div1 {
+            position: absolute;
+            left: 100px;
+            top: 100px;
+            width: 100px;
+            height: 100px;
+            background: yellowgreen;
+        }
+    </style>
+</head>
+<body>
+<div id="div1"></div>
+</body>
+</html>
+<script src="utils2.0.js"></script>
+<script>
+    var div1 = document.getElementById('div1');
+    // 这是盒子在当前窗口内的最大left值
+ //   var maxLeft = utils.win('clientWidth') - div1.offsetWidth;
+  //  var minLeft = 0;
+//    var timer = window.setInterval(function () {
+//        var left = utils.css(div1, 'left'); // 获取当前的left的值
+//        if (left + 5 >= maxLeft) {
+//            utils.css(div1, 'left', maxLeft);
+//            window.clearInterval(timer);
+//            return;
+//        }
+//        left += 5;
+//        utils.css(div1, {left: left});
+//    }, 10);
+
+    // 2  根据公式来计算
+    var begin = utils.css(div1,'left'); // 盒子当前的位置 起点
+    var beginHeight = utils.css(div1,'height');
+    var time = 0; // 花费的时间 => 盒子没动的时候花费的时间是0
+    var duration = 1000; // 总时间 => 在1000毫秒内运动到达终点
+    var target = utils.win('clientWidth') - div1.offsetWidth; //终点位置
+    var targetHeight = 300;
+    var change = target - begin; // 这个才是需要改变的距离
+    var changeHeight = targetHeight - beginHeight;
+    var timer = window.setInterval(function (){
+        // 不断的改变盒子的位置。=> 不断修改的就是盒子的left的值
+        // 花费的时间/规定的时间 = 运动的距离/总距离
+        // time/duration = ?/change 这个问号代表的是你改变的距离,但是不一定位置
+        time += 10; // 花费的时间越来越长
+        // 由于花费时间的改变导致位置的改变
+        if(time >= duration){ //花费的时间大于规定的时间
+            window.clearInterval(timer);
+            utils.css(div1,'left',target); //主动设置到终点
+            utils.css(div1,'height',targetHeight);
+            return;
+        }
+        //var left = begin + time/duration*change;
+        var left = linear(time,begin,change,duration);
+        var height = linear(time,beginHeight,changeHeight,duration);
+        utils.css(div1,'left',left);
+        utils.css(div1,'height',height);
+    },20);
+
+    function linear(t,b,c,d){
+        // t : time(花费) b : begin(开始位置) c : change(改变距离) d : duration(规定时间)
+        return b + t/d*c;
+    }
+
+
+
+
+</script>

@@ -1,0 +1,9 @@
+1 utils里的方法补全
+    children
+    prev:....
+    css : => 修改this
+    Element.prototype.getCss => getCss方法中有this this=>ele
+2 定时器 => js动画
+3 简单匀速动画   function linear(){  t,b,c,d }
+4 多维度的动画  for in
+5 自己封装一下然后试一试 
