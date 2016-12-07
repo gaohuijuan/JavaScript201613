@@ -1,0 +1,16 @@
+1 animate方法 => ele,target,duration => opt 不需要照顾顺序
+
+2 左右轮播图 => 样式
+               图片有效性验证 => 闭包 => 可以使用自定义属性
+               autoMove自动轮播 => step的问题
+               if(step == data.length){
+                   step = 0;
+                   left : 0
+               }
+
+               绑定左右按钮
+
+               焦点对齐  =>  var tempStep???最后索引值需要处理
+
+               点击焦点 => this.index的问题
+
