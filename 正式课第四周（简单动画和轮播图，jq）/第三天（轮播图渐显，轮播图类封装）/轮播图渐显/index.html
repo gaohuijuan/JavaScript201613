@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>轮播图渐显</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div id="banner" class="banner">
+        <div class="bannerInner">
+
+        </div>
+        <ul class="focusList">
+
+        </ul>
+        <a  class="left" href="javascript:void 0"></a>
+        <a class="right" href="javascript:void 0"></a>
+    </div>
+    <div id="banner2" class="banner">
+        <div class="bannerInner">
+
+        </div>
+        <ul class="focusList">
+
+        </ul>
+        <a  class="left" href="javascript:void 0"></a>
+        <a class="right" href="javascript:void 0"></a>
+    </div>
+
+</body>
+</html>
+<script src="js/utils2.0.js"></script>
+<script src="js/animate_easy.js"></script>
+<!--
+<script src="js/index.js"></script>-->
+<script src="js/bannerClass.js"></script>
+<script>
+    var banner = document.getElementById('banner');
+    var banner2 = document.getElementById('banner2');
+    new Banner(banner,'data.txt');
+    new Banner(banner2,'data2.txt',4000);
+
+</script>
