@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div id="div1" zhang="wen"></div>
+    <input type="radio" checked disabled>
+    <input type="text" value="请输入">
+</body>
+</html>
+<script src="jquery-1.11.3.js"></script>
+<script>
+    // attr(属性，属性值) : 如果属性值存在那么是设置，否则获取，自定义属性
+
+    var $div1 = $('#div1');
+    $div1.attr('school','zhufeng'); // 设置属性
+    $div1.attr('school'); // 获取
+
+    // removeAttr('属性名') : 删除属性
+    $div1.removeAttr('school');
+
+    // html(value) value有值就是设置html，否则获取html
+    $div1.html('珠峰培训'); // 设置
+    $div1.html(); // 获取
+
+    // text(value) 文本 => innerText
+
+    // prop(name,value) => 一般用于原生属性, checked disabled 表单元素的选中和置灰操作必须使用prop
+    $('input:radio').prop('checked',false);
+
+    // val(value) => 如果value存在设置，否则获取value的值
+    $('input:text').val('aaaa');
+
+    // jq.addClass('className')  添加类
+    // jq.removeClass('className') 移除类
+    // jq.toggleClass('className') 如果存在就是移除，否则添加
+    // jq.hasClass('className') 返回一个布尔值。是否包含这个class
+
+
+    // 文档处理
+
+    // append(子元素)
+    var $newEle = $('<p></p>').html('哈哈');
+    //$('#div1').append($newEle);
+
+    // appendTo() 和append相反
+    $newEle.appendTo($('#div1'));
+
+    // prepend(), prependTo() 添加前面
+
+    // insertBefore(), insertAfter() 插入操作
+
+    // before(),after()
+    $('#div1').before('<ul></ul>'); // 在div1前添加ul标签
+
+    // wrap()
+    $('#div1').wrap('<h2></h2>'); // div1添加一层包裹元素
+
+    // unwrap()
+    $('#div1').unwrap(); // 去掉包裹
+
+    // remove() 移除节点  removeChild
+
+    // clone() 克隆节点  cloneNode(true)
+
+
+
+
+
+
+
+
+
+
+</script>

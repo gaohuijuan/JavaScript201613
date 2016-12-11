@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>const</title>
+	<style>
+		button{
+			display: inline-block;
+			margin-top:20px;
+			margin-left: 20px;
+		}
+		.pwd-input{
+			margin-top:20px;
+		}
+	</style>
+</head>
+<body>
+	<div>
+		<div>
+			<label for="name">姓名</label><input type="text" id="name" placeholder="6到12位" >
+		</div>
+		<div class="pwd-input">
+			<label for="pwd">密码</label><input type="password" id="pwd">
+		</div>
+		<button type="button" id="btn">登录</button>
+		<p id="errorInfo"></p>
+	</div>
+	<script>
+	let name=document.getElementById('name');
+	let pwd =document.getElementById('pwd');
+	let btn = document.getElementById('btn');
+	let errorInfo=document.getElementById('errorInfo');
+	const eInfo={
+		nameError:"请输入账户名",
+		pwdError:"请输入密码",
+	}
+	btn.onclick=()=>{
+		let nameVal = name.value;
+		let pwdVal = pwd.value;
+		if(!nameVal){
+			errorInfo.innerHTML=eInfo.nameError;
+			return ;
+		}
+		if(!pwdVal){
+			errorInfo.innerHTML=eInfo['pwdError'];
+			return ;
+		}
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	</script>
+</body>
+</html>

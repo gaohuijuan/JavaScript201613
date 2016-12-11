@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>常用方法</title>
+</head>
+<body>
+    <div id="div1"></div>
+    <div id="div2"></div>
+    <div id="div3"></div>
+</body>
+</html>
+<script src="jquery-1.11.3.js"></script>
+<script>
+    // 如何把一个原生dom对象转化成jQuery对象 => $(dom对象)
+    // 如何把一个jQ对象转化成dom对象 => get(索引)
+    var div1 = document.getElementById('div1'); // [0: div1]
+    // $('#div1').get(0).getElementsByTagName('div');
+
+    // css方法 => 设置样式
+    //$(div1).css({width:300,height:300,background:'red'});
+    $('#div1').css({width:300,height:300,background:'red'});
+
+    // offset方法 => utils.offset() => {left : 100, top :  100}
+    var res = $('#div1').offset();
+
+    // position方法 => 距离父元素的偏移
+    var res = $('#div1').position();
+
+    // scrollTop(value) => 如果value存在就是来设置，否则获取
+    // scrollLeft(value)
+    // height(value) => 如果value存在就是设置高度， 否则获取
+    // width(value)
+    // innerWidth() => clientWidth
+    // innerHeight() => clientHeight
+    // outerWidth() => offsetWidth
+    // outerHeight() => offsetHeight
+
+
+
+    console.log(res);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//    function jQuery(){
+//
+//    }
+//    jQuery.prototype.css = function (){
+//        this[0];
+//    }
+//    function $(){
+//        return new jQuery();
+//    }
+//    $('#div1');
+
+
+
+
+</script>

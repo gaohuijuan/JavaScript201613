@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+</html>
+<script src="jquery-1.11.3.js"></script>
+<script>
+//    var xhr = new XMLHttpRequest();
+//    xhr.open('get','data.txt?_='+Math.random(),false);
+//    xhr.onreadystatechange = function (){
+//        if(xhr.readyState ==  4 && xhr.status == 200){
+//            xhr.responseText;
+//        }
+//    }
+//    xhr.send(null);
+
+//   data.txt?sex=1&age=30
+    /([^?=&]+)=([^?=&]+)/g;
+    $.ajax({
+        type : 'get/post',
+        url : 'data.txt?_='+Math.random(),
+        dataType : 'json', // html text
+        async : true, // true/false
+        cache : true, // true/false 缓存
+        data : {sex:1,age:30}, // 参数, 提交给后台的参数
+        success : function (data){
+            // data: 成功之后获取到的数据
+        },
+        error : function (){
+
+        }
+    });
+
+    // 延迟对象
+    // $.get('data.txt').done(function (data){ });
+
+
+
+    //function jQuery(){}
+    //var $ = jQuery;
+    //$.prototype;
+    // 工具类的方法都添加在jQuery类本身，然后对于依赖dom结构的方法都添加在jQuery的原型上。
+    //$.ajax = function (){}
+
+
+
+
+</script>

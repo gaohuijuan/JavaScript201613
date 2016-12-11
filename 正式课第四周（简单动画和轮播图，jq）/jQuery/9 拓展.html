@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>jQuery拓展</title>
+</head>
+<body>
+    <div id="div1"></div>
+</body>
+</html>
+<script src="jquery-1.11.3.js"></script>
+<script>
+    // 基于jQuery拓展组件 => 有很多组件都是基于jQuery
+
+    $('#div1').css('width',1000);
+    $.ajax();
+
+//    function jQuery(){}
+//    jQuery.prototype.css = function (){}
+//    jQuery.ajax = function (){}
+
+    // 这是拓展在原型上的方法 => 只有 jQuery实例才可以调用
+    $.fn.extend({ // => $.prototype
+        haha : function (){
+            alert('haha');
+        },
+        xixi : function (){
+            alert('xixi');
+        }
+    });
+
+    jQuery.prototype.hehe = function (){
+        alert('hehe');
+    }
+
+    $('#div1').haha();
+    $().xixi();
+    $().hehe();
+
+    // 直接拓展在$也就是jQuery本身上的方法 => 只有jQuery自己调用
+    $.extend({
+        heihei : function (){
+            alert('heihei');
+        }
+    });
+    //$.heihei();
+
+    $('#div1').__proto__.constructor.heihei();
+
+    console.log($.fn === jQuery.prototype);
+
+
+
+
+
+</script>

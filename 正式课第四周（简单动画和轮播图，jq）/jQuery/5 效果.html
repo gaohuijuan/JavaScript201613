@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>效果</title>
+    <style>
+        #div1{
+            width: 100px;
+            height: 100px;
+            position: absolute;
+            background: red;
+        }
+    </style>
+</head>
+<body>
+    <div id="div1"></div>
+</body>
+</html>
+<script src="jquery-1.11.3.js"></script>
+<script>
+    var $div1 = $('#div1');
+    // hide() : 如果hide没有参数直接消失，参数 : 2000 , 'fast' , 'slow'
+    //$div1.hide(300);
+
+    // show() : 可以支持参数，如果是一个数字动画显示
+    //$div1.show(300);
+
+    // fadeIn() 淡入
+    //$div1.fadeIn();
+
+    // fadeOut() 淡出
+    //$div1.fadeOut();
+
+    // fadeToggle()
+
+    // $div1.hide(300).show(300).fadeIn(300).fadeOut(300)
+
+    // slideDown()
+
+    // slideUp()
+    //$div1.slideUp().slideDown().slideToggle().slideToggle();
+
+    // ele, target, duration, effect, callback
+    // animate(target,duration,effect,callback)
+    // target: 终点   duration : 完成运动的时间, effect ： 效果, callback : 回调函数 => 动画结束之后要执行的函数
+    $div1.animate({width: 200, height : 200, left : 300, top : 300, opacity : 0.5 }, 2000, 'linear', function (){
+        alert('animate is finish');
+    });
+
+    // stop(); 停止正在运行的动画然后执行新的动画
+
+    $div1.stop().animate()
+
+
+
+
+</script>

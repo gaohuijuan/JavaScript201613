@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div id="div1">
+        <p></p>
+        <span></span>
+        <div id="div2"></div>
+        <ul>
+            <li></li>
+            <li class="li2" data-index="1"></li>
+            <li class="li3"></li>
+        </ul>
+
+    </div>
+</body>
+</html>
+<script src="jquery-1.11.3.js"></script>
+<script>
+    var $div1 = $('#div1');
+    //$('#div1 .li2');
+    //$('#div1 span');
+
+    // find方法  子孙后代查找
+    $div1.find('.li2').html('xxxx');
+    $div1.find('span').html('span');
+
+    // children方法  只在子节点中查找
+    $div1.children('p').html('p');
+
+    // parent() 父节点 => parentNode
+
+    $('.li2').parent()
+
+    // prev() prevAll() next() nextAll() siblings()
+
+    // index()
+
+    // filter过滤 : 一般在一个集合中过滤出自己想要的元素
+    $('#div1').find('li').filter('.li2,.li3').html('zhangwen');
+
+    // 并且filter方法支持属性过滤
+    $('#div1').find('li').filter('[data-index=1]').html('哈哈');
+
+    // closest(selector) : 从当前元素向上查找祖先元素
+    $('.li3').closest('div')
+
+
+
+
+
+
+</script>

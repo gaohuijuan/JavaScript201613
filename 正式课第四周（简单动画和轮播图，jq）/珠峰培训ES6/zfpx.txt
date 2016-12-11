@@ -1,0 +1,9 @@
+我叫贺文榜
+
+
+ES6 新增了一种数据类型 Symbol var a=Symbol();
+    新增俩个声明变量的操作符  let 和 const
+    解构赋值  
+    字符串的扩展  模板字符串 
+    数值的扩展  Math.trunc();
+    数组的扩展  Array.from();

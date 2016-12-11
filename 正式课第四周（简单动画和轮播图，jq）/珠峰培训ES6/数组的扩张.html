@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>
+		数组的扩展
+	</title>
+</head>
+<body>
+	<div id="box">
+		
+	</div>
+	<button type="button" id="btn">按钮</button>
+	<script>
+		// Array.from();
+		// function likeToAry(likeAry){
+		// 	var arr=[];
+		// 	try{
+  //        		arr=[].slice.call(likeAry);
+		// 	}catch(e){
+		// 		for(var i=0;i<likeAry.length;i++){
+		// 			arr.push(likeAry[i]);
+		// 		}
+		// 	}
+		// 	return arr;
+		// }
+		let  box = document.getElementById('box');
+		let  btn = document.getElementById('btn');
+		let cUl=document.createElement('ul');
+		for(let i=0;i<20;i++){
+			let cLi = document.createElement('li');
+			cLi.innerHTML=i+1;
+			cUl.appendChild(cLi);
+		}
+		box.appendChild(cUl);
+		btn.onclick=()=>{
+			let oUl=document.getElementsByTagName('ul')[0];
+			let oLis=oUl.getElementsByTagName('li');
+			let arrLis=Array.from(oLis);
+			arrLis.sort((a,b)=>{
+				return parseInt(b.innerHTML) - parseInt(a.innerHTML);
+			});
+			// arrLis.forEach(function(val){
+			// 	oUl.appendChild(val)
+			// });
+			console.log(arrLis);
+			for(var i=0;i<arrLis.length;i++){
+				oUl.appendChild(arrLis[i])
+			}
+			
+		}
+		
+		
+
+
+
+
+
+
+
+
+
+
+
+
+
+	</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

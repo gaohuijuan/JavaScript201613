@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <ul>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+    </ul>
+</body>
+</html>
+<script src="jquery-1.11.3.js"></script>
+<script>
+    //$('#div1');
+    //$.ajax();
+
+    // trim去首尾空格
+    var res = $.trim(' a ');
+    console.log(res.length);
+
+    // $.isPlainObject() 判断是不是一个{}对象
+
+    // $.unique(); 去重复
+
+    // $.....工具类方法
+
+    // 循环
+    var ary = ['a','b','c'];
+    ary.forEach(function (item,index){});
+    // for
+    // for in
+    // forEach(function (item,index){   })
+    // map(function (item,index){ return;  })
+    $.each(ary,function (index,item){
+         console.log(index,item);
+    });
+
+
+    $('ul li').each(function (index,item){
+        $(this).html(index+1);
+    });
+
+
+
+
+//    var $lis = $('ul li');
+//    $.each($lis,function (index,item){
+//        // each方法中的this和item可以认为是同一个
+//        //console.log(index,item);
+//        $(this).html(index+1);
+//        //$(item).html(index+1);
+//    });
+
+
+    /*
+    *   $.each(function (index,item){})
+    *
+    *   $().each(function (index,item){})
+    *
+    *   ps: 这两个方法不是同一个方法。$.each是定义在jQuery本身   $().each()这个是定义在jQuery.prototype上的
+    *
+    * */
+
+
+
+
+
+
+</script>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>事件</title>
+</head>
+<body>
+    <div id="div1" style="width: 100px; height: 100px; background: red;"></div>
+</body>
+</html>
+<script src="jquery-1.11.3.js"></script>
+<script>
+    // 1
+    // jq.click(fn).mouseover()........
+    // jq.mouseout()
+    // .....
+
+    // 2 主动触发事件使用trigger方法 => 刷新页面直接要执行的方法
+
+//    $('#div1').click(function (){
+//        this; // => div1
+//        $(this).css('width',200);
+//    }).mouseover(function (){
+//        $(this).css('height',300);
+//    }).trigger('click').trigger('mouseover');
+
+    // 3 on 同一个事件类型可以绑定多个函数
+    var $div1 = $('#div1')
+    function fn1(){ console.log(1) }
+    function fn2(){
+        console.log(2);
+        $div1.off('click',fn2);
+    }
+
+//    $('#div1').on('click',function (){
+//        $(this).css({background: 'green'});
+//    }).on('click',function (){
+//        $(this).css('opacity',0.5);
+//    }).off('click');
+
+    $div1.on('click',fn1).on('click',fn2).on('mouseover',function (){
+        console.log(3);
+    })
+
+
+    // 4 off方法负责移除事件   $div1.off('click')
+
+
+
+
+
+
+
+
+
+</script>

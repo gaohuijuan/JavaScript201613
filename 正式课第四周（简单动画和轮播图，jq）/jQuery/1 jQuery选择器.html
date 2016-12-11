@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        #div1{
+            width: 100px;
+            height: 100px;
+            background: red;
+        }
+    </style>
+</head>
+<body>
+    <div id="div1" class="div1" style="display: none">珠峰培训</div>
+    <div id="div2" class="div2" style="width: 0; height: 0;">珠峰张温</div>
+    <div id="div3" class="div3">
+        <p>zhangwen</p>
+        <span>zhagaoge</span>
+    </div>
+    <div id="div4" class="div4">
+        <p>zhangwen</p>
+        <span>zhagaoge</span>
+    </div>
+    <div id="div5" class="div5"></div>
+    <input type="text">
+    <input type="text" name="select">
+    <input type="radio" name="sex" checked>
+    <input type="radio" name="sex">
+    <input type="checkbox" name="hobby" zhang="wen">
+    <input type="checkbox" name="hobby">
+    <input type="checkbox" name="hobby" checked disabled>
+</body>
+</html>
+<script src="jquery-1.11.3.js"></script>
+<script>
+
+    //document.getElementsByClassName('div1')[0];
+    //document.getElementsByTagName('div');
+
+    // jQuery => jQ
+    //document.querySelectorAll('#div1')
+    //document.querySelectorAll('.div1')
+    //document.querySelectorAll('div')
+    /*
+    *   jQuery就是一个强大的工具。是一个高度封装的js框架。
+    *   其中DOM的处理是比较好的。
+    * */
+
+    // 选择器
+    var div1 = document.getElementById('div1'); // 原生
+    //document.querySelectorAll('#div1'); // 原生
+    var $res = $('#div1'); // 通过id获取
+    // ps: 如果使用jQuery方法获取到的元素可以在变量前添加一个$符号
+    var $res = $('.div1'); // 通过类名获取
+    var $res = $('div'); // 通过标签
+    // 使用逗号做间隔可以一次获取多个元素
+    var $res = $('#div1,#div2,#div3');
+
+
+    // 获取后代元素
+    var $res = $('#div3>p');
+
+    // 获取弟弟
+    var $res = $('#div2+');
+    // 所有弟弟
+    var $res = $('#div2~');
+
+    // 过滤
+    var $res = $('div:first'); // 第一个
+    var $res = $('div:last'); // 最后一个
+    var $res = $('div:not(#div2)'); //not:除了
+    var $res = $('div:odd'); // odd: 奇数索引
+    var $res = $('div:even'); // even: 偶数索引
+    var $res = $('div:lt(2)'); // lt : 小于  索引
+    var $res = $('div:gt(1)'); // gt : 大于  索引
+    var $res = $('div:eq(3)'); // eq : 等于  索引
+
+    // 内容过滤
+    var $res = $('div:contains(珠峰)'); // 包含指定内容
+    var $res = $('div:empty'); // empty: 空内容 没有子节点
+    var $res = $('div:parent'); // parent: 内容不为空 包含子节点
+    var $res = $('div:has(span)'); // has(p) : 包含(选择器)
+    var $res = $('div:hidden'); // hidden : 隐藏 display: none, width height : 0
+    var $res = $('div:visible'); // visible : 可见的
+
+    // 属性过滤
+    var $res = $('input[type=checkbox]'); // [attr=value]属性过滤
+    var $res = $('input[type=checkbox][zhang=wen]'); // 支持多个属性过滤
+    var $res = $('input[type!=checkbox]'); // 属性过滤支持否定选择
+    var $res = $('input[name^=sex]'); // 属性值以value开头
+    var $res = $('input[name$=ect]'); // 属性值以value结尾
+    var $res = $('input[name*=sex]'); // 属性值中包含value
+
+    // 表单元素特有的过滤
+    var $res = $('input:radio'); // checkbox  text file...
+    var $res = $('input:checked'); // 选中状态的 => 购物车全选操作
+    var $res = $('input:disabled'); // 置灰状态的 => 霸王条款
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    console.log($res);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /*function jQuery(selector){
+        var ary = [];
+        if(/^#(\w+)/.test(selector)){
+            ary.push(document.getElementById(RegExp.$1));
+            ary.context = document;
+            ary.selector = selector;
+            return ary;
+        }
+
+    }*/
+
+</script>

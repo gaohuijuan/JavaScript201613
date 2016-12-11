@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>对象的扩展</title>
+	<style>
+	body,ul,li,div{
+		margin: 0;
+		padding: 0;
+	}
+	ul,li{
+		list-style: none;
+	}
+	.tab{
+		height: 40px;
+	}
+	.tab li{
+		float: left;
+		width: 100px;
+		height: 40px;
+		line-height: 40px;
+		text-align: center;	
+		background-color:#9da;
+		color:#fff;
+	}
+	.tab li.change{
+		background-color:darkblue;
+	}
+	.tab li.s-green{
+		background-color:green;
+	}
+	.con div{
+		width: 300px;
+		height:300px;
+		line-height: 300px;
+		text-align: center;
+		color: #000;
+		display: none;
+	}
+	.con div.show{
+		display: block;
+	}
+</style>
+</head>
+<body>
+	<div  id="box">
+		<!-- <ul class="tab">
+			<li class="change">腾讯视频</li>
+			<li>腾讯体育</li>
+			<li>腾讯新闻</li>
+		</ul>
+		<div class="con">
+			<div class="show">腾讯视频vip</div>
+			<div>腾讯体育vip</div>
+			<div>腾讯新闻VIP</div>
+		</div> -->
+	</div>
+	<script>
+	 	// 对象的扩展
+	 	//键值和键名名字一样写一个就好
+	 	// var name='hwb';var obj={name,song(){},}
+	    var box=document.getElementById('box');
+	    var data=
+	    [
+	    	{"title":'腾讯视频',"con":'腾讯视频vip'},
+	    	{"title":'腾讯体育',"con":'腾讯体育NBA'},
+	    	{"title":'腾讯新闻',"con":'腾讯新闻 -北京的雾霾'}
+	    ];
+	    var data1=[
+	    	{"title":'新浪视频',"con":'腾讯视频vip'},
+	    	{"title":'新浪体育',"con":'腾讯体育NBA'},
+	    	{"title":'新浪新闻',"con":'腾讯新闻 -北京的雾霾'}
+	    ];
+	    var obj={
+	    	ele:box,
+	    	data, 
+	    	zIndex:2
+	    }
+	    var obj1={
+	    	ele:box,
+	    	data:data1,
+	    	cName:'s-green',
+	    	zIndex:1
+	    }
+		function Tab(opts){
+			var confOpts={
+				cName:'change'
+			}
+			this.options=Object.assign({},confOpts,opts);
+			
+			this.init();
+			this.renderDOM();
+			this.bindHandler();
+		}
+		Tab.prototype={
+			constructor:Tab,
+			init(){
+			   this.len=this.options.data.length;
+			   this.ele=this.options.ele;
+			   this.cName=this.options.cName;
+			   this.zIndex=this.options.zIndex;
+
+			},
+			renderDOM(){
+				let cUl=document.createElement('ul');
+				cUl.className="tab";
+				for(let i = 0;i<this.len;i++){
+					let cLi=document.createElement('li');
+					if(i==this.zIndex){
+						cLi.className=this.cName			
+					}
+					cLi.innerHTML=this.options.data[i]['title'];
+					cUl.appendChild(cLi);
+				}
+				this.ele.appendChild(cUl);
+			},
+			bindHandler:function(){
+			   let oLis=this.ele.getElementsByTagName('li');
+			   for(let i=0;i<this.len;i++){
+			   		console.log(this);
+			   		oLis[i].onclick=()=>{
+			   			for(let j=0;j<this.len;j++){
+			   				oLis[j].className='';
+			   			}
+			   			oLis[i].className=this.cName;
+			   		}
+			   }
+			}
+		}
+		 new Tab(obj);
+		 // new Tab(obj1);
+		// 第一步:创建一个空对象
+		// 第二步: this指向这个空对象
+		// 执行里面的代码
+		// 隐式返回 这个对象
+		
+        // function Person(name,age){
+        // 	//{}
+        // 	this.name=name;
+        // 	this.age=age;
+        // }
+        // var person1=new Person('hwb',25);//{name:'hwb',age:25}
+
+   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	</script>
+</body>
+</html>

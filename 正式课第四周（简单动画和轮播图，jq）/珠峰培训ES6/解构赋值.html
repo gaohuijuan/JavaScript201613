@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>解构赋值</title>
+	<style>
+		body,div{
+			margin: 0;
+			padding: 0;
+		}
+		div{
+			width: 400px;
+			height: 400px;
+			margin-left:50px;
+			margin-top: 50px;
+			background-color: #9da;
+		}
+	</style>
+</head>
+<body>
+	<div id="box">
+		
+	</div>
+	<script>
+		let box = document.getElementById('box');
+		var offSet=(ele)=>{
+		     let offLeft = ele.offsetLeft;
+		     let offTop  = ele.offsetTop;
+		     let pNode   = ele.offsetParent;
+		     while(pNode) {
+		     	offLeft+=pNode.offsetLeft+pNode.clientLeft;
+		     	offTop +=pNode.offsetTop+pNode.clientTop;
+		     	pNode=pNode.offsetParent	
+		     }
+		     return {l:offLeft,t:offTop}
+		}
+		var offSetVal = offSet(box);
+		var {l,t} = offSet(box);
+		console.log(offSetVal);
+		alert(l);
+		alert(t);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	</script>
+</body>
+</html>

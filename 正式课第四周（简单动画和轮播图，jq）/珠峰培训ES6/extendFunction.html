@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>函数的扩展</title>
+</head>
+<body>
+	<script>
+		//构造函数可以设置默认参数
+		//rest 是在函数定义的时候用->生成是一个数组
+		//扩展运算符  它是在函数调用的时候用 ->将一个数组转换为 逗号分割的参数序 
+		// 箭头函数  this指向上层作用域 不能arguments 对象 不能当做构造函数
+		 let add=(a=1,b=2)=>{
+		 	console.log(this);
+		 };
+		 
+		// function add(a=1,b=2){
+		// 	return a+b;
+		// }
+		console.log(add(2,3));
+		//rest 参数
+		function equal(...ele){
+			//将一个数组转换为 逗号分割的参数序 
+			// var item=[...ele];
+			console.log(item);
+
+		}
+		var item=[1,2,3,4,5]
+		equal(...item);
+		Math.max(1,2,3,4,5);
+		Math.max.apply(null,item);
+		Math.max(...item);
+
+
+
+
+
+
+
+
+
+
+
+
+	</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

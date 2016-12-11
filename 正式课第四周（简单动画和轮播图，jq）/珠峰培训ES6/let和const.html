@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>let 和 const</title>
+</head>
+<style>
+	body,ul,li,div{
+		margin: 0;
+		padding: 0;
+	}
+	ul,li{
+		list-style: none;
+	}
+	.tab{
+		height: 40px;
+	}
+	.tab li{
+		float: left;
+		width: 100px;
+		height: 40px;
+		line-height: 40px;
+		text-align: center;	
+		background-color:#9da;
+		color:#fff;
+	}
+	.tab li.change{
+		background-color:darkblue;
+	}
+	.con div{
+		width: 300px;
+		height:300px;
+		line-height: 300px;
+		text-align: center;
+		color: #000;
+		display: none;
+	}
+	.con div.show{
+		display: block;
+	}
+</style>
+<body>
+	<div  id="box">
+		<ul class="tab">
+			<li class="change">腾讯视频</li>
+			<li>腾讯体育</li>
+			<li>腾讯新闻</li>
+		</ul>
+		<div class="con">
+			<div class="show">腾讯视频vip</div>
+			<div>腾讯体育vip</div>
+			<div>腾讯新闻VIP</div>
+		</div>
+	</div>
+	<script>
+		//let 操作符是ES6新增的一种声明变量的方式,它不存在变量提升
+		//console.log(name);//undefind
+		// var name="hwb";
+		let name="hwb";
+		let box=document.getElementById('box');
+		let oLis=box.getElementsByTagName('li');
+		let con=box.getElementsByClassName('con')[0];
+		let oDivs=con.getElementsByTagName('div');
+		let len=oLis.length;
+		// for(var i=0;i<len;i++){
+		// 	oLis[i].index=i;
+		// 	console.log(oLis);
+		// 	oLis[i].onclick=function () {
+		// 		for(var j=0;j<len;j++){
+		// 			oLis[j].className='';
+		// 			oDivs[j].className='';
+		// 		}
+		// 		oLis[this.index].className="change";
+		// 		oDivs[this.index].className="show";
+		// 	}
+		// }
+		for(let i=0;i<len;i++){
+			oLis[i].onclick=()=>{
+				for(var j=0;j<len;j++){
+					oLis[j].className='';
+					oDivs[j].className='';
+				}
+				oLis[i].className="change";
+				oDivs[i].className="show";
+			}
+		}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	</script>
+</body>
+</html>
