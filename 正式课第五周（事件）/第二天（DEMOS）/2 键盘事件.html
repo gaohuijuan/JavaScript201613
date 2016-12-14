@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>键盘事件</title>
+</head>
+<body>
+<input id="input1" type="text" name="name" placeholder="请输入你的名字">
+</body>
+</html>
+<script>
+    /*
+    *   KeyboardEvent{
+    *       keyCode : 当前触发事件的按键对应的唯一识别码
+    *   }
+    *
+    * */
+    var input1 = document.getElementById('input1');
+    input1.onkeyup = function (e){
+        console.log(e.keyCode);
+        /*
+        *   Enter :  13
+        *   Left : 37
+        *   Top : 38
+        *   Right : 39
+        *   Bottom : 40
+        *   Space : 32
+        *   Backspace : 8
+        *   Number : 48-57
+        *
+        * */
+        //console.log(this.value);
+    }
+
+
+
+
+</script>

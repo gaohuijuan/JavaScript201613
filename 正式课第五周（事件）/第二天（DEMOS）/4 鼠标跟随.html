@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        html,body,ul,li,div,img{
+            margin: 0;
+            padding: 0;
+        }
+        ul{
+            width: 480px;
+            list-style: none;
+            padding: 0 10px;
+            border: 1px solid #ccc;
+            margin: 30px auto;
+            position: relative;
+        }
+        ul .bigBox{
+            display: none;
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 0;
+            height: 0;
+            z-index: 10;
+        }
+
+        ul .bigBox img{
+            width: 100%;
+            height: 100%;
+            border: none;
+            vertical-align: top;
+        }
+
+        ul li{
+            width: 100px;
+            height: 75px;
+            margin: 10px;
+            float: left;
+
+        }
+        .clearFix{
+            zoom: 1;
+        }
+        .clearFix:after{
+            content: '';
+            display: block;
+            clear: both;
+        }
+
+
+    </style>
+</head>
+<body>
+    <ul id="ul" class="clearFix">
+        <li><img src="images/apple_1.jpg" big="images/apple_1_bigger.jpg"></li>
+        <li><img src="images/apple_2.jpg" big="images/apple_2_bigger.jpg"></li>
+        <li><img src="images/apple_3.jpg" big="images/apple_3_bigger.jpg"></li>
+        <li><img src="images/apple_4.jpg" big="images/apple_4_bigger.jpg"></li>
+        <div class="bigBox">
+            <img src="">
+        </div>
+    </ul>
+</body>
+</html>
+<script>
+    var ul = document.getElementById('ul');
+    //var lis = ul.getElementsByTagName('li');
+    var bigBox = ul.getElementsByTagName('div')[0];
+    var bigImg = bigBox.getElementsByTagName('img')[0]; //获取大图片
+    ul.onmouseover = function (e){
+        e = e || window.event;
+        var target = e.target || e.srcElement;
+        if(target.nodeName == 'IMG' || target.nodeName == 'LI'){
+            // 计算大图片应该出现的位置
+            if(target.nodeName == 'IMG' ){
+                bigImg.src = target.getAttribute('big');
+            }else{
+                bigImg.src = target.firstElementChild/*img*/.getAttribute('big');
+            }
+            var left = e.pageX - ul.offsetLeft + 10;
+            var top = e.pageY - ul.offsetTop + 10;
+            bigBox.style.left = left + 'px';
+            bigBox.style.top = top + 'px';
+            // 修改位置之后然后让盒子出现
+            bigBox.style.display = 'block';
+            // 盒子出现之后我们应该让盒子的宽度和高度从0运动到400px和300px
+            animate({
+                ele : bigBox,
+                target : {width : 400, height : 300}
+            });
+        }
+    }
+    // 鼠标移动需要不断计算盒子的新位置
+    ul.onmousemove = function (e){
+        e = e || window.event;
+        e.target = e.target || e.srcElement;
+        var left = e.pageX - ul.offsetLeft + 10;
+        var top = e.pageY - ul.offsetTop + 10;
+        bigBox.style.left = left + 'px';
+        bigBox.style.top = top + 'px';
+    }
+
+    ul.onmouseout = function (e){
+        e = e || window.event;
+        var target = e.target || e.srcElement;
+        if(target.nodeName == 'LI' || target.nodeName == 'IMG'){
+            // 当鼠标离开的时候，不仅仅让盒子消失，还要把盒子的宽度和高度设置成0，因为下一次再动画需要从0开始
+            bigBox.style.display = 'none';
+            bigBox.style.width = '0px';
+            bigBox.style.height = '0px';
+        }
+    }
+
+    // 回去的时候用jQuery把这个效果写出来...作业
+
+
+
+
+
+
+
+
+
+
+    //animate({ele:div1,target:{}.....})
+    function animate(opt) {
+        var ele = opt.ele;
+        var target = opt.target;
+        var duration = opt.duration || 500;
+        var begin = {};
+        var change = {};
+        var time = 0;
+        var defaultEffect = {
+            Linear : function (t,b,c,d){
+                return b + t/d*c;
+            }
+        };
+        for(var key in target){
+            begin[key] = parseFloat(window.getComputedStyle(ele,null)[key]);
+            change[key] = target[key] - begin[key];
+        }
+        window.clearInterval(ele.timer);
+        ele.timer = window.setInterval(function (){
+            time += 10;
+            if(time >= duration){
+                window.clearInterval(ele.timer);
+                //utils.css(ele,target); setGroupCss => for()  => setCss
+                for(var key in target){
+                    ele.style[key] = target[key] + 'px';
+                }
+                return;
+            }
+            for(var key in change){
+                var val = defaultEffect.Linear(time,begin[key],change[key],duration);
+                ele.style[key] = val + 'px';
+            }
+        },10);
+    }
+
+
+
+
+
+
+
+
+</script>
