@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+
+        #div1{
+            width: 300px;
+            height: 300px;
+            padding: 100px;
+            background: lightblue;
+        }
+        #div2{
+            width: 100px;
+            height: 100px;
+            background: darkmagenta;
+        }
+    </style>
+</head>
+<body>
+    <div id="div1">
+        <div id="div2"></div>
+    </div>
+    <div id="div3"></div>
+</body>
+</html>
+<script>
+    /*
+    *   事件传播之冒泡:
+    *       当点击动作发生在子元素div2上，那么在触发div2的click事件的同时，还会继续向上分别把div1,body,html...等祖先元素的click事件分别触发
+    *   事件传播之捕获:
+    *
+    * */
+
+    /*
+    *   DOM 0:  把函数的引用地址赋值给dom的事件属性
+    *   DOM 2:  div1.addEventListener('click',fn,false)
+    *           元素                  事件类型,函数,false/true
+    *           false :  冒泡阶段发生 =>  这个函数在冒泡阶段被触发
+    *           true ：  捕获阶段发生 =>  这个函数在捕获阶段被触发
+    *           ps： 一般dom2事件，绑定实名函数 => 为了移除事件的时候能找到对应的函数
+    *
+    * */
+    // ps:  只有dom2事件绑定才可以设置函数在冒泡还是捕获阶段发生，dom0事件绑定都是在冒泡阶段发生的。
+    // ps:  事件被触发的顺序是 捕获=>目标=>冒泡
+
+    var div1 = document.getElementById('div1');
+    var div2 = document.getElementById('div2');
+    var body = document.body;
+    // DOM 0级事件绑定
+//    div1.onclick = function (){
+//        console.log('div1');
+//    }
+//    div2.onclick = function (){
+//        console.log('div2');
+//    }
+//    body.onclick = function (){
+//        console.log('body');
+//    }
+//    document.documentElement.onclick = function (){
+//        console.log('html');
+//    }
+//    document.onclick = function (){
+//        console.log('document');
+//    }
+
+    // DOM 2事件绑定
+    function fn1(e){
+        console.log('div1');
+        e = e || window.event;
+        e.stopPropagation();
+
+
+    }
+    function fn2(){
+        console.log('div1,div1');
+        div1.removeEventListener('click',fn2,false);
+    }
+    div1.addEventListener('click',fn1,false);
+    //div1.addEventListener('click',fn2,false);
+
+
+
+
+
+
+
+    body.addEventListener('click',function (e){
+        e = e || window.event;
+        console.log(e.target);
+        //console.log('body');
+    },false);
+    document.documentElement.addEventListener('click',function (){
+        console.log('html');
+    },false); // 冒泡
+
+
+
+</script>

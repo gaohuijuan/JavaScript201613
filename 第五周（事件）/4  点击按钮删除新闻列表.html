@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <style>
+        html,body,div,ul,li,span,a{
+            margin: 0;
+            padding: 0;
+        }
+        ul{
+            list-style: none;
+        }
+        .list{
+            padding: 10px;
+        }
+        .list li{
+            position: relative;
+            height: 80px;
+            line-height: 80px;
+            text-align: center;
+            font-size: 30px;
+            background: yellowgreen;
+            border: 2px solid #000;
+            margin-bottom: 5px;
+        }
+        .list li .close{
+            position: absolute;
+            right: 0;
+            top: 0;
+            display: block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #ccc;
+            background: red;
+            border-radius: 50%;
+            line-height: 20px;
+            text-align: center;
+            font-size: 20px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <ul id="list" class="list">
+        <li>1<span class="close">X</span></li>
+        <li>2<span class="close">X</span></li>
+        <li>3<span class="close">X</span></li>
+        <li>4<span class="close">X</span></li>
+        <li>5<span class="close">X</span></li>
+        <li>6<span class="close" >X</span></li><!--zhang="wen"-->
+    </ul>
+</body>
+</html>
+<script>
+    // 利用 "事件委托" 来处理 => 判断事件源
+
+    //var spans = document.getElementsByTagName('span');
+    var list =  document.getElementById('list');
+    list.onclick = function (e){
+        e = e || window.event;
+        e.target = e.target || e.srcElement;
+        console.log(e.target);
+        //e.target :  <span>x</span>  <li></li>   <ul></ul>
+        if(e.target.nodeName == 'SPAN' && e.target.className == 'close' /*&& e.target.getAttribute('zhang') == 'wen'*/ ){
+            this.removeChild(e.target.parentNode);
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//    for(var i = 0; i<spans.length; i++){
+//        spans[i].onclick = function (){
+//            // this
+//            this.parentNode.parentNode.removeChild(this.parentNode);
+//        }
+//    }
+</script>

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        html,body,div{
+            margin: 0;
+            padding: 0;
+        }
+        #div1{
+            width: 100px;
+            height: 100px;
+            background: red;
+            position: absolute;
+            left: 100px;
+            top: 100px;
+            margin: 1000px 0;
+        }
+        a{
+            display: block;
+            width: 100px;
+            height: 30px;
+            background: #000;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <a id="link" href="http://www.baidu.com">百度</a>
+    <div id="div1"></div>
+</body>
+</html>
+<script>
+    /*
+    *   事件对象:
+    *       1 当事件被触发的时候，在绑定函数中打印arguments浏览器默认给我们传了一个事件对象参数
+    *       ps: 在IE低版本中这个事件对象在 window.event;
+    *       ps: 事件对象e只存在真正绑定的那个函数中
+    *
+    *       2 MouseEvent : Object
+    *
+    *           e.clientX : 鼠标点击距离浏览器左上角的X坐标值
+    *           e.clientY : 鼠标点击距离浏览器左上角的Y坐标值
+    *
+    *           // 在IE低版本不存在pageX和pageY属性
+    *           e.pageX : 鼠标点击位置距离页面的X坐标
+    *           e.pageY : 鼠标点击位置距离页面的Y坐标
+    *
+    *           e.type :  事件类型  'click'  => 没有前缀on
+    *
+    *           // 阻止事件传播  冒泡 捕获
+    *           e.stopPropagation()
+    *           e.cancelBubble = true;   IE6-8
+    *
+    *           // 阻止默认行为  比如 a的默认跳转行为
+    *           e.preventDefault()
+    *           e.returnValue = false;  IE6-8
+    *           return false; // 兼容ie和标准
+    *
+    *           e.target : 事件源
+    *           e.target
+    *           e.srcElement IE6-8
+    *
+    * */
+    var div1 = document.getElementById('div1');
+    function fn(e){
+        console.log(e);
+    }
+    div1.onclick = function (e) {
+        // 这个事件对象e是在这个匿名函数中产生，然后可以当作参数传给其他的比如fn函数
+        fn(e);
+    }
+
+
+
+
+
+
+
+    div1.onclick = function (e){
+        e = e || window.event; // 针对ie低版本事件对象的兼容性处理
+        //console.log(e);
+        //console.log(arguments[0]); //MouseEvent
+        console.log(e.clientX);
+        console.log(e.clientY);
+        // e.pageX和e.pageY存在兼容性问题。在clientX的基础上+滚动出去的宽度/高度
+        e.pageX = e.pageX || e.clientX + (document.documentElement.scrollLeft || document.body.scrollLeft);
+        e.pageY = e.pageY || e.clientY + (document.documentElement.scrollTop || document.body.scrollTop);
+        console.log(e.pageX);
+        console.log(e.pageY);
+        // e.type ： 事件类型 => 绑定事件名称
+        console.log(e.type); // 'click'
+
+        // 阻止事件传播
+        e.stopPropagation = e.stopPropagation || function (){ e.cancelBubble = true;  }
+        //e.stopPropagation ? e.stopPropagation() : e.cancelBubble = true;
+        e.stopPropagation();
+
+        //  阻止默认行为 => 阻止a链接的默认跳转行为
+        // e.preventDefault ? e.preventDefault() : e.returnValue = false;
+        e.preventDefault = e.preventDefault || function (){ e.returnValue = false; }
+        e.preventDefault();
+
+
+
+
+
+
+
+
+
+    }
+
+    document.getElementById('link').onclick = function (e){
+        //e = e || window.event;
+        //e.stopPropagation();  e.cancelBubble = true;
+        //e.preventDefault ? e.preventDefault() : e.returnValue = false;
+
+
+        return false;
+    }
+
+
+</script>

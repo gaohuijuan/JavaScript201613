@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>事件源</title>
+</head>
+<body>
+    <ul id="ul">
+        <li>1</li>
+        <li>2</li>
+        <li>3</li>
+        <li>4</li>
+    </ul>
+</body>
+</html>
+<script>
+    var ul = document.getElementById('ul');
+    var lis = ul.getElementsByTagName('li');
+    ul.onclick = function (e){
+        e = e || window.event;
+        e.target = e.target || e.srcElement;
+        //console.log(e.srcElement);
+        //console.log(e.target);
+    }
+</script>

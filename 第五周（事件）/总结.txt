@@ -1,0 +1,25 @@
+事件对象: MouseEvent
+
+e = e || window.event;
+
+e.type    'click'
+e.target = e.target || e.srcElement;
+
+e.clientX
+e.clientY
+
+e.pageX  e.clientX + (html/body.scrollLeft)
+e.pageY  e.clientY + (html/body.scrollTop)
+
+e.preventDefault ? e.preventDefault() : e.returnValue = false;
+e.stopPropagation ? e.stopPropagation() : e.cancelBubble = true;
+
+
+// 事件委托
+
+IE6-8中的问题
+1 执行顺序问题
+2 重复绑定问题
+3 this问题
+
+
