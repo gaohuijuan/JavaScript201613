@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+</body>
+</html>
+<script>
+    /*
+    *   正则:
+    *       \d \w \s \b \n \D \W \S \. \ ^ $  ^\d+$
+    *       + ? * {n} {n,} {n,m}
+    *       | [xyz] [^xyz] [+-.] [\d\w]
+    *       (\w)\1 (?:)
+    *       ? \d+? ?: ?= ?!
+    *       /\d/ , new RegExp()
+    *       i m g
+    *       exec match replace split
+    *       exec : []
+    *       replace(reg,function (){
+    *           arguments : [最大，$1... $...,index,input]
+    *       })
+    *       reg.lastIndex exec : null lastIndex : 0
+    *       test  match  replace exec
+    *       RegExp.$1 .... $9
+    *
+    * */
+
+
+    /*  正向预查  zero-width-lookahead
+    *   (?=x|y) 只是一个肯定的限定条件，并不会占位 => 必须是x或者y
+    *   负向预查 zero-width-lookbehind
+    *   (?!x|y) 只是一个否定的限定条件，并不会占位 => 不能是x和y
+    * */
+    // \d(?=a) \d的后面必须是a
+//    var reg = /^(\d(?=a|$))/;
+//    var str = '1';
+//    console.log(reg.test(str));
+//    console.log(reg.exec(str));
+
+    // 需求 : 千分符
+
+    var str = '123456789'; // => '12,345,678'
+    // '12345678' => [1,2,3,4,5,6,7,8] => [8,7,6,5,4,3,2,1] => '876543210' =>
+    // 1 把876用 '876,'来替换
+    var reg = /\d{3}(?!$)/g;  // 在匹配的时候最后一个不能是结尾
+    str = str.split("").reverse().join("").replace(reg,function (){
+        // arguments : [regRes,$1,index,input]
+        // arguments[0] : 876  543
+        return arguments[0]+','; // 876+','   543+','
+    }).split("").reverse().join('');
+    console.log(str); // => '12,345,678'
+
+
+
+
+    // 2 => 一个一个数字匹配，对于str.length-1-index的值能被3整除的用"自己+,"来替换自己。否则自己替换自己。最后一个不能替换
+    var reg = /\d(?!$)/g;
+    var str = '12345678';
+    var str1 = '12,345,678';
+    //          01 234 567    => 当索引值为1和4的时候，用 自己+','来替换自己
+    str = str.replace(reg,function (item,index){
+        arguments; // [最大的正则匹配到的内容，索引]
+                         // item : 1 2, 3 4 5, 6 7 8
+                         // index: 0 1  2 3 4  5 6 7 => 目的把索引1和4挑出来
+        //   str.length-1-index :  7 6  5 4 3  2 1 0 => 把3和6挑出来
+        str.length; // 8
+        if( (str.length-1-index)%3 == 0 ){
+            return item + ',';
+        }else{
+            return item;
+        }
+    });
+    console.log(str);
+
+    // 3 连续出现三个数字1到多次，并且每次必须查到结尾。
+    var str = '12345678';
+    var str1 = '9,789,012,345,678';
+    var reg = /(\d{1,2})(?=(\d{3})+$)/g;
+    console.log(str.replace(reg,'$1,'));
+
+
+    // asdf@sina.com.cn  (\.[a-z]{2,4}){1,2}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</script>
