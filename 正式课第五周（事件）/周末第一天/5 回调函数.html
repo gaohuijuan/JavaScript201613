@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+</body>
+</html>
+<script>
+    // push unshift shift pop splice slice
+    // reverse sort(function (){}) callback
+    // join concat
+    // indexOf lastIndexof
+    // forEach map 遍历数组  for  for in  $.each(obj,fn)   $().each(fn)
+    var ary = ['a','b','c'];
+    ary.forEach(function (item, index) {
+        console.log(item,index);
+    });
+
+    //模拟forEach
+    Array.prototype.zwforEach = function (callback,that){
+        this; // ['a','b']   ['c','d']...
+        that = that || window;
+        for(var i=0; i<this.length; i++){
+            callback.call(that,this[i],i,this);
+        }
+    }
+
+    ary.zwforEach(function (item, index) {
+        console.log(item,index);
+    });
+
+
+    ['a','b'].zwforEach(function (item,index){
+        // 2
+        // item : 'a','b'
+        // index : 0 , 1
+    });
+
+
+
+
+
+
+
+
+
+    // map方法有返回值，返回一个新数组。数组内容是map的参数的函数每次的返回值
+    var ary = ['a','b','c'];
+    var res = ary.map(function (item,index,ary){
+        console.log(item,index,ary);
+        return item+index;
+    });
+    res; // ['a0','b1','c2']
+    //
+
+    console.log(res);
+    Array.prototype.zwmap = function (callback,that){
+        this; // ['a','b','c']
+        that = that || window;
+        var a = []; // 把传进来的参数的函数每次的运行结果添加到数组中
+        for(var i=0; i<this.length; i++){
+            var res = callback.call(that,this[i],i,this);
+            a.push(res);
+        }
+        return a;
+    }
+
+
+    var res1 = ary.zwmap(function (item,index,ary){
+        console.log(item,index,ary);
+        return item+index;
+    });
+    console.log(res1);
+
+    console.log('&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&')
+    var ary = ['x','y','z'];
+    ary.forEach(function (item,index){
+        console.log(this);
+    },document.body);
+
+    ary.zwforEach(function (item,index){
+        console.log(this);
+    },document.body);
+
+
+
+
+
+</script>
