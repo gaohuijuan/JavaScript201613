@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>多级菜单</title>
+    <style>
+        html, body, div, ul, li, span, em {
+            margin: 0;
+            padding: 0;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        .ul {
+            width: 400px;
+            padding: 10px;
+            background: -webkit-linear-gradient(bottom, lightskyblue, lightcoral, lightgoldenrodyellow);
+            font-family: "microsoft yahei";
+            color: #666;
+        }
+
+        .ul li {
+            line-height: 30px;
+            position: relative;
+        }
+
+        .ul li em {
+            display: block;
+            width: 18px;
+            height: 18px;
+            position: absolute;
+            top: 6px;
+            background: url("icon.png") no-repeat -58px -27px;
+            cursor: pointer;
+        }
+
+        .ul li em.open {
+            background-position: -40px -27px;
+        }
+
+        .ul li span {
+            display: inline-block;
+            margin-left: 20px;
+        }
+
+        .first {
+            display: block;
+        }
+
+        .second {
+            display: none;
+            margin-left: 20px;
+        }
+
+        .third {
+            display: none;
+            margin-left: 40px;
+        }
+
+        .fourth {
+            display: none;
+            margin-left: 60px;
+        }
+
+
+    </style>
+</head>
+<body>
+<ul class="ul first">
+    <li>
+        <!--这个em标签是用来给+/-做背景的-->
+        <em></em><span>1-1</span>
+        <ul class="second">
+            <li><span>2-1</span></li>
+            <li>
+                <em></em><span>2-2</span>
+                <ul class="third">
+                    <li><span>3-1</span></li>
+                    <li><span>3-2</span></li>
+                    <li>
+                        <em></em><span >3-3</span><!--okclick="yes"-->
+                        <ul class="fourth">
+                            <li><span>4-1</span></li>
+                            <li><span>4-2</span></li>
+                            <li><span>4-3</span></li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+            <li><span>2-3</span></li>
+        </ul>
+    </li>
+    <li><span>1-2</span></li>
+    <li><span>1-3</span></li>
+</ul>
+</body>
+</html>
+<script>
+    // [ul,ul,ul,ul]  for{  i=0 : display: block; else display : none;  marginLeft :  i*20 + 'px'  }
+    // 作业: 把first second third fourth等样式用js写
+
+    // 需求 :  只有可以打开的span标签才有手型样式
+    var ul = document.getElementsByClassName('ul')[0];
+    var spans = ul.getElementsByTagName('span'); //所有span
+    for (var i = 0; i < spans.length; i++) {
+        var curSpan = spans[i]; // 每一个span
+        var prev = curSpan.previousElementSibling; // em  null
+        if(prev && prev.nodeName == 'EM'){
+            // 元素哥哥存在并且节点名称还是EM
+            curSpan.style.cursor = 'pointer';
+            // curSpan.setAttribute('okclick','yes');
+            // curSpan.okclick = 'yes';
+        }
+    }
+
+    // 需求 : 点击em和span的时刻，如果是打开的那么关闭，否则打开
+    // 打开和关闭就是对应的ul显示和隐藏，但是还有加号和减号图标切换
+    // 把em和span的点击事件委托给最外层的ul处理
+    ul.onclick = function (e){
+        e = e || window.event;
+        var target = e.target || e.srcElement;
+        if(target.nodeName == 'EM' || target.nodeName == 'SPAN'){
+            // 代码执行到这个判断说明已经点击在em或者span上了
+            // 不是所有的span标签都可以点击
+            // 无论是em还是span都是target，他们都有一个相同的父节点。这个父节点就是li，并且这个父节点存在一个ul孩子
+            var parent = target.parentNode;
+            var ul = parent.getElementsByTagName('ul')[0]; // ul/undefined
+            var em = parent.getElementsByTagName('em')[0]; // 获取em
+            //if(parent.lastElementChild.nodeName == 'UL'){}
+            if(ul){
+                // 当前点击的这个target存在一个ul的孩子
+                // 接下来需要判断这个ul是显示的还是隐藏的
+                // console.log('ok');
+                var isBlock = window.getComputedStyle(ul).display === 'block';
+                // 'block' 'none'
+                if(isBlock){ // ul是显示着的
+                    //ul.style.display = 'none';
+                    //em.className = '';
+                    // 从当前点击的这个级别开始所有子孙的em和ul全部恢复到初始状态
+                    var uls = parent.getElementsByTagName('ul');
+                    var ems = parent.getElementsByTagName('em');
+                    for(var i = 0; i< uls.length; i++){
+                        uls[i].style.display = 'none';
+                        ems[i].className = '';
+                    }
+                }else{ // ul是关闭的还需要把em的样式从+到-
+                    ul.style.display = 'block';
+                    em.className = 'open';
+                }
+            }
+        }
+    }
+    // 可以尝试不使用委托的方式来处理  this
+
+
+</script>

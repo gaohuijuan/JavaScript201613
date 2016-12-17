@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        #box{
+            position: relative;
+            width: 400px;
+            height: 400px;
+            margin: 10px auto;
+            background: deepskyblue;
+        }
+        #div{
+            width: 100px;
+            height: 100px;
+            background: red;
+            position: absolute;
+        }
+    </style>
+</head>
+<body>
+    <div id="box">
+    </div>
+</body>
+</html>
+<script>
+    /*
+    *   onmouseenter : onmouseover
+    *   onmouseleave : onmouseout
+    *   使用onmouseenter事件和onmouseleave事件来解决onmouseover和onmouseout事件的传播问题
+    * */
+
+
+    // 鼠标悬停在box上创建一个小的盒子，然后鼠标移动的时候小盒子跟随鼠标移动，当鼠标离开的时候小盒子删除
+    var box = document.getElementById('box');
+    box.onmouseenter = function (){ // onmouseover
+        var div = document.createElement('div');
+        div.id = 'div';
+        box.appendChild(div);
+        console.log('over');
+//        div.onmouseover = function (e){
+//            e.stopPropagation();
+//        }
+//        div.onmouseout = function (e) {
+//            e.stopPropagation();
+//        }
+    }
+    box.onmousemove = function (e) {
+        e = e || window.event;
+        var left = e.clientX - box.offsetLeft + 5;
+        var top = e.clientY - box.offsetTop + 5;
+        var div = document.getElementById('div');
+        div.style.left = left + 'px';
+        div.style.top = top + 'px';
+        console.log('move');
+    }
+    box.onmouseleave = function () { // onmouseleave
+        var div = document.getElementById('div');
+        box.removeChild(div);
+        console.log('out');
+    }
+
+
+
+</script>

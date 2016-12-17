@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>dom2事件和事件传播</title>
+    <style>
+        #div1{
+            width: 100px;
+            height: 100px;
+            background: yellowgreen;
+        }
+        #div2{
+            width: 100px;
+            height: 100px;
+            padding: 100px;
+            background: pink;
+        }
+        #div3{
+            width: 300px;
+            height: 300px;
+            padding: 100px;
+            background: deepskyblue;
+        }
+    </style>
+</head>
+<body>
+    <div id="div3">
+        <div id="div2">
+            <div id="div1">div1</div>
+        </div>
+        <p aaa="aaa">p1</p>
+        <p bbb="bbb">p2</p>
+        <ul>ul</ul>
+    </div>
+</body>
+</html>
+<script>
+    /*
+    * DOM 0事件:  其实就是一个函数的引用地址赋值给dom对象的事件属性
+    * DOM 2事件:
+    *
+    *
+    * */
+
+
+    var div1 = document.getElementById('div1'); // touch
+    // DOM 0事件绑定
+    div1.onclick = function (){}
+    div1.onclick = fn;
+    function fn(){
+       alert('1');
+    }
+    //window.onscroll = null;
+    div1.onclick = null;
+
+    // DOM 2事件绑定
+    //div1.addEventListener('click',function (){ alert(2) },false);
+    //div1.addEventListener('click',fn,false); // useCapture  是否使用捕获
+
+    // DOM2 事件移除
+    //v1.removeEventListener('click',fn,false);
+
+    /*
+    *   冒泡 : 从里到外
+    *   捕获 : 从外到里
+    *   事件执行的过程 : 先捕获 => 目标 => 冒泡
+    *   DOM 0 : 只能在默认冒泡阶段发生
+    *   DOM 2 : element.addEventListener(type,fn,boolean)
+    *               type:  事件类型
+    *               fn :  绑定的函数
+    *               boolean : false(冒泡,默认)  true(捕获)
+    *   如果想设置这个事件在什么阶段发生，只能使用DOM2事件绑定
+    *   我们基本不使用捕获来处理事件，冒泡事件是常用的方式
+    * */
+    var div1 = document.getElementById('div1');
+    var div2 = document.getElementById('div2');
+    var div3 = document.getElementById('div3');
+//    div1.addEventListener('click',function (){
+//        console.log('div1');
+//    },false);
+//    div2.addEventListener('click',function (){
+//        console.log('div2');
+//    },true);
+//    div3.addEventListener('click',function (){
+//        console.log('div3');
+//    },true);
+
+    // 事件委托
+    div3.onclick = function (e){
+        e = e || window.event;
+        console.log(e.target);
+        if(e.target.nodeName == 'UL'){
+            alert('ul');
+        }
+        if(e.target.nodeName == 'DIV'){
+            alert('DIV');
+        }
+        if(e.target.nodeName == 'P' && e.target.getAttribute('aaa') == 'aaa' ){
+            alert('p-aaa');
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</script>

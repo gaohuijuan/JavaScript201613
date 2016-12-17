@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        html,body,div{
+            margin: 0;
+            padding: 0;
+        }
+        #div1{
+            width: 100px;
+            height: 100px;
+            background: greenyellow;
+            _margin: 1000px 0;
+        }
+    </style>
+</head>
+<body>
+<div id="box" style="width: 200px; height: 200px; padding: 30px; background: pink; ">
+    <div id="div1"></div>
+    <p>p</p>
+</div>
+<a href="javascript:void 0"></a>
+<a id="link" style="display: block; width: 100px; height: 40px; background: blue" href="http://www.baidu.com">百度</a>
+<input id="input1" type="text" value="请输入"  style=" color: #999">
+
+
+</body>
+</html>
+<script>
+
+    /*
+     *  KeyboardEvent :
+     *      keyCode : Enter 13
+     *                space 32
+     *                backspace 8
+     *                left 37
+     *                top 38
+     *                right 39
+     *                down 40
+     *                0-9 48-57
+     *      type : 事件类型
+     *      key : 'Backspace'...
+     *      原型结构 : KeyboardEvent => UIEvent => Event  => Object
+     *
+     * */
+    // ajax有多少个方法: open()  send() ... abort()  把xhr的原型结构打印出来
+    var input = document.getElementById('input1');
+    input.onkeyup = function (e) {
+        e = e || window.event;
+        console.log(e);
+        console.log(e.type);
+        console.log(e.keyCode);
+        if(e.keyCode == 13){
+            // 回车按键
+            // 判断输入的是否符合要求  48-57
+
+        }
+
+    }
+
+
+
+
+
+    function sum() {
+
+        arguments; // 1，2，3，4，5，6，
+    }
+    sum(1,2,3,4,5,6,6);
+    /*
+    *   事件对象:
+    *       标准浏览器: arguments[0]  => e
+    *       ie8- :    window.event
+    *       e.clientX : 鼠标距离浏览器窗口的x坐标
+    *       e.clientY : 鼠标距离浏览器窗口的y坐标
+    *       e.pageX : 鼠标距离页面的X坐标
+    *       e.pageY : 鼠标距离页面的Y坐标
+    *       e.type : 事件类型字符串 'click' 'mouseover'..
+    *       e.target : e.srcElement 事件源 => 真正触发事件的元素
+    *       e.stopPropagation : e.cancelBubble = true; 阻止事件传播
+    *       e.preventDefault : e.returnValue = false; 阻止默认行为
+    * */
+
+    /*
+    *   事件传播： 冒泡 (从目标元素到最外层元素的触发过程) 从里到外
+    *             捕获(从外层元素到目标元素的出发过程) 从外到里
+    *   事件的触发过程 : 先触发绑定在（捕获）阶段的函数 => 目标 => 冒泡
+    *   事件对象的原型结构 :  MouseEvent => UIEvent => Event => Object
+    *
+    *
+    *
+    * */
+
+
+
+
+
+
+    var div1 = document.getElementById('div1');
+    var box = document.getElementById('box'); // div1.parentNode
+    box.onclick = function (e){
+        //alert('box');
+        e = e || window.event;
+        // console.log(e.target); // 事件源 => 真正触发事件的元素
+        // 事件源 : e.srcElement   e.target
+        e.target = e.target || e.srcElement;
+        console.log(e.target);
+
+    }
+    document.body.onclick = function (){
+        //alert('body');
+    }
+
+    div1.onclick = function (e){
+        // console.log(e); // e => 事件对象
+        // console.log(window.event);
+        e = e || window.event; // 处理事件对象的兼容性问题
+        console.log(e);
+        console.log(e.clientX);
+        console.log(e.clientY);
+        // 在ie6-8中不存在pageX和pageY
+        e.pageX = e.pageX || e.clientX + (document.documentElement.scrollLeft || document.body.scrollLeft);
+        e.pageY = e.pageY || e.clientY + (document.documentElement.scrollTop || document.body.scrollTop);
+
+        console.log(e.pageX);
+        console.log(e.pageY);
+
+        // e.type
+        console.log(e.type); // 'click'事件类型字符串
+
+        // 阻止事件传播
+        // e.stopPropagation ? e.stopPropagation() : e.cancelBubble = true;
+        e.stopPropagation = e.stopPropagation || function (){ e.cancelBubble = true; }
+        // e.stopPropagation();
+        //e.cancelBubble = true;
+
+
+
+
+
+        // console.log(arguments);
+        // arguments : [0 : MouseEvent]   arguments[0]
+    }
+
+    var link = document.getElementById('link');
+    link.onclick = function (e){
+//        e = e || window.event;
+//        //e.stopPropagation(); // e.cancelBubble = true;
+//        e.preventDefault ? e.preventDefault() : e.returnValue = false;
+//        e.preventDefault = e.preventDefault || function(){ e.returnValue = false; }
+//        e.preventDefault(); // e.returnValue = false;
+
+
+        return false; // 兼容各种浏览器的阻止默认行为
+    }
+
+
+
+
+</script>
