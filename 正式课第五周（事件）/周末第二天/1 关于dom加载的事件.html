@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>DOM加载的一些事件</title>
+
+</head>
+<body>
+    <div id="div1"></div>
+    <p></p>
+</body>
+</html>
+<script src="jquery-1.11.3.min.js"></script>
+<script>
+    window.onload = function (){
+        // 页面内所有的dom元素和img等标签的src属性全部加载成功才会触发
+        // 如果页面中存在图片比较多那么这个事件有可能会触发比较慢
+        console.log('window.onload');
+    };
+
+    // 使用DOM 2
+//    window.addEventListener('DOMContentLoaded',function (){
+//        // 只要页面中的DOM结构加载完成就会触发
+//        console.log('DOMContentLoaded');
+//    });
+
+    $(document).ready(function (){
+        // dom结构加载完成
+        console.log('ready');
+    });
+
+    // $(document).ready()的简写
+    $(function (){
+        console.log('ready1');
+
+        // 以后写的jq的代码都可以放在这个函数中...
+
+    });
+
+    ;(function (){
+        console.log('self');
+    })();
+</script>
+
