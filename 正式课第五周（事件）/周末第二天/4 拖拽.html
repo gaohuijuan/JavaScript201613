@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>拖拽</title>
+    <style>
+        #div1{
+            width: 100px;
+            height: 100px;
+            background: goldenrod;
+            position: absolute;
+        }
+        #div1 img{
+            width: 100%;
+            height: 100%;
+            border: none;
+            vertical-align: top;
+        }
+    </style>
+</head>
+<body>
+    <div id="div1"><img src="1.jpg"></div>
+</body>
+</html>
+<script>
+    // 拖拽
+    // 1 鼠标按下的时刻计算出盒子box相对于鼠标位置的偏移量
+    // 2 鼠标移动的时刻时时计算盒子的left和top的值
+    // 3 鼠标按键松开的时刻还需要需要把move事件和up事件全部移除
+    document.onmousemove = function (){
+        console.log('documentmove');
+    }
+    var div1 = document.getElementById('div1');
+    div1.onmousedown = function (e){
+        e = e || window.event;
+        e.pageX = e.pageX || e.clientX + (document.documentElement.scrollLeft || document.body.scrollLeft);
+        e.pageY = e.pageY || e.clientY + (document.documentElement.scrollTop || document.body.scrollTop);
+        // l和t分别添加在div1的自定义属性上，用来保存鼠标距离盒子的相对距离
+        this.l = e.pageX - this.offsetLeft;
+        this.t = e.pageY - this.offsetTop;
+        div1.setCapture && div1.setCapture();// 在ie浏览器中相当于让元素和鼠标存在一个捆绑关系
+        /*div1*/document.onmousemove = function (e){
+
+            e = e || window.event;
+            e.pageX = e.pageX || e.clientX + (document.documentElement.scrollLeft || document.body.scrollLeft);
+            e.pageY = e.pageY || e.clientY + (document.documentElement.scrollTop || document.body.scrollTop);
+            //盒子新的位置就是新的鼠标坐标-在鼠标按下的那一刻计算出来距离盒子的相对距离。
+            var l = e.pageX - /*this*/div1.l;
+            var t = e.pageY - /*this*/div1.t;
+            //  把计算出盒子的坐标生效
+            /*this*/div1.style.left = l + 'px';
+            /*this*/div1.style.top = t + 'px';
+            // 处理盒子拖拽的时刻里面包含图片的默认行为问题
+            e.preventDefault ? e.preventDefault() : e.returnValue = false;
+        }
+        /*div1*/document.onmouseup = function (){
+            div1.releaseCapture && div1.releaseCapture();
+            /*div1*/document.onmousemove = null;
+            /*div1*/document.onmouseup = null;
+        }
+    }
+
+
+
+
+
+</script>
