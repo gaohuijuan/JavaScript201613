@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>dom2事件兼容性处理</title>
+    <style>
+        #div1{
+            width: 100px;
+            height: 100px;
+            background: gold;
+        }
+    </style>
+</head>
+<body>
+    <div id="div1"></div>
+    <!--'Hbuilder'-->
+</body>
+</html>
+<script src="event.js"></script>
+<script>
+    var div1 = document.getElementById('div1');
+    //on(div1,'click',fn1);
+    on(div1,'click',fn1);
+    on(div1,'click',fn2);
+    on(div1,'click',fn3);
+    on(div1,'click',fn4);
+    on(div1,'click',fn5);
+    on(div1,'click',fn6);
+    on(div1,'click',fn7);
+    on(div1,'click',fn8);
+    on(div1,'click',fn9);
+    on(div1,'click',fn10);
+    //off(div1,'click',fn10);
+
+
+
+
+
+
+
+    // IE6-8
+    // 1 事件绑定函数中的this是widow
+    // 2 事件被触发的顺序是乱的 ok
+    // 3 事件可以重复绑定 ok
+    //div1.attachEvent('onclick',fn1);
+    //div1.attachEvent('onclick',fn1);
+//    div1.attachEvent('onclick',fn2);
+//    div1.attachEvent('onclick',fn3);
+//    div1.attachEvent('onclick',fn4);
+//    div1.attachEvent('onclick',fn5);
+//    div1.attachEvent('onclick',fn6);
+//    div1.attachEvent('onclick',fn7);
+//    div1.attachEvent('onclick',fn8);
+//    div1.attachEvent('onclick',fn9);
+//    div1.attachEvent('onclick',fn10);
+
+//    div1.addEventListener('click',fn1,false);
+//    div1.addEventListener('click',fn1,false); // 重复绑定不可以
+//    div1.addEventListener('click',fn2,false);
+//    div1.addEventListener('click',fn3,false);
+//    div1.addEventListener('click',fn4,false);
+//    div1.addEventListener('click',fn5,false);
+//    div1.addEventListener('click',fn6,false);
+//    div1.addEventListener('click',fn7,false);
+//    div1.addEventListener('click',fn8,false);
+//    div1.addEventListener('click',fn9,false);
+//    div1.addEventListener('click',fn10,false);
+
+    function fn1(){ console.log(1); console.log(this === div1); }
+    function fn2(){ console.log(2); }
+    function fn3(){ console.log(3); }
+    function fn4(){ console.log(4); }
+    function fn5(e) {
+        console.log(5);
+        off(div1,'click',fn1);
+        off(div1,'click',fn2);
+        console.log(e.target === div1);
+        console.log(e.pageX);
+    }
+    function fn6(){ console.log(6); }
+    function fn7(){ console.log(7); }
+    function fn8(){ console.log(8); }
+    function fn9(){ console.log(9); }
+    function fn10(){ console.log(10); }
+
+
+
+
+
+</script>
