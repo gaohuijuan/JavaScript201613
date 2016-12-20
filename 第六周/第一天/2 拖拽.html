@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Drag</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        #div1{
+            width: 100px;
+            height: 100px;
+            background: yellowgreen;
+            position: absolute;
+        }
+        #div2{
+            width: 100px;
+            height: 100px;
+            background: pink;
+            position: absolute;
+            left: 150px;
+        }
+    </style>
+</head>
+<body>
+    <div id="div1"></div>
+    <!--<div id="div2"></div>-->
+</body>
+</html>
+<script src="event1.0.js"></script>
+<!--<script src="dragClass.js"></script>-->
+<!--<script src="dragClass1.js"></script>-->
+<script>
+//    var div1 = document.getElementById('div1');
+//    var div2 = document.getElementById('div2');
+//    new Drag(div1);
+//    new Drag(div2);
+</script>
+
+<script>
+
+    // new Banner(Container,url);
+    var div1 = document.getElementById('div1');
+    // div1.onmousedown = function (){}
+    on(div1,'mousedown',down);
+
+    function down(e){
+        // this => div1
+        this.l = e.pageX - this.offsetLeft;
+        this.t = e.pageY - this.offsetTop;
+        if(/*this*/div1.setCapture){ // ie
+            /*this*/div1.setCapture();
+            on(div1/*this*/,'mousemove',move);
+            on(div1/*this*/,'mouseup',up);
+        }else{ // 标准
+            div1.MOVE = function (e){
+                // 这个e是在run方法中处理好兼容性的那个e
+                // a[i].call(this,e)
+                // move方法想使用这个e,那么就把这个e对象传给move
+                move.call(div1,e); // 第二个参数就是传给move的
+            }
+            on(document,'mousemove',this.MOVE);
+            var that = this; //that => div1
+            div1.UP = function (e){
+                up.call(/*this*/that,e);
+            }
+            on(document,'mouseup',div1.UP);
+        }
+    }
+    function move(e){
+        //console.log('move');
+        var l = e.pageX - /*this*/div1.l;
+        var t = e.pageY - this.t; // document.t ???
+        var minL = 0, minT = 0;
+        var maxL = (document.documentElement.clientWidth || document.body.clientWidth) - div1.offsetWidth;
+        var maxT = (document.documentElement.clientHeight || document.body.clientHeight) - this.offsetHeight;
+        l = l < minL ? minL : l > maxL ? maxL : l;
+        t = t > maxT ? maxT : (t < minT ? minT : t);
+        div1.style.left = l + 'px';
+        this.style.top = t + 'px';
+        e.preventDefault(); // 阻止默认行为
+
+
+        // 在盒子拖拽的过程中要让盒子变成圆的
+
+        this.style.borderRadius = '50%';
+        // 在拖拽的元素上添加一个自定义属性用来保存速度，这个速度在鼠标弹起也就是up方法中使用。
+        // 这个速度怎么求？
+        //
+        if(!this.prev){
+            // 如果上一次不存在，那么当前就是第一次。那么第一次的位置保存下来作为上一次的位置。
+            this.prev = this.offsetLeft;
+        }else{
+            // 如果不是第一次那么就用当前次和上一次的位置的差作为速度保存下来。
+            this.speed = this.offsetLeft - this.prev;
+            // 每触发一次mousemove事件都需要重新计算当前位置减去上一次位置的值。
+            this.prev = this.offsetLeft;
+        }
+    }
+
+    //on(ele,'click',fn);
+    //on(ele,'fangxue',fn);
+
+    function up(){
+        if(div1.releaseCapture){
+            div1.releaseCapture();
+            off(div1,'mousemove',move);
+            off(this,'mouseup',up);
+        }else{
+            off(document,'mousemove',div1.MOVE);
+            off(document,'mouseup',this.UP);
+        }
+
+        // 结束拖拽我要让这个盒子变成黑色。当结束拖拽的那一刻我让这个盒子能继续运动起来。需要启动一个定时器不断驱动位置变化
+        //div1.style.background = '#000';
+        fly.call(this); // 把fly中的this修改成div1。fly中要用到的速度是在div1.speed属性上存放。
+        drop.call(this);
+
+        // fn.call(this)
+        // ...
+    }
+    function drop(){
+        if(this.flag >= 2){
+            window.clearTimeout(this.timer);
+            return;
+        }
+        // this => div1
+        this.dropSpeed = !this.dropSpeed ? 9.8 : this.dropSpeed + 9.8;
+        this.dropSpeed *= 0.99;
+        var curTop = this.offsetTop;
+        curTop += this.dropSpeed;
+        var maxT = (document.documentElement.clientHeight || document.body.clientHeight) - this.offsetHeight;
+        if(curTop >= maxT){
+            this.style.top  = maxT + 'px';
+            this.dropSpeed *= -1;
+            this.flag++;
+        }else{
+            this.style.top = curTop + 'px';
+            this.flag = 0;
+        }
+        if(this.flag < 2){
+            this.timer = window.setTimeout(processThis(drop,this),10);
+        }
+    }
+
+    /**
+     * @param callback 要处理callback的this
+     * @param context  要把callback的this处理成context
+     */
+    function processThis(callback,context){
+        return function (e){
+            callback.call(context,e);
+        }
+    }
+
+
+
+
+    function fly(){
+        var that = this;
+        window.clearInterval(that.timer); // 防止定时器累积问题
+        that.timer = window.setInterval(function (){
+            that.speed *= 0.99;
+            if(Math.abs(that.speed) < 0.5){
+                window.clearInterval(that.timer);
+                return;
+            }
+            var curLeft  = that.offsetLeft; // 先获取当前的位置
+            curLeft += that.speed; // 在当前位置基础上累加速度
+            var minL = 0;
+            var maxL = (document.documentElement.clientWidth||document.body.clientWidth) - that.offsetWidth;
+            if(curLeft > maxL){
+                that.style.left = maxL + 'px';
+                that.speed *= -1;
+            }else if(curLeft < minL){
+                that.style.left = minL + 'px';
+                that.speed *= -1;
+            }else{
+                that.style.left = curLeft + 'px';
+            }
+        },10);
+    }
+
+
+
+
+
+
+
+</script>
