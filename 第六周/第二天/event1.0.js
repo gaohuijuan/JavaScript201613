@@ -1,5 +1,19 @@
 
 function on(ele,type,fn){
+    if(/^self/.test(type)){ // type : 'selfdragstart'
+        if(!ele[type]){
+            ele[type] = [];
+        }
+        var a = ele[type];
+        for(var i = 0; i < a.length; i++){
+            if(a[i] === fn){
+                return;
+            }
+        }
+        a.push(fn);
+        return;
+    }
+    // 以上的代码是给self开头的自定义事件准备的
     if(ele.addEventListener){
         ele.addEventListener(type,fn,false);
         return;
@@ -18,6 +32,21 @@ function on(ele,type,fn){
     }
     a.push(fn);
 }
+function selfrun(/*ele,*/type,e){ // this e.type
+    var a = /*ele*/this[type];
+    if(a && a.length){
+        for(var i = 0; i<a.length; i++){
+            if(typeof a[i] === 'function'){
+                a[i].call(/*ele*/this,e)
+            }else{
+                a.splice(i,1);
+                i--;
+            }
+        }
+    }
+}
+
+
 function run(e){
     // this; ??  ele   e.type => 'click','keyup' ...
     e = window.event;
@@ -43,7 +72,19 @@ function run(e){
         }
     }
 }
-function off(ele,type,fn){
+function off(ele,type,fn){ // type : selfdragstart
+    if(/^self/.test(type)){
+        var a = ele[type]; // div1.selfdragstart
+        if(a && a.length){
+            for(var i = 0; i< a.length; i++){
+                if(a[i] === fn){
+                    a[i] = null;
+                    break;
+                }
+            }
+        }
+        return;
+    }
     if(ele.removeEventListener){
         ele.removeEventListener(type,fn,false);
         return;

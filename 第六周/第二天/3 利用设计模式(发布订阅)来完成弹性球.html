@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>拖拽类</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        #div1 {
+            width: 100px;
+            height: 100px;
+            background: red;
+            position: absolute;
+            border-radius: 50%;
+        }
+        #div2{
+            width: 100px;
+            height: 100px;
+            background: yellowgreen;
+            position: absolute;
+            left : 150px;
+            border-radius: 50%;
+        }
+    </style>
+</head>
+<body>
+window.online = function (){}
+window.offline = function (){}
+<div id="div1"></div>
+<div id="div2"></div>
+
+</body>
+</html>
+<script src="event1.0.js"></script>
+<script src="Emitter.js"></script>
+<script>
+    function Drag(ele,range){
+        this.ele = ele;
+        var l = (document.documentElement.clientWidth || document.body.clientWidth) - this.ele.offsetWidth;
+        var t = (document.documentElement.clientHeight || document.body.clientHeight) - this.ele.offsetHeight;
+        this.range = range || {left : l, top : t };
+        this.ele.l = null;
+        this.ele.t = null;
+        this.DOWN = processThis(this.down,this);
+        this.MOVE = processThis(this.move,this);
+        this.UP = processThis(this.up,this);
+        on(this.ele,'mousedown',this.DOWN);
+    }
+    Drag.prototype = {
+        constructor : Drag,
+        down : function (e){
+            this.ele.l = e.pageX - this.ele.offsetLeft;
+            this.ele.t = e.pageY - this.ele.offsetTop;
+            if(this.ele.setCapture){
+                this.ele.setCapture();
+                on(this.ele,'mousemove',this.MOVE);
+                on(this.ele,'mouseup',this.UP);
+            }else{
+                on(document,'mousemove',this.MOVE);
+                on(document,'mouseup',this.UP);
+            }
+            // 所有绑定拖拽开始dragstart事件的函数在这里执行 => 鼠标按下就是拖拽开始
+            selfrun.call(this.ele,'selfdragstart',e);
+
+        },
+        move : function (e){
+            var l = e.pageX - this.ele.l;
+            var t = e.pageY - this.ele.t;
+            var minL = 0, minT = 0;
+            var maxL = this.range.left;
+            var maxT = this.range.top;
+            l = l < minL ? minL : l > maxL ? maxL : l;
+            t = t < minT ? minT : t > maxT ? maxT : t;
+
+            this.ele.style.left = l + 'px';
+            this.ele.style.top = t + 'px';
+            e.preventDefault();
+            // 所有绑定了拖拽中draging事件的函数在这里执行 => 鼠标移动也就是拖拽中
+            selfrun.call(this.ele,'selfdraging',e);
+//            if(this.ele.prevPosi){
+//                this.ele.speed = this.ele.offsetLeft - this.ele.prevPosi;
+//            }
+//            this.ele.prevPosi = this.ele.offsetLeft;
+        },
+        up : function (e){
+            if(this.ele.releaseCapture){
+                this.ele.releaseCapture();
+                off(this.ele,'mousemove',this.MOVE);
+                off(this.ele,'mouseup',this.UP);
+            }else{
+                off(document,'mousemove',this.MOVE);
+                off(document,'mouseup',this.UP);
+            }
+            // 所有绑定了拖拽结束dragend事件的函数在这里执行 => up执行必然是mouseup事件触发也就是拖拽结束
+            selfrun.call(this.ele,'selfdragend',e);
+            //.selfdragend = [fly,drop];
+            //on(div1,'selfdragend',fly);
+            //on(div1,'dragend',drop);
+            //on(div1,'dragend',haha);
+            //fly.call(this.ele);
+            //drop.call(this.ele);
+            // haha.call(this.ele);
+        }
+    };
+    //Drag.prototype.__proto__ = Emitter.prototype; // 中间继承
+    //////////////////////////////////////////////////////////////////////////
+    var div1 = document.getElementById('div1');
+    var drag1 = new Drag(div1); // drag1是实例。不是元素 drag1.ele
+//    drag1.on('selfdragstart',foo).on('selfdraging',getSpeed).on('selfdragend',fx);
+
+    on(div1,'selfdragstart',increaseZIndex);
+    on(div1,'selfdraging',getSpeed);
+    on(div1,'selfdragend',fly);
+    on(div1,'selfdragend',drop);
+
+    function increaseZIndex(){
+        var divs = document.getElementsByTagName('div');
+        for(var i=0; i<divs.length; i++){
+            divs[i].style.zIndex = 0;
+        }
+        this.style.zIndex = 1;
+    }
+    function getSpeed(){
+        if(!this.prev){
+            this.prev = this.offsetLeft;
+        }else{
+            this.speed = this.offsetLeft - this.prev;
+            this.prev = this.offsetLeft;
+        }
+    }
+    function drop(){
+        var that = this;
+        window.clearInterval(that.dropTimer);
+        that.dropTimer = window.setInterval(function (){
+            if(that.dropFlag == 2){
+                window.clearInterval(that.dropTimer);
+                return;
+            }
+            that.dropSpeed = !that.dropSpeed ? 9.8 : that.dropSpeed + 9.8;
+            that.dropSpeed *= 0.99;
+            var curTop = that.offsetTop;
+            curTop += that.dropSpeed;
+            var maxT = (document.documentElement.clientHeight || document.body.clientHeight) - that.offsetHeight;
+            if(curTop >= maxT){
+                that.style.top = maxT + 'px';
+                that.dropSpeed *= -1;
+                that.dropFlag++;
+            }else{
+                that.style.top = curTop + 'px';
+                that.dropFlag = 0;
+            }
+        },10);
+    }
+    function fly(){
+        var that = this;
+        window.clearInterval(that.flyTimer);
+        that.flyTimer = window.setInterval(function (){
+            var curLeft = that.offsetLeft;
+            that.speed *= 0.99;
+            if(Math.abs(that.speed) < 0.5){
+                window.clearInterval(that.flyTimer);
+                return;
+            }
+            curLeft += that.speed;
+            var minL = 0;
+            var maxL = (document.documentElement.clientWidth||document.body.clientWidth) - that.offsetWidth;
+            if(curLeft < minL){
+                that.style.left = minL + 'px';
+                that.speed *= -1;
+            }else if(curLeft > maxL){
+                that.style.left = maxL + 'px';
+                that.speed *= -1;
+            }else{
+                that.style.left = curLeft + 'px';
+            }
+        },10);
+
+    }
+</script>
