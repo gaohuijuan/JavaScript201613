@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Drag</title>
+    <style>
+        div{
+            text-align: center;
+            line-height: 100px;
+        }
+        #div1 {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            background: greenyellow;
+            border-radius: 100%;
+        }
+
+    </style>
+</head>
+<body>
+<div id="div1"></div>
+<div id="div2"
+     style="width: 100px; height: 100px; background: red; position: absolute; top: 150px; border-radius: 100%;"></div>
+</body>
+</html>
+<script src="event.js"></script>
+<script>
+    // 发布订阅模式
+    // on: 订阅一个事件
+    // selfrun : 这个方法执行的时候，就是发布事件的时候
+
+    var div1 = document.getElementById('div1');
+    //on(div1,'mousedown',down);
+
+    var div2 = document.getElementById('div2');
+    //on(div2,'mousedown',down);
+
+    new Drag(div1); // => mousedown这个事件在new Drag过程中就已经绑定 默认不出浏览器窗口
+    on(div1,'selfdragstart',startInner);
+    on(div1,'selfdraging',ingInner);
+    on(div1,'selfdragend',endInner);
+
+    on(div1,'selfdraging',getSpeed);
+    on(div1,'selfdragend',fly);
+    on(div1,'selfdragend',drop);
+
+    function drop(){
+        if(this.flag >= 2){
+            window.clearTimeout(this.timer);
+            return;
+        }
+        if(!this.dropSpeed){
+            this.dropSpeed = 9.8;
+        }else{
+            this.dropSpeed += 9.8;
+        }
+        this.dropSpeed *= 0.99;
+        var curTop = this.offsetTop;
+        curTop += this.dropSpeed;
+        var maxT = (document.documentElement.clientHeight || document.body.clientHeight) - this.offsetHeight;
+        if(curTop >= maxT){
+            this.style.top = maxT + 'px';
+            this.dropSpeed *= -1;
+            this.flag++;
+        }else{
+            this.style.top = curTop + 'px';
+            this.flag = 0;
+        }
+        if(this.flag < 2){
+            this.timer = window.setTimeout(processThis(drop,this),10);
+        }
+    }
+
+
+    function fly(){
+        var that = this;
+        that.timer = window.setInterval(function (){
+            that.speed *= 0.99;
+            if(Math.abs(that.speed) < 0.5){
+                window.clearInterval(that.timer);
+                return;
+            }
+            var curPosi = that.offsetLeft;
+            curPosi += that.speed;
+            var minL = 0;
+            var maxL = (document.documentElement.clientWidth||document.body.clientWidth) - that.offsetWidth;
+            if(curPosi < minL){
+                that.style.left = minL + 'px';
+                that.speed *= -1;
+            }else if(curPosi >= maxL){
+                that.style.left = maxL + 'px';
+                that.speed *= -1;
+            }else{
+                that.style.left = curPosi + 'px';
+            }
+            console.log('123')
+        },10);
+    }
+    function getSpeed(){
+        if(!this.prevPosi){ // 如果上一次不存在
+            this.prevPosi = this.offsetLeft;
+        }else{
+            // 如果上一次存在那么就直接求速度 当前次 -  上一次
+            this.speed = this.offsetLeft  - this.prevPosi;
+            this.prevPosi = this.offsetLeft;
+        }
+    }
+
+
+
+    function startInner(){
+        this.innerHTML = '拖拽开始';
+    }
+    function ingInner(){
+        this.innerHTML = '拖拽中';
+    }
+    function endInner(){
+        this.innerHTML = '拖拽结束';
+    }
+
+
+    //new Drag(div2, {left: 300, top: 300}); // 只能在300内拖拽
+
+    function Drag(ele, range) {
+        var maxL = (document.documentElement.clientWidth || document.body.clientWidth) - ele.offsetWidth;
+        var maxT = (document.documentElement.clientHeight || document.body.clientHeight) - ele.offsetHeight;
+        this.range = range || {left: maxL, top: maxT};
+        // 就是让这个ele可以拖拽
+        this.ele = ele;
+        this.ele.l = null;
+        this.ele.t = null;
+        var that = this;
+        this.ele.DOWN = function (e) {
+            //that.down.call(that,e);
+            that.down(e);
+        }
+        this.ele.MOVE = function (e) {
+            that.move(e);
+        }
+        this.ele.UP = function (e) {
+            that.up(e);
+        }
+        on(this.ele, 'mousedown', this.ele.DOWN);
+    }
+    Drag.prototype.down = function (e) {
+        // this => div1 => 实例
+        // 1 l = ? t = ?  绑定move,up事件
+        this.ele.l = e.pageX - this.ele.offsetLeft;
+        this.ele.t = e.pageY - this.ele.offsetTop;
+        if (this.ele.setCapture) {
+            this.ele.setCapture();
+            on(this.ele, 'mousemove', this.ele.MOVE);
+            on(this.ele, 'mouseup', this.ele.UP);
+        } else {
+            on(document, 'mousemove', this.ele.MOVE);
+            on(document, 'mouseup', this.ele.UP);
+        }
+        // 拖拽开始 dragstart
+        selfrun.call(this.ele,'selfdragstart',e);
+
+        // 无论谁绑定过dragstart事件，在这个位置就可以执行了。
+        // on(div1,'dragstart',fn)  div1.AAAdragstart = [fn];
+        // 1 如何找到这个数组
+        // 2 把这个数组按照顺序执行
+        //this.ele.innerHTML  = '拖拽开始';
+    }
+    Drag.prototype.move = function (e) {
+        // 保证this是实例
+        var l = e.pageX - this.ele.l;
+        var t = e.pageY - this.ele.t;
+        var minL = 0;
+        var minT = 0;
+        var maxL = this.range.left;
+        var maxT = this.range.top;
+        l = l < minL ? minL : l > maxL ? maxL : l;
+        t = t < minT ? minT : t > maxT ? maxT : t;
+        this.ele.style.left = l + 'px';
+        this.ele.style.top = t + 'px';
+        e.preventDefault();
+        // 拖拽中 draging
+        // 所有绑定拖拽中的事件都在这个位置执行。
+        // on(div1,'draging',fn)
+        // 1 先获取到这个数组
+        // 2 按照顺序执行
+        selfrun.call(this.ele,'selfdraging',e);
+        //this.ele.innerHTML = '拖拽中';
+    }
+    Drag.prototype.up = function (e) {
+        // 保证this是实例
+        if (this.ele.releaseCapture) {
+            this.ele.releaseCapture();
+            off(this.ele, 'mousemove', this.ele.MOVE);
+            off(this.ele, 'mouseup', this.ele.UP);
+        } else {
+            off(document, 'mousemove', this.ele.MOVE);
+            off(document, 'mouseup', this.ele.UP);
+        }
+        // 拖拽结束  dragend
+        // 所有绑定拖拽结束的都在这个位置执行
+        // on(div1,'dragend',fn)
+        // 1 获取到拖拽结束的数组
+        // 2 按照顺序执行
+        selfrun.call(this.ele,'selfdragend',e);
+        //this.ele.innerHTML = '拖拽结束';
+    }
+
+
+    function down(e) {
+        // this => div1
+        this.l = e.pageX - this.offsetLeft; // 计算后的值添加在拖拽元素的自定义属性上
+        this.t = e.pageY - this.offsetTop;
+        if (this.setCapture) {
+            this.setCapture();
+            on(this, 'mousemove', move);
+            on(this, 'mouseup', up);
+        } else {
+            var that = this; // div1
+            this.MOVE = function x(e) {
+                this; // document
+                move.call(that, e); // move方法中用到e.pageX
+            };
+            this.UP = function (e) {
+                up.call(that, e);
+            }
+            on(document, 'mousemove', this.MOVE);
+            on(document, 'mouseup', /*up*/this.UP);
+        }
+    }
+
+    function move(e) {
+        this; // 如果不处理，在标准浏览器中this是document
+        var l = e.pageX - this.l; // this是div1
+        var t = e.pageY - this.t;
+        this.style.left = l + 'px';
+        this.style.top = t + 'px';
+        e.preventDefault(); //
+    }
+    function up() {
+        // this; => div1
+        if (this.releaseCapture) {
+            this.releaseCapture();
+            off(this, 'mousemove', move);
+            off(this, 'mouseup', up);
+        } else {
+            off(document, 'mousemove', this.MOVE);
+            off(document, 'mouseup', this.UP);
+        }
+    }
+
+</script>
