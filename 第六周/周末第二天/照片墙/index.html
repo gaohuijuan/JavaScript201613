@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>照片墙</title>
+    <style>
+        html, body, ul, li, img {
+            margin: 0;
+            padding: 0;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        #ul {
+            width: 480px;
+            height: 640px;
+            margin: 5px auto;
+            background: #ccc;
+        }
+
+        #ul li {
+            width: 150px;
+            height: 150px;
+            float: left;
+            background: lightcyan;
+            margin: 5px;
+            cursor: move;
+        }
+
+        #ul li img {
+            width: 100%;
+            height: 100%;
+            border: none;
+            vertical-align: top;
+        }
+    </style>
+</head>
+<body>
+<ul id="ul">
+    <li><img src="images/1.png"></li>
+    <li><img src="images/2.png"></li>
+    <li><img src="images/3.png"></li>
+    <li><img src="images/4.png"></li>
+    <li><img src="images/5.png"></li>
+    <li><img src="images/6.png"></li>
+    <li><img src="images/7.png"></li>
+    <li><img src="images/8.png"></li>
+    <li><img src="images/9.png"></li>
+    <li><img src="images/10.png"></li>
+    <li><img src="images/11.png"></li>
+    <li><img src="images/12.png"></li>
+</ul>
+</body>
+</html>
+<script src="js/event.js"></script>
+<script src="js/dragClass.js"></script>
+<script src="js/utils2.0.js"></script>
+<script src="js/animate.js"></script>
+<script src="js/jquery-1.11.3.min.js"></script>
+<script>
+    // 这些li都可以被拖拽。每一个li必须是绝对定位的。每一个li的left的值和top的值，都是在offsetLeft的基础上减去边距5px
+    //
+    var ul = document.getElementById('ul');
+    var lis = ul.getElementsByTagName('li');
+    //for(var i = 0; i < lis.length; i++){
+    // 循环反过来是为了处理定位的问题。防止每次由于绝对定位导致的offsetLeft的值变化
+    for (var i = lis.length - 1; i >= 0; i--) {
+        var li = lis[i];
+        var l = li.offsetLeft /*- 5*/;
+        var t = li.offsetTop /*- 5*/;
+        li.originLeft = l; //每一个li都保存着自己的位置。当交换位置的时刻这个就是运动的终点
+        li.originTop = t; // 每一个li...
+        li.style.left = l + 'px';
+        li.style.top = t + 'px';
+        li.style.margin = 0; // 如果留着边距那么这个5像素的问题就需要减掉，如果把边距去掉了。那么offsetLeft的值就是盒子的left
+        li.style.position = 'absolute';
+
+        // 让每一个li都可以拖拽
+        new Drag(li);
+        on(li, 'selfdragstart', changeBg); // 拖拽开始改变背景色
+        on(li, 'selfdragend', resetBg); // 结束拖拽还原背景
+        on(li, 'selfdragstart', increaseZIndex);
+        on(li, 'selfdraging', checkLis); // 在拖拽的过程中把碰撞的li获取到并且再改变一下颜色
+        on(li, 'selfdragend', changePosi); // 拖拽结束的时候在所有碰撞上的li中挑出一个距离最短的交换位置
+    }
+    function changePosi() {
+        this; // 刚刚鼠标松开的那个li
+        var a = this['hitedLi'];
+        if (a && a.length) { // 有这个数组，并且这个数组里有li。也就是存在一个撞上的盒子
+            for (var i = 0; i < a.length; i++) {
+                var hitedLi = a[i]; // 这是那几个碰撞上的(橘黄)li中的一个
+                // 分别求this和每一个hitedLi的距离,我们要把这个距离添加到每一个盒子的自定义属性上。为了一会按照这个属性去排序
+                // 假设
+                var x = this.offsetLeft - hitedLi.offsetLeft; // 直角边
+                var y = this.offsetTop - hitedLi.offsetTop; // 直角边
+                // Math.pow(2,3) 2的3次方
+                // Math.sqrt(); 开平方
+                hitedLi.distance = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
+                hitedLi.style.backgroundColor = '';
+            }
+            // 这个循环结束之后数组中的每一个碰撞上的li都保存一个距离this的长度，按照这个属性排序。然后获取距离最短的那个
+            a.sort(function (a, b) {
+                return a.distance - b.distance;
+            });
+            var shortHitedLi = a[0]; // 距离最短的那个li
+            // 代码执行到这里也只是找到了和那个去换位置
+            // 每一个li.originLeft，li.originTop保存着自己的位置
+            // 用this和shortHitedLi交换位置。 动画方式交换
+            // 只要找到了要交换的的盒子就可以把背景色origin清了
+
+            animate({
+                ele: this,
+                target: {
+                    left: shortHitedLi.originLeft,
+                    top: shortHitedLi.originTop
+                }
+            });
+            animate({
+                ele : shortHitedLi,
+                target : {
+                    left : this.originLeft,
+                    top : this.originTop
+                }
+            });
+            // 动画交换位置之后，还需要把自定义属性保存原始位置的值也需要交换，借鉴冒泡排序的交换思想
+            var tempObj = {
+                left : this.originLeft,
+                top : this.originTop
+            };
+            this.originLeft = shortHitedLi.originLeft;
+            this.originTop = shortHitedLi.originTop;
+            shortHitedLi.originLeft = tempObj.left;
+            shortHitedLi.originTop = tempObj.top;
+            this['hitedLi'] = null;
+            tempObj = null;
+        }else{
+            // 碰撞的数组内不存在或者长度为0，一个都没有撞上,那么就可以直接回家了
+            animate({
+                ele : this,
+                target : {
+                    left : this.originLeft,
+                    top : this.originTop
+                }
+            });
+        }
+
+    }
+
+
+    function checkLis() {
+        this['hitedLi'] = []; // 在拖拽的这个li上添加一个自定义属性，用来保存跟this碰撞上的li => 因为当拖拽结束的时候还要在这几个中挑和this距离最短的那个li交换位置
+        this; //就是正在拖拽中的li'
+        for (var i = 0; i < lis.length; i++) {
+            // 循环所有的盒子获取到和当前正在拖拽的这个盒子做碰撞检测。
+            var li = lis[i]; // 每一个li
+            if (li === this) {
+                continue; // 和this相等必然就是正在拖拽的那个盒子。那么就不用做检测了。
+            }
+            // 接下来要做的事就是检测li(每一个盒子)是否和当前这个正在拖拽的this碰撞
+            li.style.backgroundColor = ""; // 在没有做碰撞检测之前给每一个li的橘黄色背景色去掉。当碰撞上的时候再添加
+            if (isHited(li, this)) {
+                // 这个条件为真的时刻都是和正在拖拽的(this)，撞上的li
+                li.style.backgroundColor = 'orange';
+                this['hitedLi'].push(li); // 把撞上的li添加到正在拖拽的这个li(this)的自定义属性数组中
+            }
+
+
+        }
+    }
+    function isHited(staticLi, dragingLi) {
+        // 这个函数负责做碰撞检测，返回一个布尔值。
+        if (staticLi.offsetLeft + staticLi.offsetWidth < dragingLi.offsetLeft ||
+                staticLi.offsetTop + staticLi.offsetHeight < dragingLi.offsetTop ||
+                dragingLi.offsetLeft + dragingLi.offsetWidth < staticLi.offsetLeft ||
+                dragingLi.offsetTop + dragingLi.offsetHeight < staticLi.offsetTop) {
+            return false;
+        } else {
+            return true;
+        }
+
+    }
+
+
+    function increaseZIndex() {
+        this; // 正在拖拽的那个li => 也是lis中的一个
+        for (var i = 0; i < lis.length; i++) {
+            // 循环所有的li，只要和我正在拖拽的这个li是同一个。那么就让这个li的层级1，其他的层级全部是0.
+            //lis[i].style.zIndex = lis[i] === this ? 1 : 0;
+            lis[i].style.zIndex = 0;
+        }
+        this.style.zIndex = 1;
+    }
+    function resetBg() {
+        this.style.backgroundColor = '';
+    }
+    function changeBg() {
+        this; // li
+        this.style.backgroundColor = 'blue';
+    }
+
+
+</script>
