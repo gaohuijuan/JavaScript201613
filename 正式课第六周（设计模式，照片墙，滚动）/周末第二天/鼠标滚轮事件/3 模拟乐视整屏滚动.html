@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>整屏滚动</title>
+    <style>
+        html,body,div,img,ul,li{
+            margin: 0;
+            padding: 0;
+        }
+        html,body{
+            width: 100%;
+            height: 100%;
+            overflow: hidden;/*不能出现滚动条*/
+        }
+        ul{
+            list-style: none;
+        }
+        #wrap,#wrap #inner,#wrap #inner div{
+            width: 100%;
+            height: 100%;
+        }
+        #wrap #inner div img{
+            width: 100%;
+            height: 100%;
+            vertical-align: top;
+            border: none;
+        }
+        #ul{
+            position: fixed;
+            right: 20px;
+            top: 50%;
+            margin-top: -100px;
+
+        }
+        #ul li{
+            width: 30px;
+            height: 30px;
+            margin: 5px;
+            background: darkred;
+            border-radius: 50%;
+        }
+        #ul li.selected{
+            background: black;
+        }
+    </style>
+</head>
+<body>
+    <div id="wrap" style="position: relative">
+        <div id="inner" style="position: absolute">
+            <div><img src="images/1.jpg" ></div>
+            <div><img src="images/2.jpg" ></div>
+            <div><img src="images/3.jpg" ></div>
+            <div><img src="images/4.jpg" ></div>
+            <div><img src="images/5.jpg" ></div>
+            <div><img src="images/6.jpg" ></div>
+        </div>
+        <ul id="ul">
+            <li class="selected"></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+        </ul>
+    </div>
+</body>
+</html>
+<script src="jquery-1.11.3.min.js"></script>
+<script src="wheel.js"></script>
+<script>
+    var wrap = document.getElementById('wrap');
+    var inner = document.getElementById('inner');
+    var lis = document.getElementById('ul').getElementsByTagName('li');
+    var step = 0;
+    var isOkWheel = true;
+    var screenHeight = (document.documentElement.clientHeight||document.body.clientHeight);
+    addWheelEventListener(inner,function (isDown,e){
+        if(isOkWheel){
+            if(isDown){
+                // 下
+                if(step == lis.length-1){
+                    return;
+                }
+                step++;
+            }else{
+                // 上
+                if(step == 0){
+                    return;
+                }
+                step--;
+            }
+            isOkWheel = false;
+            $(inner).stop().animate({top : -step * screenHeight },function (){
+                isOkWheel = true;
+            });
+            for(var i = 0; i<lis.length; i++){
+                lis[i].className = i == step ? 'selected' : '';
+            }
+        }
+    });
+</script>

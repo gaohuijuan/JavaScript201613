@@ -4,26 +4,31 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <style>
+        html,body{
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 300%;
+        }
         #div1{
             width: 100px;
             height: 100px;
             background: red;
+            overflow: auto;
         }
     </style>
 </head>
 <body>
-    <div id="div1"></div>
+
 </body>
 </html>
 <script src="wheel.js"></script>
 <script>
     var div1 = document.getElementById('div1');
-    addWheelEventListener(div1,function (isDown,e){
-        if(isDown){
-            this.style.height = this.offsetHeight + 10 + 'px';
-        }else{
-            this.style.height = this.offsetHeight - 10 + 'px';
-        }
-        
+    window.onscroll = function (){
+        console.log(456);
+    }
+    addWheelEventListener(document.body,function (isDown,e){
+        console.log('123');
     });
 </script>
