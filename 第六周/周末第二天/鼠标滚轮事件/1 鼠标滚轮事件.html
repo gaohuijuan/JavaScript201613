@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        html,body{
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+
+</body>
+</html>
+<script>
+
+    // 这个事件在页面存在滚动条的时候才能触发 => jd
+    // window.onscroll = function (){}
+
+    // onmousedown onmousemove onmouseup => onmousewheel
+
+    var body = document.body;
+    // 只要在body上滚动鼠标就可以触发 => lesports
+
+
+
+
+
+    // 专门处理滚轮事件的兼容性问题 => 针对于鼠标滚轮事件
+
+    function addWheelEventListener(ele,callback){ // foo
+        if(window.navigator.userAgent.indexOf('Firefox') === -1){
+            ele.onmousewheel = fn;
+        }else{
+            ele.addEventListener('DOMMouseScroll',fn);
+        }
+        function fn(e){
+            e = e ||window.event;
+            var isDown = null;
+            if(e.wheelDelta){
+                isDown = e.wheelDelta < 0;
+            }else{
+                isDown = e.detail > 0;
+            }
+            callback.call(ele,isDown,e);
+        }
+    }
+
+
+
+
+
+
+
+
+
+    addWheelEventListener(document.body,function (e){
+        e = e ||window.event;
+        var isDown = null;
+        if(e.wheelDelta){
+            isDown = e.wheelDelta < 0;
+        }else{
+            isDown = e.detail > 0;
+        }
+    });
+
+    addWheelEventListener(div1,function (e){
+        e = e ||window.event;
+        var isDown = null;
+        if(e.wheelDelta){
+            isDown = e.wheelDelta < 0;
+        }else{
+            isDown = e.detail > 0;
+        }
+        foo.call(div1,isDown,e);
+    });
+
+
+    function foo(isDown,e){
+        this;
+        if(isDown){
+
+        }else{
+
+        }
+    }
+
+    addWheelEventListener(div1,function (isDown){
+        if(isDown){
+            // down
+        }else{
+            // up
+        }
+    })
+
+
+
+
+
+
+    if(window.navigator.userAgent.indexOf('Firefox') === -1){
+        // ie chrome
+        body.onmousewheel = fn;
+    }else{
+        // firefox
+        body.addEventListener('DOMMouseScroll',fn);
+    }
+
+    function fn(e){
+        e = e || window.event;
+        var isDown = null; // 向下: true  向上: false
+        if(e.wheelDelta){ // 120/-120/undefined
+            isDown = e.wheelDelta < 0 ? true : false;
+        }else{
+            isDown = e.detail > 0;
+        }
+        // 事件触发的时刻，都会执行不同的函数,从这行代码开始就是针对向上或者向下要执行的代码
+
+        if(isDown){
+            // 向下
+            this.style.backgroundColor = '#000';
+        }else{
+            // 向上
+            this.style.backgroundColor = '#fff';
+        }
+        //chrome:   e.wheelDelta : 120上滚   -120下滚
+        // console.log(e.wheelDelta);
+        //firefox:  e.detail  : -3 上滚    3下滚
+        // console.log(e.detail);
+    }
+
+
+
+
+
+
+
+
+
+</script>;
