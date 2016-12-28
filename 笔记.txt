@@ -1,0 +1,67 @@
+var vm=new Vue({
+   el:'#app',
+   data:{
+    leaves:[]
+   },
+   methods:{
+
+   },
+   ready:function(){
+      this.$http.get('/publish').then(function(){
+
+      });
+   }
+});
+
+
+Vue1.0的生命周期
+  var vm=new Vue({
+     init:function(){
+        //->初始化实例
+        //->2.0
+        //->beforeCreate
+     },
+     create:function(){
+        //->创建完成:数据和方法全部挂载到实例上了
+     },
+     beforeCompile:function(){
+        //->编译前
+     },
+     compiled:function(){
+        //->编译后
+     },
+     ready:function(){
+        //->把数据已经插入到DOM中
+        //->2.0
+        //->beforeMount 替换之前的ready
+        //->beforeUpdate 修改前
+        //->updated 修改后
+     },
+     beforeDestroy:function(){
+        //->销毁之前
+     },
+     destroyed:function(){
+        //->销毁之后
+     }
+  });
+  vm.$mount('#app'); //->类似于 el:'#app'
+  vm.$destroy();//->设置开始销毁，只是销毁实例，页面中编译好的数据不会销毁
+
+
+  防止闪烁
+  <style>
+     [v-cloak]{
+        display:none
+     }
+  </style>
+
+  <div v-cloak>{{msg}}</div>``
+
+
+
+
+
+
+
+
+

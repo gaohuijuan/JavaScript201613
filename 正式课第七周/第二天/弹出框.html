@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        .layer {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            margin: -100px 0 0 -100px;
+            width: 200px;
+            height: 200px;
+            line-height: 200px;
+            text-align: center;
+            background: orange;
+        }
+    </style>
+</head>
+<body>
+<script>
+    //->alert:弹出框(提示框)
+    //alert('hello world!');
+
+    //->confirm:确认提示框(确定和取消两个按钮)
+    //var flag = confirm('确定要删除吗?');
+    //console.log(flag);//->true:点击的是确定按钮 false:点击的是取消按钮
+
+    //->prompt:基于confirm还可以输入内容
+    //var txt = prompt('确定要删除吗?');
+    //console.log(txt);//->我们在文本框中输入的内容
+
+    //->我们还可以把内置的弹出方法进行修改,以后在执行这些方法走的是我们编写的逻辑
+    //    window.alert = function (value) {
+    //        var oDiv = document.createElement('div');
+    //        oDiv.className = 'layer';
+    //        oDiv.innerHTML = value;
+    //        document.body.appendChild(oDiv);
+    //    };
+    //    alert('珠峰培训');
+</script>
+</body>
+</html>
