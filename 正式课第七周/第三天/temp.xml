@@ -1,0 +1,20 @@
+<root>
+    <student>
+        <name>张三</name>
+        <age>16</age>
+        <score>
+            <china>98</china>
+            <english>89</english>
+            <math>88</math>
+        </score>
+    </student>
+    <student>
+        <name>李四</name>
+        <age>17</age>
+        <score>
+            <china>140</china>
+            <english>3</english>
+            <math>149</math>
+        </score>
+    </student>
+</root>

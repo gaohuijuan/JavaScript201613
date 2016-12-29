@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<script>
+    var xhr = new XMLHttpRequest();
+    xhr.open('get', 'temp.xml?_=' + Math.random());
+    //->HEAD:我们只想获取服务器时间,而服务器时间在响应头中就有,我们只需要获取响应头信息即可；由于HEAD请求也是GET系列的,所以我们加一个随机数用来清除缓存；
+    xhr.onreadystatechange = function () {
+        if (xhr.status !== 200) return;
+        //->为什么是2的时候获取而不是4的时候:我们服务器把时间放在响应头中返回,放入的时候记录的时间是18:35,客户端接收到响应头的时候,真实时间是18:36,接收到响应主体内容的时候,真实时间18:40；不管在2还是4的时候,我们获取的时间都是最开始服务器记录的时间18:35,这样越靠前获取,真实时间和获取时间之间的偏差越小...
+        if (xhr.readyState === 2) {
+            //->获取响应头:xhr.getResponseHeader([key])
+            //->设置请求头:xhr.setRequestHeader([key],[value])
+            //->获取响应主体:xhr.responseText/xhr.responseXML
+            var time = xhr.getResponseHeader('Date');//->获取的是格林尼治时间字符串
+            time = new Date(time);//->把一个时间格式的字符串转换为标准的北京时间
+            console.log(time);
+        }
+    };
+    xhr.send(null);
+</script>
+</body>
+</html>
