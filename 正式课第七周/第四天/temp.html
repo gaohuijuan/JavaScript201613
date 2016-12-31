@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<script src="js/jquery-1.11.3.min.js"></script>
+<script>
+    //    $.ajax({
+    //        url: 'json/temp.json',//->请求地址
+    //        type: 'get',//->请求方式
+    //        dataType: 'text',//->预设获取数据的内容格式
+    //        data: null,//->传递给服务器的内容放在DATA中
+    //        async: true,//->设置同步还是异步
+    //        cache: false,//->清除GET系列请求的缓存
+    //        timeout: 10000,//->设置超时时间
+    //        success: function (result) {
+    //            //->请求成功执行这个回调函数,RESULT是获取的响应主体内容
+    //        },
+    //        error: function (msg) {
+    //            //->请求失败,MSG中存储的就是失败的原因
+    //        },
+    //        complete: function () {
+    //            //->不管成功还是失败都会执行这里，它代表完成
+    //        }
+    //    });
+
+    $.ajax({
+        url: 'json/temp.json',
+        type: 'post',
+        dataType: 'json',//->预设客户端从服务器获取的数据类型 text:获取的是文本(字符串) json:获取的是JSON格式的对象  xml:获取的是XML格式的数据
+        async: true,
+        cache: false,//->默认是TRUE:不清楚缓存  FALSE:清除缓存,只有在GET系列的请求下,我们才会清除缓存,清缓存的方式也是在URL的末尾加随机数
+        data: {
+            name: '珠峰培训',
+            age: 8
+        },//->传递给服务器的内容都存储在这里；如果是GET请求会把对象中的每一项都分别的拼接到URL的末尾通过问号传参的方式传递给服务器；如果是POST请求,它会把内容放在请求主体中传递给服务器；->如果传递的数据是中文汉字,JQ帮我们把中文汉字进行了编码,使用的是encodeURIComponent
+        success: function (result) {
+            console.log(result);
+        },
+        error: function (msg) {
+
+        }
+    });
+
+
+</script>
+</body>
+</html>

@@ -1,0 +1,53 @@
+1、async javascript and xml
+2、GET、DELETE、HEAD  POST、PUT
+
+xhr.setRequestHeader([key],[value])
+xhr.getResponseHeader([key])
+xhr.timeout=3000; 设置超时时间
+xhr.response/xhr.responseText/xhr.responseXML...获取响应主体内容
+xhr.abort() 终止AJAX请求
+//->XHR事件
+xhr.onabort
+xhr.ontimeout
+xhr.onreadystatechange
+...
+
+//->获取服务器时间
+var xhr=new XMLHttpRequest;
+xhr.open('get/head','/getServerTime?_='+Math.random());
+//->疑问：true还是false，还是都可以?
+//->使用GET还是HEAD，取决于我们的需求上需不需要获取响应主体的内容，如果需要获取的话就不能使用HEAD了(HEAD只能获取到响应头信息)
+
+xhr.onreadystatechange=function(){
+   //->服务器返回的网络状态码为200的时候,才代表获取正常
+   if(xhr.status!==200) return;
+
+   if(xhr.readyState===2){
+      var time=xhr.getResponseHeader('Date');
+      time=new Date(time);//->北京标准时间
+   }
+   if(xhr.readyState===4){
+      var val=xhr.responseText;
+   }
+}
+xhr.send(null);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
