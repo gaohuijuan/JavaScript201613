@@ -28,14 +28,15 @@
 
     $.ajax({
         url: 'json/temp.json',
-        type: 'post',
+        type: 'get',
         dataType: 'json',//->预设客户端从服务器获取的数据类型 text:获取的是文本(字符串) json:获取的是JSON格式的对象  xml:获取的是XML格式的数据
         async: true,
         cache: false,//->默认是TRUE:不清楚缓存  FALSE:清除缓存,只有在GET系列的请求下,我们才会清除缓存,清缓存的方式也是在URL的末尾加随机数
         data: {
-            name: '珠峰培训',
-            age: 8
-        },//->传递给服务器的内容都存储在这里；如果是GET请求会把对象中的每一项都分别的拼接到URL的末尾通过问号传参的方式传递给服务器；如果是POST请求,它会把内容放在请求主体中传递给服务器；->如果传递的数据是中文汉字,JQ帮我们把中文汉字进行了编码,使用的是encodeURIComponent
+            name: 'zf',
+            age: 8,
+            teacher: [12, 23]
+        },//->传递给服务器的内容都存储在这里；如果是GET请求会把对象中的每一项都分别的拼接到URL的末尾通过问号传参的方式传递给服务器；如果是POST请求,它会把内容放在请求主体中传递给服务器；
         success: function (result) {
             console.log(result);
         },
