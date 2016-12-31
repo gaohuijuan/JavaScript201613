@@ -55,18 +55,6 @@
    }'
 
 
-找BUG
-  ->确定一下是前端还是后台的问题  NetWork
-
-
-真实项目中，后台开发工程师会把数据都存储到服务器的数据库当中(mongodb、mysql、sqlserver、oracle...)，咱们本次案例临时先用文件存储...
-
-
-
-选择器$() ->CSS选择器  ->jQuery类的一个实例,jQuery.prototype
-                     ->jQuery对象
-
-
 
 
 
