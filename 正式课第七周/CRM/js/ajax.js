@@ -73,6 +73,7 @@ function ajax(options) {
     };
     xhr.send(_default.data);
 }
+
 //->把一个对象中的属性名和属性值最后变为一个用&连接的字符串
 function formatData(obj) {
     if (({}).toString.call(obj) !== '[object Object]') {
