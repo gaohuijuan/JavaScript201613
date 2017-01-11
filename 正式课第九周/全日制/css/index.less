@@ -1,0 +1,47 @@
+/*reference:只是把对应文件中的变量或者方法引入使用,最后编译的时候不编译*/
+@import "reset";
+@import (reference) "public";
+
+html, body {
+  width: 100%;
+  height: 100%;
+  background: #F4F4F4;
+  overflow: hidden;
+}
+
+/*--HEADER--*/
+/*
+ * LESS中会提供一些常用的方法
+ *   darken([color value],xxx%)：把之前的颜色加深
+ *   lighten([color value],xxx%)：把之前的颜色变浅
+ *   unit([value],[单位])：给一个值加单位，但是这个值之前有单位，则为去单位
+ */
+.header {
+  @H: 63;
+  height: 63px;
+  background: @color-white;
+  border-bottom: 1px solid darken(@color-border, 10%);
+
+  .content {
+    margin: 0 auto;
+    padding: 0 10px;
+    width: unit((@main-width)-20, px);
+
+    /*--LOGO--*/
+    .logo {
+      height: unit(@H, px);
+    }
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
