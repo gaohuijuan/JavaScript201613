@@ -1,6 +1,6 @@
 var content = document.getElementById('content');
 ajax({
-    url: '/getAllList',
+    url: 'http://localhost/getAllList',
     type: 'get',
     dataType: 'json',
     cache: false,
