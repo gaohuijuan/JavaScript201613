@@ -1,0 +1,50 @@
+http://old.zhufengpeixun.cn/qianduanjishuziliao/mobileDevelopment/2016-07-15/511.html
+
+1、进入公司我们会开发哪些移动端产品
+  ->产品活动宣传单页(场景滑屏应用页面)  运行在手机的浏览器或者微信中
+  ->PC端和移动端共用一套项目(经常是因为需要把PC端在移动端手机上也能自适应) bootstrap
+  ->webApp:就是使用H5技术,搭建一个HTML页面和项目,一般来说webApp产品只在移动端设备上运行
+  ->微信小程序
+
+2、webApp:H5页面
+  运行环境:
+    ->移动端的浏览器:内置浏览器\UC\QQ... 我们在开发的时候也需要注意每一个浏览器单独的特性，可以应用一些特性完成更好的交互体验
+
+    ->hybrid模式:把我们开发的H5页面嵌入到native app中,H5是运行在APP中的webView中的(我们可以把webView理解为webkit内核的一款浏览器)
+
+APP:安装在手机上的应用(Native App)
+  优势
+  ->直接安装到手机内部操作系统中的应用(和我们在电脑上安装一个WB一样)，这样的话就可以对手机内部的软件和硬件进行操作了(当然有些东西需要用户授权)
+
+  弊端
+  ->IOS系统采用object-c、安卓系统采用java-native进行开发,不同操作系统需要开发多套产品,开发团队也需要多个,成本高
+  ->IOS的APP上线到苹果商店需要有七天审核期
+  ->应用需要更新的时候，需要用户自主性选择更新
+
+webApp:
+  优势
+  ->可以跨平台,开发一套产品,多平台适用
+  ->更新不需要用户自主选择,项目在我们自己的服务器上,只要我们服务器上更新了,用户重新访问看到的就是最新的
+
+  弊端
+  ->H5页面是运行在其他的宿主环境中的(不是手机操作系统),所以想要操作手机内部的软件或者硬件,需要看一下宿主环境是否支持
+  ->虽然说现在有一些浏览器都支持,但是操作性能非常不好(native.js)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+移动端基础知识第一发：常用的META标签
+http://old.zhufengpeixun.cn/qianduanjishuziliao/mobileDevelopment/2016-06-29/457.html
+
+移动端基础知识第二发：常用的META标签(移动端)
+http://old.zhufengpeixun.cn/qianduanjishuziliao/mobileDevelopment/2016-07-02/480.html

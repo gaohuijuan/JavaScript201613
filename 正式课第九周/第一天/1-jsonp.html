@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>JSONP</title>
+</head>
+<body>
+<!--
+  前后端分离项目,前端需要从服务器端获取数据,然后做数据的绑定以及其它的数据交互
+    ->AJAX:在同源请求下,使用AJAX进行操作
+    ->JSONP:在非同源请求下,使用JSONP进行操作
+
+ 同源和非同源(跨域)：
+   ->用当前页面的URL和API文档中请求数据的URL进行对比，如果协议、域名、端口号完全一致属于同源策略，只要有一个不一样就属于跨域策略
+
+ SCRIPT、LINK、IMG、IFRAME、AUDIO、VIDEO这些标签都有一个共同的特点
+-->
+<!--https://sp0.baidu.com/5a1Fazu8AA54nxGko9WTAnF6hhy/su?wd=z-->
+<!--<script>
+    function fn(result) {
+        console.log(result);
+    }
+</script>
+<script src="https://sp0.baidu.com/5a1Fazu8AA54nxGko9WTAnF6hhy/su?wd=z&cb=fn"></script>-->
+
+<!--<script src="https://pingjs.qq.com/ping_video.js"></script>-->
+
+<script src="js/jquery-1.11.3.min.js"></script>
+<script>
+    //    $.ajax({
+    //        url: 'https://sp0.baidu.com/5a1Fazu8AA54nxGko9WTAnF6hhy/su?wd=z',
+    //        type: 'get',//->JSONP只有GET请求
+    //        dataType: 'jsonp',
+    //        success: function (result) {
+    //            console.log(result);
+    //        }
+    //    });
+    //-> https://sp0.baidu.com/5a1Fazu8AA54nxGko9WTAnF6hhy/su?wd=z&callback=jQuery111306923832805541432_1484370376532&_=1484370376533
+    //->JQ会帮我们自动给服务器传递标识：callback=jQuery11130...(这个函数名是JQ随机生成的)
+    //->JSONP都是GET请求,JQ默认就把缓存清掉了(加随机数)
+
+
+    function fn(result) {
+        console.log(result);
+    }
+    $.ajax({
+        url: 'https://sp0.baidu.com/5a1Fazu8AA54nxGko9WTAnF6hhy/su?wd=z',
+        type: 'get',
+        dataType: 'jsonp',
+        jsonp: 'cb',//->把callback变为cb
+        jsonpCallback: 'fn'//->把随机函数名变为fn
+    });
+</script>
+
+
+</body>
+</html>
