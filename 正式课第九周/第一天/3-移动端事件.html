@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"/>
+    <title>珠峰培训</title>
+</head>
+<body>
+<!--
+  PC端事件:
+    click、dblclick、keyup、keydown、mouseover、mouseout、mouseenter、mouseleave、mousemove、mousedown、mouseup、mousewheel、resize、load、unload、scroll、change、readystatechange、DOMContentLoaded、error、selected、focus、blur、checked...
+
+ 移动端事件:
+   ->移动端是虚拟键盘,很多手机后者浏览器不能识别keyup、keydown事件,我们统一使用input事件来代替这两个事件
+   ->mouse系列的事件在移动端基本上都不去使用
+   ->其余的在移动端都有,也经常被使用
+
+ click
+  ->在PC端CLICK事件属于"点击事件"(只要触发点击操作事件就会被触发)
+  ->在移动端CLICK事件属于“单击事件”,一般浏览器设定一个时间段(300MS),在这个时间内触发多次点击属于双击而不是CLICK,在这段时间内只触发一次单击才是单击CLICK
+
+ 所以在移动端使用CLICK事件会存在300MS的延迟问题：当用户触发第一次后,需要等待300MS验证是否有第二次触发，没有第二次触发才是单击事件
+
+ 移动端的事件分为：
+   手指为操作媒介的事件
+     ->单手指事件
+       touchstart、touchmove、touchend、touchcancle
+
+     ->多手指事件
+       gesturestart、gesturechange、gestureend、gesturecancle
+
+   手机内部硬件为操作媒介的事件
+     ->重力感应
+     ->GPS地理定位
+-->
+<div style="width: 100px;height: 100px;background: red;cursor: pointer;" id="box"></div>
+<script>
+    var oBox = document.getElementById('box');
+    /*oBox.onclick = function () {
+     console.log('ok');
+     }*/
+
+    oBox.addEventListener('touchstart', function (e) {
+        //->记录手指操作的起始位置
+        //e:TouchEvent手指事件对象
+        //[TouchList]
+        //touches和changedTouches都记录了当前操作手指的信息,但是在手指离开的时候changedTouches信息依然存在(存的是最后离开屏幕时候的位置),而touches没有了;其它时候获取的结果是一样的.
+        var point = e.changedTouches[0];
+        this.starX = point.pageX;
+        this.starY = point.pageY;
+        this.changeX = null;
+        this.changeY = null;
+        this.isMove = false;
+    }, false);
+
+    oBox.addEventListener('touchmove', function (e) {
+        //->获取最新的坐标位置-开始的坐标位置=改变的位置值
+        var point = e.changedTouches[0];
+        this.changeX = point.pageX - this.starX;
+        this.changeY = point.pageY - this.starY;
+        if (Math.abs(this.changeX) > 10 || Math.abs(this.changeY) > 10) {
+            this.isMove = true;
+        }
+    }, false);
+
+    oBox.addEventListener('touchend', function (e) {
+        if (!this.isMove) {
+            this.style.background = 'green';
+            return;
+        }
+        console.log(Math.abs(this.changeX) > Math.abs(this.changeY) ? (this.changeX > 0 ? 'right' : 'left') : (this.changeY > 0 ? 'down' : 'up'));
+    }, false);
+</script>
+
+</body>
+</html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"/>
+    <title>珠峰培训</title>
+</head>
+<body>
+<div style="width: 100px;height: 100px;background: red;cursor: pointer;" id="box"></div>
+
+<script src="js/fastclick.min.js"></script>
+<script>
+    /*
+     * FastClick专门用来解决移动端CLICK事件300MS延迟的问题
+     * 原理：
+     *   采用事件委托,在下面的案例中是委托给BODY的,以后只要是BODY中出现的CLICK事件都替换为TOUCH(XXX)事件来处理
+     */
+    FastClick.attach(document.body);
+
+    var oBox = document.getElementById('box');
+    oBox.onclick = function () {
+        this.style.background = 'green';
+    }
+</script>
+</body>
+</html>

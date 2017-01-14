@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"/>
+    <title>珠峰培训</title>
+</head>
+<body>
+<div style="width: 100px;height: 100px;background: red;cursor: pointer;" id="box"></div>
+
+<script src="js/zepto.min.js"></script>
+<script>
+    /*
+     * 百度云TOUCH手势事件库
+     * Zepto PK jQuery
+     *  ->ZP被誉为移动端的小型JQ,JQ怎么用它就怎么用
+     *  ->ZP更适合移动端
+     *   1)体积比JQ小很多:ZP没有考虑IE兼容，而且只实现了JQ中常用的方法
+     *   2)ZP提供了移动端经常操作的事件方法
+     *     tap、singleTap、doubleTap、longTap
+     *     swipe、swipeLeft、swipeRight、swipeUp、swipeDown
+     *     pinchIn、pinchOut
+     */
+    $('#box').tap(function (e) {
+        $(this).css({
+            background: 'green'
+        });
+    }).swipe(function () {
+        $(this).animate({
+            rotate: '360deg'
+        }, 1000, function () {
+            $(this).css({
+                background: 'black'
+            });
+        });
+    });
+</script>
+</body>
+</html>

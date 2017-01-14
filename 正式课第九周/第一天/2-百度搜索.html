@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>百度搜索</title>
+    <link rel="stylesheet" href="css/reset.min.css"/>
+    <style>
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .search {
+            margin: 20px auto;
+            width: 300px;
+        }
+
+        .search input {
+            display: block;
+            padding: 0 5px;
+            width: 300px; /*TYPE=SEARCH 导致当前的文本框的盒子模型是BORDER-BOX，我们设定的WIDTH是盒子的总宽度，不会受到PADDING和BORDER的影响*/
+            height: 30px;
+            line-height: 30px;
+            border: 1px solid green;
+            font-size: 12px;
+        }
+
+        .search .searchItem {
+            display: none;
+            border: 1px solid green;
+            border-top: none;
+        }
+
+        .search .searchItem li {
+            padding: 0 5px;
+            line-height: 30px;
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+        .search .searchItem li:hover {
+            background: #EEE;
+        }
+    </style>
+</head>
+<body>
+<section class="search">
+    <input type="search" id="searchInp" autofocus/>
+    <ul class="searchItem">
+        <!--<li>珠峰培训</li>
+        <li>珠峰培训怎么样</li>-->
+    </ul>
+</section>
+
+<script src="js/jquery-1.11.3.min.js"></script>
+<script>
+    var $searchInp = $('#searchInp'),
+            $searchItem = $('.searchItem');
+    /*
+     * 文本框中的内容发生改变的时候(用户在输入的时候)或者获取焦点的时候
+     *  ->获取文本框中的内容
+     *  ->通过JSONP把关键词传递给百度,获取到模糊搜索的结果
+     *  ->把获取的结果绑定到UL中,并且展示UL
+     */
+    var searchRender = (function () {
+        function fn(result) {
+            if (result) {
+                result = result['s'];
+
+                //->返回的数据没有匹配到模糊信息,我们让UL隐藏即可
+                if (result.length === 0) {
+                    $searchItem.html('').css('display', 'none');
+                    return;
+                }
+
+                //->如果有匹配的信息我们就展示在页面中
+                var str = '';
+                $.each(result, function (index, item) {
+                    str += '<li>' + item + '</li>';
+                });
+                $searchItem.html(str).css('display', 'block');
+            }
+        }
+
+        return {fn: fn}
+    })();
+
+    $searchInp.on('keyup focus', function (e) {
+        if (/^(37|38|39|40|13)$/.test(e.keyCode)) return;//->排除无效的热键,我们回去后也可以把这些热键进行单独的操作处理,例如:上下键切换模糊搜索内容的选中,ENTER键开始确认搜索...
+        var val = $(this).val();
+        $.ajax({
+            url: 'https://sp0.baidu.com/5a1Fazu8AA54nxGko9WTAnF6hhy/su?wd=' + val,
+            type: 'get',
+            dataType: 'jsonp',
+            jsonp: 'cb',
+            jsonpCallback: 'searchRender.fn'//->FN需要是全局函数,为了防止全局污染我们可以把函数放在一个模块下(单例模式解决)
+        });
+    });
+
+    /*
+     * 点击操作的处理
+     *  ->点击的是LI:把LI中的内容放到INPUT中,然后让UL隐藏
+     *  ->如果点击的是文本框:什么操作都不处理
+     *  ->如果点击的是其它的:隐藏UL即可
+     * 使用事件委托处理
+     */
+    $('body').on('click', function (e) {
+        var tar = e.target,
+                tarTag = tar.tagName,
+                $tar = $(tar);
+        //->LI
+        if (tarTag === 'LI' && $tar.parent().hasClass('searchItem')) {
+            $searchInp.val($tar.html());
+            $searchItem.css('display', 'none');
+            return;
+        }
+
+        //->INPUT
+        if (tarTag === 'INPUT' && tar.id === 'searchInp') {
+            return;
+        }
+
+        //->OTHERS
+        $searchItem.css('display', 'none');
+    });
+</script>
+</body>
+</html>
