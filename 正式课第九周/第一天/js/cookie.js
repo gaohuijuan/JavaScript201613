@@ -7,7 +7,7 @@ var cookieRender = (function () {
             expires: new Date(new Date().getTime() + (1000 * 60 * 60 * 24)),
             path: '/',
             domain: ''
-    };
+        };
         for (var key in options) {
             if (options.hasOwnProperty(key)) {
                 _default[key] = options[key];
